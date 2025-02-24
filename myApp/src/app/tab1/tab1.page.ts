@@ -1,35 +1,56 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-import { IonFab, IonFabButton, IonIcon } from '@ionic/angular/standalone';         
 import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
-import { camera } from 'ionicons/icons';
+import { add, camera } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { IonLabel } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent,
-    IonFab,
-    IonFabButton,
-    IonIcon
+  imports: [
+ 
+    ExploreContainerComponent,
+
+    IonLabel,
+    FormsModule,
+    IonicModule,
+    CommonModule
   ],
 })
 export class Tab1Page {
   photo: string | undefined;
 
-  constructor() {
+  formData = {
+    kod: '',
+    tur: '',
+    name: '',
+    tutanak: ''
+  };
+
+  constructor(private router: Router) {
     addIcons({ add });
     addIcons({ camera });
+  };
+
+  submitForm(){
+    this.router.navigate(['../tab2/tab2.page'], {
+      state: { formData: this.formData }
+    });
   }
 
   async takePhoto() {
     try {
       const image = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
-        source: CameraSource.Camera,
+        source: CameraSource.Prompt,
         quality: 90,
       });
 

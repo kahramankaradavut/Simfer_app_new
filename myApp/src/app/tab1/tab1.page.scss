@@ -3,13 +3,18 @@ ion-card {
 }
 
 ion-card-header {
-  background-color: #f0f0f0;
+  background-color: #2d78f9;
 }
 
 ion-card-title {
   font-weight: bold;
+  color: aliceblue;
+}
+
+ion-card-subtitle {
+    color: aliceblue;
 }
 
 ion-item {
-  margin-bottom: 10px; /* Her bir ion-item arasında boşluk bırak */
+    --padding-start: 0;
 }
