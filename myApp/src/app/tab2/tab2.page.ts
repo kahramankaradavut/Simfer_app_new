@@ -1,29 +1,24 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonItem,
-  IonLabel,
-  IonList, } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-tab2',
+  standalone: true,
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent,IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonItem,
-    IonLabel,
-    IonList,]
+  imports: [IonicModule, CommonModule]
 })
 export class Tab2Page {
-
-  constructor() {}
-
+  formData: any = {};
+  photos: string[] = [];
+  
+  constructor(private router: Router) {
+    const navState = this.router.getCurrentNavigation()?.extras.state;
+    if(navState) {
+      this.formData = navState['formData'] || {};
+      this.photos = navState['photos'] || [];
+    }
+  }
 }

@@ -1,47 +1,49 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>
-      Hata Tespit
-    </ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fotoğraf Çek</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  
-  <form>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>SEA Title</ion-card-title>
-        <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item>
-            <ion-input [(ngModel)]="formData.kod" name="kod" required label="Ürün Kodu" labelPlacement="floating" placeholder="SRSM1234"></ion-input>
-          </ion-item>
-    
-          <ion-item>
-            <ion-input [(ngModel)]="formData.tur" name="tur" required label="Ürün Türü" labelPlacement="floating" placeholder="Soğutucu"></ion-input>
-          </ion-item>
-    
-          <ion-item>
-            <ion-input [(ngModel)]="formData.name" name="name" required label="Tespiti Yapan Kişi" labelPlacement="floating" placeholder="Ad Soyad"></ion-input>
-          </ion-item>
-    
-          <ion-item lines="none">
-            <ion-textarea [(ngModel)]="formData.tutanak" name="tutanak" required label="Tespit Tutanağı" labelPlacement="floating" rows="5" placeholder="Metin giriniz"></ion-textarea>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-  </form>
+<ion-content class="ion-padding">
+  <!-- Form Alanı -->
+  <ion-item>
+    <ion-label position="floating">Kod</ion-label>
+    <ion-input [(ngModel)]="formData.kod"></ion-input>
+  </ion-item>
 
-  
+  <ion-item>
+    <ion-label position="floating">Tür</ion-label>
+    <ion-input [(ngModel)]="formData.tur"></ion-input>
+  </ion-item>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="takePhoto()">
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <ion-item>
+    <ion-label position="floating">İsim</ion-label>
+    <ion-input [(ngModel)]="formData.name"></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label position="floating">Tutanak</ion-label>
+    <ion-textarea [(ngModel)]="formData.tutanak"></ion-textarea>
+  </ion-item>
+
+  <!-- Fotoğraf Çekme Butonu -->
+  <ion-button expand="full" (click)="takePhoto()">
+    Fotoğraf Çek
+  </ion-button>
+
+  <!-- Çekilen Fotoğrafları Göster -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let photo of photos">
+        <ion-card>
+          <img [src]="photo" />
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Fotoğrafları ve Formu Gönder -->
+  <ion-button expand="full" color="success" (click)="submitData()">
+    Use Photos
+  </ion-button>
 </ion-content>

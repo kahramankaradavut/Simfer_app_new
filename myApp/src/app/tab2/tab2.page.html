@@ -1,19 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>
-      Hatalı Ürünler
-    </ion-title>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Form ve Fotoğraflar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Card Title</ion-card-title>
-      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      <ion-card-title>Form Bilgileri</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-
+      <p><strong>Kod:</strong> {{ formData.kod }}</p>
+      <p><strong>Tür:</strong> {{ formData.tur }}</p>
+      <p><strong>İsim:</strong> {{ formData.name }}</p>
+      <p><strong>Tutanak:</strong> {{ formData.tutanak }}</p>
     </ion-card-content>
   </ion-card>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let photo of photos">
+        <ion-card>
+          <img [src]="photo" />
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

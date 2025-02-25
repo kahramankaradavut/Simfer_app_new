@@ -4,60 +4,59 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
 import { addIcons } from 'ionicons';
 import { add, camera } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { IonLabel } from '@ionic/angular/standalone';
-import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-tab1',
+  standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   imports: [
- 
     ExploreContainerComponent,
-
-    IonLabel,
-    FormsModule,
     IonicModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
 })
 export class Tab1Page {
-  photo: string | undefined;
-
-  formData = {
-    kod: '',
-    tur: '',
-    name: '',
-    tutanak: ''
-  };
+  formData = { kod: '', tur: '', name: '', tutanak: '' };
+  photos: string[] = [];
 
   constructor(private router: Router) {
-    addIcons({ add });
-    addIcons({ camera });
+    addIcons({ add, camera });
   };
 
-  submitForm(){
-    this.router.navigate(['../tab2/tab2.page'], {
-      state: { formData: this.formData }
-    });
-  }
 
   async takePhoto() {
     try {
       const image = await Camera.getPhoto({
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.DataUrl, // Base64 formatında fotoğraf al
         source: CameraSource.Prompt,
         quality: 90,
       });
 
-      this.photo = image.webPath; // Fotoğrafın URI'sini kaydet
-      console.log('Photo taken:', image);
+      if (image.dataUrl) {
+        this.photos.push(image.dataUrl); // Fotoları diziye ekle
+      }
     } catch (error) {
-      console.error('Error taking photo:', error);
+      console.error('Fotoğraf çekme hatası:', error);
     }
+  }
+
+  // Form ve fotoları tab2 ye gönder
+  submitData() {
+    console.log('Form Verisi:', this.formData);
+    console.log('Fotoğraflar:', this.photos);
+    
+    this.router.navigate(['/tabs/tab2'], { 
+      state: { formData: this.formData, photos: this.photos } 
+    }).then(() => {
+      console.log('Veriler gönderildi ve tab2’ye geçildi');
+    }).catch(err => {
+      console.error('Navigasyon hatası:', err);
+    });
   }
 }
