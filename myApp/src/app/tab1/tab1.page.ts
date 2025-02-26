@@ -25,6 +25,7 @@ import { NgIf, NgFor } from '@angular/common';
 export class Tab1Page {
   formData = { kod: '', tur: '', name: '', tutanak: '' };
   photos: string[] = [];
+  jsonData: string = '';
 
   constructor(private router: Router) {
     addIcons({ add, camera, sendOutline });
@@ -53,6 +54,13 @@ export class Tab1Page {
 
   // Form ve fotoları tab2 ye gönder
   submitData() {
+    const combinedData = {
+      ...this.formData,
+      photos: this.photos,
+    }
+
+    this.jsonData = JSON.stringify(combinedData, null, 2);
+    console.log('JSON Verisi:', this.jsonData);
     console.log('Form Verisi:', this.formData);
     console.log('Fotoğraflar:', this.photos);
     
