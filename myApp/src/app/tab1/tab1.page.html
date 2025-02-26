@@ -1,49 +1,52 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Fotoğraf Çek</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="submitData()" shape="round">
+        Gönder
+        <ion-icon slot="end" name="send-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <!-- Form Alanı -->
-  <ion-item>
-    <ion-label position="floating">Kod</ion-label>
-    <ion-input [(ngModel)]="formData.kod"></ion-input>
-  </ion-item>
+<ion-content class="ion-padding content">
+  <h1 class="title">Hata Tespit Formu</h1>
 
-  <ion-item>
-    <ion-label position="floating">Tür</ion-label>
-    <ion-input [(ngModel)]="formData.tur"></ion-input>
-  </ion-item>
+  <form (ngSubmit)="submitData()">
+    <ion-item class="form-item">
+      <ion-input [(ngModel)]="formData.kod" name="kod" label="Ürün Kodu" label-placement="floating" fill="outline" placeholder="Kodu giriniz"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">İsim</ion-label>
-    <ion-input [(ngModel)]="formData.name"></ion-input>
-  </ion-item>
+    <ion-item class="form-item">
+      <ion-input [(ngModel)]="formData.tur" name="tur" label="Ürün Türü" label-placement="floating" fill="outline" placeholder="Ürün türü giriniz"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Tutanak</ion-label>
-    <ion-textarea [(ngModel)]="formData.tutanak"></ion-textarea>
-  </ion-item>
+    <ion-item class="form-item">
+      <ion-input [(ngModel)]="formData.name" name="name" label="Çalışan İsmi" label-placement="floating" fill="outline" placeholder="İsim giriniz"></ion-input>
+    </ion-item>
 
-  <!-- Fotoğraf Çekme Butonu -->
-  <ion-button expand="full" (click)="takePhoto()">
-    Fotoğraf Çek
-  </ion-button>
+    <ion-item class="form-item">
+      <ion-textarea [(ngModel)]="formData.tutanak" name="tutanak" label="Hata Bilgisi" label-placement="floating" fill="outline" placeholder="Metin giriniz"></ion-textarea>
+    </ion-item>
 
-  <!-- Çekilen Fotoğrafları Göster -->
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let photo of photos">
-        <ion-card>
-          <img [src]="photo" />
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <!-- Fotoları listele -->
+    <ion-grid class="photo-grid">
+      <ion-row>
+        <ion-col size="6" *ngFor="let photo of photos; let i = index">
+          <ion-card class="photo-card">
+            <ion-img [src]="photo"></ion-img>
+            <ion-button color="danger" expand="full" (click)="removePhoto(i)">Sil</ion-button>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <!-- Fotoğraf çekme butonu -->
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+      <ion-fab-button class="take-photo" (click)="takePhoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 
-  <!-- Fotoğrafları ve Formu Gönder -->
-  <ion-button expand="full" color="success" (click)="submitData()">
-    Use Photos
-  </ion-button>
+  </form>
 </ion-content>

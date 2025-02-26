@@ -1,20 +1,99 @@
-ion-card {
-  margin: 16px;
+
+.take-photo{
+  position: fixed;
+  bottom: 10px; /* Footer'ın hemen üstünde */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Diğer öğelerin üstünde görünmesini sağlar */
 }
 
-ion-card-header {
-  background-color: #2d78f9;
+
+/* Genel içerik düzeni */
+.content {
+  background-color: #f9f9f9; /* Yumuşak arka plan */
+  padding-top: 20px;
 }
 
-ion-card-title {
-  font-weight: bold;
-  color: aliceblue;
+.title {
+  text-align: center;
+  color: #3e4b5b;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-ion-card-subtitle {
-    color: aliceblue;
+/* Form elemanları düzeni */
+.form-item {
+  margin-bottom: 20px;
 }
 
-ion-item {
-    --padding-start: 0;
+/* Fotoların gösterimi */
+.photo-grid {
+  margin-top: 30px;
+}
+
+.photo-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.photo-card ion-img {
+  border-bottom: 2px solid #ddd;
+}
+
+/* Fotoğraf çekme butonu */
+.take-photo-btn {
+  background-color: #3880ff;
+  color: white;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50px;
+  padding: 12px;
+}
+
+.take-photo-btn:hover {
+  background-color: #3171e2;
+}
+
+/* Gönder butonu */
+ion-button {
+  border-radius: 50px;
+  padding: 5px 10px;
+  background-color: #fff;
+  color: #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-button[color="light"] {
+  background-color: #fff;
+  color: #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-button[color="light"]:hover {
+  background-color: #f1f1f1;
+}
+
+ion-header {
+  background-color: #3880ff; /* Başlık kısmının rengi */
+}
+
+/* Responsive tasarım: küçük ekranlarda daha rahat kullanım */
+@media (max-width: 600px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .take-photo-btn {
+    width: 90%;
+  }
+
+  ion-button {
+    width: 100%;
+  }
 }

@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
-import { add, camera } from 'ionicons/icons';
+import { add, camera, sendOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { IonicModule } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
+  IonButtons, IonFab, IonFabButton} from '@ionic/angular/standalone';
+import { NgIf, NgFor } from '@angular/common';
 
 
 @Component({
@@ -16,9 +17,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['tab1.page.scss'],
   imports: [
     ExploreContainerComponent,
-    IonicModule,
-    CommonModule,
-    FormsModule
+    FormsModule,
+    IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
+    NgIf, NgFor
   ],
 })
 export class Tab1Page {
@@ -26,7 +27,7 @@ export class Tab1Page {
   photos: string[] = [];
 
   constructor(private router: Router) {
-    addIcons({ add, camera });
+    addIcons({ add, camera, sendOutline });
   };
 
 
@@ -46,6 +47,10 @@ export class Tab1Page {
     }
   }
 
+  removePhoto(index: number) {
+    this.photos.splice(index, 1); // Fotoğrafı diziden çıkar
+  }
+
   // Form ve fotoları tab2 ye gönder
   submitData() {
     console.log('Form Verisi:', this.formData);
@@ -53,10 +58,6 @@ export class Tab1Page {
     
     this.router.navigate(['/tabs/tab2'], { 
       state: { formData: this.formData, photos: this.photos } 
-    }).then(() => {
-      console.log('Veriler gönderildi ve tab2’ye geçildi');
-    }).catch(err => {
-      console.error('Navigasyon hatası:', err);
     });
   }
 }

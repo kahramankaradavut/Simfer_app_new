@@ -1,0 +1,76 @@
+/* Genel içerik düzeni */
+ion-content {
+    background-color: #f9f9f9; /* Yumuşak bir arka plan */
+    padding-top: 20px;
+  }
+
+  ion-title {
+    text-align: center;
+    color: #3e4b5b;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  ion-card {
+    margin-bottom: 20px; /* Card'lar arasında boşluk */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    border-radius: 8px; /* Yuvarlak köşeler */
+  }
+  
+ 
+  
+  .info-card ion-card-header {
+    background-color: #3880ff; /* Başlık kısmının rengi */
+    color: white;
+    border-radius: 10px 10px 0 0; /* Üst köşeleri yuvarlak */
+  }
+  
+  .info-card ion-card-title {
+    font-weight: bold;
+  }
+  
+  /* Fotoğraf Kartları */
+  .photo-grid {
+    margin-top: 30px;
+  }
+  
+  .photo-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    background-color: #fff; /* Beyaz arka plan */
+  }
+  
+  .photo-card ion-img {
+    border-bottom: 2px solid #ddd; /* Fotoğrafın altına ince bir çizgi */
+  }
+  
+  /* Fotoğraf Kartlarının Hover Efekti */
+  .photo-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Hover efekt */
+  }
+  
+  /* Resimlerin boyutlandırılması */
+  ion-img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Responsive Tasarım */
+  @media (max-width: 600px) {
+    ion-card {
+      margin-bottom: 15px;
+    }
+  
+    .photo-card {
+      margin-bottom: 15px;
+    }
+  
+    .info-card {
+      margin-bottom: 15px;
+    }
+  }
+  
