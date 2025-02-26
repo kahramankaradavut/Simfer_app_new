@@ -41,6 +41,8 @@
 
 .photo-card ion-img {
   border-bottom: 2px solid #ddd;
+  width: 150px;
+  height: 150px;
 }
 
 /* Fotoğraf çekme butonu */
@@ -95,5 +97,9 @@ ion-header {
 
   ion-button {
     width: 100%;
+  }
+
+  .card-img {
+    object-fit: cover;
   }
 }
