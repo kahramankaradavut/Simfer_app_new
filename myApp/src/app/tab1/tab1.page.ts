@@ -6,8 +6,11 @@ import { add, camera, sendOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton} from '@ionic/angular/standalone';
+  IonButtons, IonFab, IonFabButton, IonModal} from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
+
+
+
 
 
 @Component({
@@ -19,18 +22,20 @@ import { NgIf, NgFor } from '@angular/common';
     ExploreContainerComponent,
     FormsModule,
     IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor
+    NgIf, NgFor, IonModal
   ],
 })
 export class Tab1Page {
   formData = { kod: '', tur: '', name: '', tutanak: '' };
   photos: string[] = [];
+  selectedPhoto: string | null = null; // Seçilen fotoğraf
   jsonData: string = '';
 
   constructor(private router: Router) {
     addIcons({ add, camera, sendOutline });
   };
 
+  
 
   async takePhoto() {
     try {
@@ -52,6 +57,14 @@ export class Tab1Page {
     this.photos.splice(index, 1); // Fotoğrafı diziden çıkar
   }
 
+
+  openPhoto(photo: string) {
+    this.selectedPhoto = photo;
+  }
+
+  closePhoto() {
+    this.selectedPhoto = null;
+  }
   // Form ve fotoları tab2 ye gönder
   submitData() {
     const combinedData = {

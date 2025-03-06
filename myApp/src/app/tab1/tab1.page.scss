@@ -85,6 +85,11 @@ ion-header {
   background-color: #3880ff; /* Başlık kısmının rengi */
 }
 
+.logo {
+  padding-left: 10px;
+  width: 90px;
+}
+
 /* Responsive tasarım: küçük ekranlarda daha rahat kullanım */
 @media (max-width: 600px) {
   .title {
@@ -103,3 +108,28 @@ ion-header {
     object-fit: cover;
   }
 }
+
+
+.photo-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.popup-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease-in-out;
+}
+
+

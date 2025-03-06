@@ -13,6 +13,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
 export class Tab2Page {
   formData: any = {};
   photos: string[] = [];
+  selectedPhoto: string | null = null; // Seçilen fotoğraf
   
   constructor(private router: Router) {
     const navState = this.router.getCurrentNavigation()?.extras.state;
@@ -20,5 +21,14 @@ export class Tab2Page {
       this.formData = navState['formData'] || {};
       this.photos = navState['photos'] || [];
     }
+  }
+
+  
+  openPhoto(photo: string) {
+    this.selectedPhoto = photo;
+  }
+
+  closePhoto() {
+    this.selectedPhoto = null;
   }
 }
