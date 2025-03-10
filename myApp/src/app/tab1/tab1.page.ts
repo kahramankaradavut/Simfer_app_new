@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
 import { add, camera, sendOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FormsModule } from '@angular/forms';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton, IonModal} from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
+  IonButtons, IonFab, IonFabButton} from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
-
-
-
+import { formData } from './formData';
+import { LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -19,66 +17,88 @@ import { NgIf, NgFor } from '@angular/common';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   imports: [
-    ExploreContainerComponent,
     FormsModule,
-    IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonLabel, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor, IonModal
+    IonHeader, IonToolbar, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
+    NgIf, NgFor
   ],
 })
+
 export class Tab1Page {
-  formData = { kod: '', tur: '', name: '', tutanak: '' };
-  photos: string[] = [];
+  formData :formData = new formData('', '', '', '', []); // Form verileri
   selectedPhoto: string | null = null; // Seçilen fotoğraf
   jsonData: string = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loadingCtrl: LoadingController) {
     addIcons({ add, camera, sendOutline });
   };
 
-  
-
+  // Fotoğraf çekme
   async takePhoto() {
     try {
       const image = await Camera.getPhoto({
-        resultType: CameraResultType.DataUrl, // Base64 formatında fotoğraf al
+        resultType: CameraResultType.Uri, // Dosya yolunu al
         source: CameraSource.Prompt,
         quality: 90,
       });
-
-      if (image.dataUrl) {
-        this.photos.push(image.dataUrl); // Fotoları diziye ekle
+  
+      if (image.webPath) {
+        this.formData.photos.push(image.webPath); // Fotoğrafın kısa URL’sini kaydet
       }
     } catch (error) {
       console.error('Fotoğraf çekme hatası:', error);
     }
   }
 
+  // Fotoğrafı silme
   removePhoto(index: number) {
-    this.photos.splice(index, 1); // Fotoğrafı diziden çıkar
+    this.formData.photos.splice(index, 1); // Fotoğrafı diziden çıkar
   }
 
 
+  // Fotoğrafı büyütme
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
   }
 
+  // Fotoğrafı kapatma
   closePhoto() {
     this.selectedPhoto = null;
   }
   // Form ve fotoları tab2 ye gönder
-  submitData() {
-    const combinedData = {
-      ...this.formData,
-      photos: this.photos,
-    }
+  async submitData() {
 
-    this.jsonData = JSON.stringify(combinedData, null, 2);
-    console.log('JSON Verisi:', this.jsonData);
-    console.log('Form Verisi:', this.formData);
-    console.log('Fotoğraflar:', this.photos);
-    
-    this.router.navigate(['/tabs/tab2'], { 
-      state: { formData: this.formData, photos: this.photos } 
+    const loading = await this.loadingCtrl.create({
+      message: 'Veriler gönderiliyor...',
+      spinner: 'crescent'
     });
+
+    await loading.present();
+
+    try {
+      const combinedData = {
+        ...this.formData,
+        photos: this.formData.photos,
+      }
+      
+  
+      this.jsonData = JSON.stringify(combinedData, null, 2);
+      console.log('JSON Verisi:', this.jsonData);
+      console.log('Form Verisi:', this.formData);
+      console.log('Fotoğraflar:', this.formData.photos);
+      
+      this.router.navigate(['/tabs/tab2'], { 
+        state: { formData: this.formData, photos: this.formData.photos } 
+      });
+
+      //Verileri sıfırla
+      this.formData = new formData('', '', '', '', []);
+      this.selectedPhoto = null;
+      this.jsonData = '';
+      
+    } catch (error) {
+      console.error('Veri gönderme hatası:', error);
+    }finally {  
+      await loading.dismiss();
+    }
   }
 }
