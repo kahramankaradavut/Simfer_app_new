@@ -9,6 +9,7 @@ import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonI
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { LoadingController } from '@ionic/angular';
+import { FormDataService } from '../services/formData.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class Tab1Page {
   selectedPhoto: string | null = null; // Seçilen fotoğraf
   jsonData: string = '';
 
-  constructor(private router: Router, private loadingCtrl: LoadingController) {
+  constructor(private router: Router, private loadingCtrl: LoadingController,   private formDataService: FormDataService
+  ) {
     addIcons({ add, camera, sendOutline });
   };
 
@@ -79,6 +81,8 @@ export class Tab1Page {
         ...this.formData,
         photos: this.formData.photos,
       }
+
+      this.formDataService.setFormData(combinedData);
       
   
       this.jsonData = JSON.stringify(combinedData, null, 2);
@@ -86,9 +90,7 @@ export class Tab1Page {
       console.log('Form Verisi:', this.formData);
       console.log('Fotoğraflar:', this.formData.photos);
       
-      this.router.navigate(['/tabs/tab2'], { 
-        state: { formData: this.formData, photos: this.formData.photos } 
-      });
+      this.router.navigate(['/tabs/tab2']);
 
       //Verileri sıfırla
       this.formData = new formData('', '', '', '', []);
@@ -100,5 +102,26 @@ export class Tab1Page {
     }finally {  
       await loading.dismiss();
     }
+  }
+
+  downloadJson(data: any) {
+    const combinedData = {
+      ...this.formData,
+      photos: this.formData.photos,
+    }
+
+    this.jsonData = JSON.stringify(combinedData, null, 2);
+
+    const blob = new Blob([this.jsonData], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'data.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  downloadData() {
+    this.downloadJson(this.jsonData);
   }
 }

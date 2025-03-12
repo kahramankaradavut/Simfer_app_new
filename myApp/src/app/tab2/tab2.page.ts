@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
-import { IonHeader, IonNote, IonList, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/angular/standalone'
+import { IonHeader, IonList, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/angular/standalone'
+import { FormDataService } from '../services/formData.service';
+import { formData } from '../tab1/formData';
 
 
 @Component({
@@ -9,23 +10,19 @@ import { IonHeader, IonNote, IonList, IonToolbar, IonTitle, IonContent, IonCard,
   standalone: true,
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonHeader, IonNote, IonList, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel]
+  imports: [IonHeader, IonList, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel]
 })
 
 export class Tab2Page {
-  formData: any = {};
-  photos: string[] = [];
+  formData: formData | null = null;
   selectedPhoto: string | null = null;
+  formDatas: formData[] = [];
   
-  constructor(private router: Router) {
-    const navState = this.router.getCurrentNavigation()?.extras.state;
-console.log(this.formData);
-    if(navState) {
-      this.formData = navState['formData'] || {};
-      this.photos = navState['formData.photos'] || [];
-    }
+  constructor(private formDataService: FormDataService) {}
+    
+  ionViewWillEnter() {
+    this.formDatas = this.formDataService.getAllFormDatas();
   }
-  
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
   }

@@ -1,14 +1,25 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <img src="../../assets/icon/sersim-yeni@300x.png" slot="start" class="logo"/>
-    <ion-buttons slot="end">
-      <ion-button (click)="submitData()" shape="round" class="send-button">
-        Gönder
-        <ion-icon slot="end" name="send-outline"></ion-icon>
+  <ion-toolbar class="custom-toolbar">
+    
+    <ion-buttons slot="start">
+      <ion-button (click)="downloadData()" fill="outline" color="light">
+        İndir
       </ion-button>
     </ion-buttons>
+
+    <div class="toolbar-logo">
+      <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
+    </div>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="submitData()" fill="outline" color="light">
+        Gönder
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content class="ion-padding content">
   <h1 class="title">Hata Tespit Formu</h1>
@@ -31,9 +42,9 @@
     </ion-item>
 
     <!-- Fotoları listele -->
-    <ion-grid class="photo-grid">
+    <ion-grid [fixed]="true" class="photo-grid">
       <ion-row>
-        <ion-col size="6" *ngFor="let photo of formData.photos let i = index">
+        <ion-col size="6" size-md="3" *ngFor="let photo of formData.photos let i = index">
           <ion-card class="photo-card" (click)="openPhoto(photo)">
             <ion-img [src]="photo" class="card-img"></ion-img>
             <ion-button color="danger" expand="block" (click)="removePhoto(i)" class="delete-button">Sil</ion-button>

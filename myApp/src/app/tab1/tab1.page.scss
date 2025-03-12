@@ -1,31 +1,39 @@
-ion-header {
-  background-color: #3880ff; /* Başlık kısmının rengi */
-}
-/* Logo */
-.logo {
-  border-radius: 50px;
-  padding-inline: 10px;
-  margin:5px;
-  background-color: #fff;
-  width: 90px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);;
-}
-
-/* Gönder butonu */
-.send-button {
-  border-radius: 50px;
-  padding: 5px 10px;
-  background-color: #fff;
-  color: #000000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Genel içerik düzeni */
-.content {
-  background-color: #f9f9f9; /* Yumuşak arka plan */
+/* Genel Arka Plan */
+ion-content {
+  --background: linear-gradient(to bottom, #d2e1f9, #ffffff);
   padding-top: 20px;
 }
 
+/* Header - Toolbar */
+.custom-toolbar {
+  padding-bottom: 2%;
+  --background: linear-gradient(to right, #3b82f6, #6366f1);
+  --ion-color-light: #ffffff;
+  color: white;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Ortalanmış Logo */
+.toolbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.logo {
+  width: 65px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 2px 9px rgba(255, 255, 255, 0.3);
+}
+
+/* Başlık */
 .title {
   text-align: center;
   color: #3e4b5b;
@@ -34,12 +42,21 @@ ion-header {
   margin-bottom: 20px;
 }
 
-/* Form elemanları düzeni */
+
+
+/* Form Elemanları */
 .form-item {
   margin-bottom: 20px;
 }
 
-/* Fotoların gösterimi */
+/* Butonlar */
+ion-button {
+  --border-radius: 20px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}
+
+/* Fotoğraf Kartları */
 .photo-grid {
   margin-top: 30px;
 }
@@ -73,16 +90,22 @@ ion-col {
   object-fit: cover; /* Fotoğrafın tam çerçeveye oturmasını sağlar */
 }
 
-/* Fotoğraf çekme butonu */
-.take-photo{
+
+/* Fotoğraf çekme fab butonu */
+.take-photo {
   position: fixed;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
+
+  --background: linear-gradient(to right, #3b82f6, #6366f1);
+  --color: white;
+  --border-radius: 50%;
+
 }
 
-/* Fotoğraf popup */
+/* Açılır Fotoğraf Popup */
 .photo-popup {
   position: fixed;
   top: 0;
@@ -101,31 +124,5 @@ ion-col {
   max-width: 90vw;
   max-height: 90vh;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
-
-/* Responsive tasarım: küçük ekranlarda daha rahat kullanım */
-@media (max-width: 600px) {
-  .title {
-    font-size: 20px;
-  }
-
-  ion-button {
-    width: 100%;
-  }
-
-  .card-img {
-    object-fit: cover;
-  }
-
-  .photo-card {
-    width: 100%;
-    height: auto;
-  }
-}
-
-
-
-
-

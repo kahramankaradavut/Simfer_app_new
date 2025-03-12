@@ -1,124 +1,152 @@
-/* Genel içerik düzeni */
+/* Genel Arka Plan */
 ion-content {
-    background-color: #f9f9f9; /* Yumuşak bir arka plan */
-    padding-top: 20px;
-  }
+  --background: linear-gradient(to bottom, #d2e1f9, #ffffff);
+  padding-top: 20px;
+}
 
-  ion-title {
-    text-align: center;
-    color: #3e4b5b;
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-  
-  ion-card {
-    margin-bottom: 20px; /* Card'lar arasında boşluk */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Hafif gölge */
-    border-radius: 8px; /* Yuvarlak köşeler */
-  }
-  
- ion-card-content {
+/* Header - Toolbar */
+.custom-toolbar {
+  padding-bottom: 2%;
+  --background: linear-gradient(to right, #3b82f6, #6366f1);
+  --ion-color-light: #ffffff;
+  color: white;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Ortalanmış Logo */
+.toolbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.logo {
+  width: 65px;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 2px 9px rgba(255, 255, 255, 0.3);
+}
+
+.title {
+  text-align: center;
+  color: #3e4b5b;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+ion-content {
+  background-color: #f9f9f9; /* Yumuşak arka plan */
+  padding-top: 20px;
+}
+
+ion-title {
+  text-align: center;
+  color: #3e4b5b;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+ion-card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+ion-card-content {
   margin-top: 20px;
- }
-  
-  .info-card ion-card-header {
-    background-color: #3880ff; /* Başlık kısmının rengi */
-    color: white;
-    border-radius: 10px 10px 0 0; /* Üst köşeleri yuvarlak */
+}
+
+.info-card ion-card-header {
+  --background: linear-gradient(to right, #3b83f67f, #6365f169);
+  color: white;
+}
+
+.info-card ion-card-title {
+  font-weight: bold;
+}
+
+/* Fotoğraf kartları ve grid */
+.photo-grid {
+  margin-top: 30px;
+}
+
+ion-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+ion-col {
+  display: flex;
+  justify-content: center;
+}
+
+.photo-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Açılır fotoğraf popup'ı */
+.photo-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.popup-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 600px) {
+  ion-card {
+    margin-bottom: 15px;
   }
-  
-  .info-card ion-card-title {
-    font-weight: bold;
-  }
-  //////////supernal sweat//////////
-  /* Fotoğraf Kartları */
-  .photo-grid {
-    margin-top: 30px;
-  }
-  
+
   .photo-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  
-  .photo-card ion-img {
-    border-bottom: 2px solid #ddd;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .card-img {
-    
-    object-fit: cover; /* Fotoğrafın tam çerçeveye oturmasını sağlar */
-  }
-  /* Fotoğraf Kartlarının Hover Efekti */
-  .photo-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Hover efekt */
-  }
-  
-  /* Resimlerin boyutlandırılması */
-  ion-img {
-    width: 100%;
-    height: auto;
-  }
-  
-  /* Responsive Tasarım */
-  @media (max-width: 600px) {
-    ion-card {
-      margin-bottom: 15px;
-    }
-  
-    .photo-card {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
     margin-bottom: 10px;
-    }
-
-    .photo-card ion-img {
-      border-bottom: 2px solid #ddd;
-      width: 150px;
-      height: 150px;
-    }
-  
-    .info-card {
-      margin-bottom: 15px;
-    }
-
-    .card-img {
-      width: 50px;
-      height: 50px;
-    }
   }
-  
 
-  .photo-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+  .photo-card ion-img {
+    width: 150px;
+    height: 150px;
   }
-  
-  .popup-image {
-    max-width: 90vw;
-    max-height: 90vh;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s ease-in-out;
-  }
-  
- 
-  
 
-  
+  .card-img {
+    width: 150px;
+    height: 150px;
+  }
+}
