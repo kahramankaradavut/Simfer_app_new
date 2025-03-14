@@ -87,30 +87,30 @@ export class Tab1Page {
 
       this.jsonData = JSON.stringify(combinedData, null, 2);
       await this.jsonStorage.appendFormData(combinedData);
-      // console.log('JSON Verisi:', this.jsonData);
-      // console.log('Form Verisi:', this.formData);
-      // console.log('Fotoğraflar:', this.formData.photos);
 
       //Verileri sıfırla
       this.formData = new formData('', '', '', '', '', []);
       this.selectedPhoto = null;
       this.jsonData = '';
 
-      
+
         const toast = await this.toastController.create({
         message: 'Veri başarıyla kaydedildi!',
         duration: 1500,
         color: 'success'
       });
       toast.present();
-      
+    
     } catch (error) {
       console.error('Veri gönderme hatası:', error);
     }finally {  
       await loading.dismiss();
     }
   }
+
+
   async deleteDatas () {
+    console.log('Gönderilecek veri:');
 
     const loading = await this.loadingCtrl.create({
       message: 'Veriler gönderiliyor...',

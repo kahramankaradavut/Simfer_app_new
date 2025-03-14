@@ -25,15 +25,15 @@ export class Tab2Page {
 
   constructor(private jsonStorageService: JsonStorageService) {}
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     try {
       this.formDatas = await this.jsonStorageService.getAllFormData();
     } catch (error) {
       console.error('Veri yüklenemedi:', error);
     }
-  }
 
-  
+    
+  }
 
   openPhoto(photo: string) {
     this.selectedPhoto = photo;

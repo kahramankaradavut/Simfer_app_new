@@ -29,11 +29,8 @@ export class JsonStorageService {
 
         if (typeof result.data === 'string') {
           parsedData = JSON.parse(result.data);
-        } else if (result.data instanceof Blob) {
-          const text = await result.data.text(); 
-          parsedData = JSON.parse(text);
         } else {
-          console.warn('Veri ne string ne de Blob, boş dizi başlatılıyor.');
+          console.warn('Boş dizi başlatılıyor.');
           parsedData = [];
         }
 
