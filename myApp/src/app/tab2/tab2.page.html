@@ -10,10 +10,12 @@
   <h1 class="title">İncelenen Ürünler</h1>
 
 
+
   <!-- Formlar Listeleniyor -->
   <ng-container *ngIf="formDatas && formDatas.length > 0; else noData">
     <ion-card class="info-card" *ngFor="let form of formDatas">
       <ion-card-header>
+
         <ion-card-title>Form Bilgileri</ion-card-title>
       </ion-card-header>
       <ion-card-content>

@@ -1,27 +1,28 @@
-import { Injectable } from '@angular/core';
-import { formData } from '../tab1/formData';
+// import { Injectable } from '@angular/core';
+// import { formData } from '../tab1/formData';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class FormDataService {
-  private _formData: formData | null = null;
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class FormDataService {
 
-  constructor() {}
+//   private STORAGE_KEY = 'formDataList';
 
-  setFormData(data: formData) {
-    this._formData = data;
-  }
 
-  getFormData(): formData | null {
-    return this._formData;
-  }
+//   constructor() {}
 
-  clearFormData() {
-    this._formData = null;
-  }
+//   async addFormData(data: formData) {
+//     const existingData = await this.getAllFormData();
+//     existingData.push(data);
+//     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(existingData));
+//   }
 
-  getAllFormDatas(): formData[] {
-    return this._formData ? [this._formData] : [];  // Tüm form verilerini döndür
-  }
-}
+//   async getAllFormData(): Promise<formData[]> {
+//     const stored = localStorage.getItem(this.STORAGE_KEY);
+//     return stored ? JSON.parse(stored) : [];
+//   }
+
+//   async clearAll() {
+//     localStorage.removeItem(this.STORAGE_KEY);
+//   }
+// }

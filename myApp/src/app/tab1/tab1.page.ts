@@ -9,7 +9,10 @@ import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonI
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { LoadingController } from '@ionic/angular';
-import { FormDataService } from '../services/formData.service';
+import { JsonStorageService } from '../services/json-storage.service';
+import { ToastController } from '@ionic/angular';
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 @Component({
@@ -25,12 +28,12 @@ import { FormDataService } from '../services/formData.service';
 })
 
 export class Tab1Page {
-  formData :formData = new formData('', '', '', '', []); // Form verileri
+  formData :formData = new formData('', '', '', '', '', []); // Form verileri
   selectedPhoto: string | null = null; // Seçilen fotoğraf
   jsonData: string = '';
 
-  constructor(private router: Router, private loadingCtrl: LoadingController,   private formDataService: FormDataService
-  ) {
+  constructor(private router: Router, private loadingCtrl: LoadingController,   private jsonStorage: JsonStorageService, private toastController: ToastController
+) {
     addIcons({ add, camera, sendOutline });
   };
 
@@ -79,23 +82,27 @@ export class Tab1Page {
     try {
       const combinedData = {
         ...this.formData,
-        photos: this.formData.photos,
-      }
+        id: uuidv4(),  
+      };
 
-      this.formDataService.setFormData(combinedData);
-      
-  
       this.jsonData = JSON.stringify(combinedData, null, 2);
-      console.log('JSON Verisi:', this.jsonData);
-      console.log('Form Verisi:', this.formData);
-      console.log('Fotoğraflar:', this.formData.photos);
-      
-      this.router.navigate(['/tabs/tab2']);
+      await this.jsonStorage.appendFormData(combinedData);
+      // console.log('JSON Verisi:', this.jsonData);
+      // console.log('Form Verisi:', this.formData);
+      // console.log('Fotoğraflar:', this.formData.photos);
 
       //Verileri sıfırla
-      this.formData = new formData('', '', '', '', []);
+      this.formData = new formData('', '', '', '', '', []);
       this.selectedPhoto = null;
       this.jsonData = '';
+
+      
+        const toast = await this.toastController.create({
+        message: 'Veri başarıyla kaydedildi!',
+        duration: 1500,
+        color: 'success'
+      });
+      toast.present();
       
     } catch (error) {
       console.error('Veri gönderme hatası:', error);
@@ -103,25 +110,78 @@ export class Tab1Page {
       await loading.dismiss();
     }
   }
+  async deleteDatas () {
 
-  downloadJson(data: any) {
-    const combinedData = {
-      ...this.formData,
-      photos: this.formData.photos,
-    }
+    const loading = await this.loadingCtrl.create({
+      message: 'Veriler gönderiliyor...',
+      spinner: 'crescent'
+    });
+    await loading.present();
 
-    this.jsonData = JSON.stringify(combinedData, null, 2);
+    try {
+        this.jsonStorage.deleteDatas();
 
-    const blob = new Blob([this.jsonData], { type: 'application/json' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'data.json';
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
+        const toast = await this.toastController.create({
+          message: 'Veriler başarıyla silindi!',
+          duration: 2000,
+          color: 'success'
+        });
 
-  downloadData() {
-    this.downloadJson(this.jsonData);
-  }
+        toast.present();
+        
+    } catch (error) {
+      console.error('Veri silme hatası:', error);
+    } finally {
+      await loading.dismiss();
+    }   
+}
+
+
+
+  // WEB JSON KAYDETME
+  // downloadJson(data: any) {
+  //   const combinedData = {
+  //     ...this.formData,
+  //     photos: this.formData.photos,
+  //   }
+
+  //   this.jsonData = JSON.stringify(combinedData, null, 2);
+
+  //   const blob = new Blob([this.jsonData], { type: 'application/json' });
+  //   const url = window.URL.createObjectURL(blob);
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'data.json';
+  //   a.click();
+  //   window.URL.revokeObjectURL(url);
+  // }
+
+  // downloadData() {
+  //   this.downloadJson(this.jsonData);
+  // }
+
+
+  // // IOS JSON KAYDETME
+  //   async  saveJsonFileIOS(jsonData: any) {
+  //   const combinedData = {
+  //     ...this.formData,
+  //     photos: this.formData.photos,
+  //   }
+
+  //   this.jsonData = JSON.stringify(combinedData, null, 2);
+
+  //   await Filesystem.writeFile({  
+  //     path: 'data.json',
+  //     data: this.jsonData,
+  //     directory: Directory.Documents,
+  //     encoding: Encoding.UTF8
+  //   });
+
+  //   console.log('IOS a veri aktarıldı.');
+  // }
+
+  // downloadDataIOS() {
+  //   const formData = this.jsonData;
+  //   this.saveJsonFileIOS(formData);
+  // } 
 }

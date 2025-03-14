@@ -1,11 +1,13 @@
 export class formData {
-    code: string;
+    public id: string;
+    public code: string;
     type: string;
     name: string;
     productError: string;
     photos: string[];
   
-    constructor(code: string, type: string, name: string, productError: string, photos: string[]) {
+    constructor(id: string, code: string, type: string, name: string, productError: string, photos: string[]) {
+      this.id = id;
       this.code = code;
       this.type = type;
       this.name = name;
