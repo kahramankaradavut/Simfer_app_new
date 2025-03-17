@@ -21,43 +21,54 @@
 <ion-content class="ion-padding content">
   <h1 class="title">Hata Tespit Formu</h1>
 
-  <form (ngSubmit)="submitData()">
-    <ion-item class="form-item">
-      <ion-input [(ngModel)]="formData.code" name="kod" label="Ürün Kodu" label-placement="floating" fill="outline" placeholder="Kodu giriniz"></ion-input>
+  <ion-card>
+    <form (ngSubmit)="submitData()">
+      <ion-item class="form-item">
+        <ion-input [(ngModel)]="formData.code" name="kod" label="Ürün Kodu" label-placement="floating" placeholder="Kodu giriniz"></ion-input>
+      </ion-item>
+  
+      <ion-item class="form-item">
+        <ion-input [(ngModel)]="formData.type" name="tur" label="Ürün Türü" label-placement="floating" placeholder="Ürün türü giriniz"></ion-input>
+      </ion-item>
+  
+      <ion-item class="form-item">
+        <ion-input [(ngModel)]="formData.name" name="name" label="Çalışan İsmi" label-placement="floating" placeholder="İsim giriniz"></ion-input>
+      </ion-item>
+  
+      <ion-item class="form-item">
+        <ion-textarea [(ngModel)]="formData.productError" name="productError" label="Hata Bilgisi" label-placement="floating" placeholder="Metin giriniz"></ion-textarea>
+      </ion-item>
+  
+      <!-- Fotoları listele -->
+<ion-accordion-group>
+  <ion-accordion value="photos">
+    <ion-item slot="header">
+      <ion-label>Fotoğraflar:</ion-label>
     </ion-item>
-
-    <ion-item class="form-item">
-      <ion-input [(ngModel)]="formData.type" name="tur" label="Ürün Türü" label-placement="floating" fill="outline" placeholder="Ürün türü giriniz"></ion-input>
-    </ion-item>
-
-    <ion-item class="form-item">
-      <ion-input [(ngModel)]="formData.name" name="name" label="Çalışan İsmi" label-placement="floating" fill="outline" placeholder="İsim giriniz"></ion-input>
-    </ion-item>
-
-    <ion-item class="form-item">
-      <ion-textarea [(ngModel)]="formData.productError" name="productError" label="Hata Bilgisi" label-placement="floating" fill="outline" placeholder="Metin giriniz"></ion-textarea>
-    </ion-item>
-
-    <!-- Fotoları listele -->
-    <ion-grid [fixed]="true" class="photo-grid">
-      <ion-row>
-        <ion-col size="6" size-md="3" *ngFor="let photo of formData.photos let i = index">
-          <ion-card class="photo-card" (click)="openPhoto(photo)">
-            <ion-img [src]="photo" class="card-img"></ion-img>
-            <ion-button color="danger" expand="block" (click)="removePhoto(i)" class="delete-button">Sil</ion-button>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-
-    <div class="photo-popup" *ngIf="selectedPhoto" (click)="closePhoto()">
-      <img [src]="selectedPhoto" class="popup-image"/>
+    <div class="ion-padding" slot="content">
+      <ion-grid [fixed]="true" class="photo-grid">
+        <ion-row>
+          <ion-col size="6" size-md="3" *ngFor="let photo of formData.photos let i = index">
+            <ion-card class="photo-card" (click)="openPhoto(photo)">
+              <ion-img [src]="photo" class="card-img"></ion-img>
+              <ion-button color="danger" expand="block" (click)="removePhoto(i)" class="delete-button">Sil</ion-button>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
-
-    <!-- <pre>{{ jsonData }}</pre>  -->
-    <!-- Fotoğraf çekme butonu -->    
-
-  </form>
+  </ion-accordion>
+</ion-accordion-group>
+      <div class="photo-popup" *ngIf="selectedPhoto" (click)="closePhoto()">
+        <img [src]="selectedPhoto" class="popup-image"/>
+      </div>
+  
+      <!-- <pre>{{ jsonData }}</pre>  -->
+      <!-- Fotoğraf çekme butonu -->    
+  
+    </form>
+  </ion-card>
+  
 </ion-content>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
   <ion-fab-button class="take-photo" (click)="takePhoto()">

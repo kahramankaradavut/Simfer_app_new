@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
+import { Router } from "@angular/router";
 import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+  IonImg, IonButtons, IonButton, IonAccordion, IonAccordionGroup, IonItem, IonLabel
 } from '@ionic/angular/standalone';
 
 import { JsonStorageService } from '../services/json-storage.service';
@@ -16,14 +17,14 @@ import { JsonStorageService } from '../services/json-storage.service';
   imports: [
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+    CommonModule, IonImg, IonButtons, IonButton, IonAccordion, IonAccordionGroup, IonItem, IonLabel
   ]
 })
 export class Tab2Page {
   selectedPhoto: string | null = null;
   formDatas: any[] = [];
 
-  constructor(private jsonStorageService: JsonStorageService) {}
+  constructor(private jsonStorageService: JsonStorageService, private router: Router) {}
 
   async ionViewWillEnter() {
     try {
@@ -42,4 +43,10 @@ export class Tab2Page {
   closePhoto() {
     this.selectedPhoto = null;
   }
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+  
 }

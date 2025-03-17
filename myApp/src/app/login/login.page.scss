@@ -1,0 +1,39 @@
+ion-content {
+    --background: linear-gradient(to bottom, #d2e1f9, #ffffff);
+    padding-top: 20px;
+}
+.custom-toolbar {
+  padding-bottom: 2%;
+  --background: linear-gradient(to right, #3b82f6, #6366f1);
+  --ion-color-light: #ffffff;
+  color: white;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+.toolbar-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.logo {
+  width: 65px;
+  height: auto;
+}
+
+.submit-button {
+  --background: linear-gradient(to right, #3b83f6d1, #6365f1d0);
+  --color: white;
+  margin-top: 30px;
+}
+
+.ion-card {
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}

@@ -5,7 +5,7 @@ import { add, camera, sendOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton} from '@ionic/angular/standalone';
+  IonButtons, IonFab, IonFabButton, IonAccordionGroup, IonAccordion, IonLabel} from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { LoadingController } from '@ionic/angular';
@@ -23,7 +23,7 @@ import { v4 as uuidv4 } from 'uuid';
   imports: [
     FormsModule,
     IonHeader, IonToolbar, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor
+    NgIf, NgFor, IonAccordionGroup, IonAccordion, IonLabel
   ],
 })
 

@@ -42,13 +42,6 @@ ion-content {
   margin-bottom: 20px;
 }
 
-
-
-/* Form Elemanları */
-.form-item {
-  margin-bottom: 20px;
-}
-
 /* Butonlar */
 ion-button {
   --border-radius: 20px;
@@ -90,7 +83,6 @@ ion-col {
   object-fit: cover; /* Fotoğrafın tam çerçeveye oturmasını sağlar */
 }
 
-
 /* Fotoğraf çekme fab butonu */
 .take-photo {
   position: fixed;
@@ -102,7 +94,6 @@ ion-col {
   --background: linear-gradient(to right, #3b83f6d1, #6365f1d0);
   --color: white;
   --border-radius: 50%;
-
 }
 
 /* Açılır Fotoğraf Popup */
@@ -125,4 +116,10 @@ ion-col {
   max-height: 90vh;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+ion-card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
