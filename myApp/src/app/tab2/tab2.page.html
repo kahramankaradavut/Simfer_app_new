@@ -3,11 +3,11 @@
     <div class="toolbar-logo">
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
     </div>
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-button (click)="logout()" fill="outline" color="light">
         Çıkış Yap
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -16,8 +16,8 @@
   
 
   <!-- Formlar Listeleniyor -->
-  <ng-container *ngIf="formDatas && formDatas.length > 0; else noData">
-    <ion-card class="info-card" *ngFor="let form of formDatas">
+  <ng-container *ngIf="forms && forms.length > 0; else noData">
+    <ion-card class="info-card" *ngFor="let form of forms">
       <ion-card-header>
 
         <ion-card-title>Form Bilgileri</ion-card-title>

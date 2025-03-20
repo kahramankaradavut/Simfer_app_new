@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { Router } from "@angular/router";
+import { FormService } from '../services/formData.service';
+import { formData } from '../tab1/formData';
 import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-  IonImg, IonButtons, IonButton, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
 } from '@ionic/angular/standalone';
 
-import { JsonStorageService } from '../services/json-storage.service';
 
 @Component({
   selector: 'app-tab2',
@@ -17,36 +17,52 @@ import { JsonStorageService } from '../services/json-storage.service';
   imports: [
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonButtons, IonButton, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
   ]
 })
+
+
 export class Tab2Page {
-  selectedPhoto: string | null = null;
-  formDatas: any[] = [];
+selectedPhoto: string | null = null;
 
-  constructor(private jsonStorageService: JsonStorageService, private router: Router) {}
+  forms: formData[] = [];
 
-  async ionViewWillEnter() {
-    try {
-      this.formDatas = await this.jsonStorageService.getAllFormData();
-    } catch (error) {
-      console.error('Veri yüklenemedi:', error);
-    }
+  constructor(private formService: FormService) {}
 
-    
+  ngOnInit() {
+    this.formService.getForms().subscribe((data) => {
+      this.forms = data;
+    });
   }
-
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
   }
-
+  
   closePhoto() {
     this.selectedPhoto = null;
   }
-
-  logout() {
-    localStorage.removeItem('isLoggedIn');
-    this.router.navigateByUrl('/login', { replaceUrl: true });
-  }
-  
 }
+
+
+
+
+
+
+// export class Tab2Page {
+//   selectedPhoto: string | null = null;
+//   formDatas: any[] = [];
+
+//   constructor(private router: Router) {}
+
+//   async ionViewWillEnter() {
+    
+//   }
+
+
+
+//   logout() {
+//     localStorage.removeItem('isLoggedIn');
+//     this.router.navigateByUrl('/login', { replaceUrl: true });
+//   }
+  
+// }

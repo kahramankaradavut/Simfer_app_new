@@ -1,28 +1,31 @@
-// import { Injectable } from '@angular/core';
-// import { formData } from '../tab1/formData';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { formData } from '../tab1/formData';
+import { photoData } from '../tab1/photoData';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class FormDataService {
+@Injectable({ providedIn: 'root' })
+export class FormService {
+  private apiUrl = 'http://localhost:5113/api/Forms'; 
 
-//   private STORAGE_KEY = 'formDataList';
+  constructor(private http: HttpClient) {}
 
+  submitForm(form: formData, photos: photoData[]): Observable<any> {
+    const formData = new FormData();
+    formData.append('code', form.code);
+    formData.append('type', form.type);
+    formData.append('name', form.name);
+    formData.append('productError', form.productError);
 
-//   constructor() {}
+    photos.forEach((photo, index) => {
+      formData.append('photos', photo.file!, photo.file!.name);
+    });
 
-//   async addFormData(data: formData) {
-//     const existingData = await this.getAllFormData();
-//     existingData.push(data);
-//     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(existingData));
-//   }
+    return this.http.post(this.apiUrl, formData);
+  }
 
-//   async getAllFormData(): Promise<formData[]> {
-//     const stored = localStorage.getItem(this.STORAGE_KEY);
-//     return stored ? JSON.parse(stored) : [];
-//   }
+  getForms(): Observable<formData[]> {
+    return this.http.get<formData[]>(this.apiUrl);
+  }
+}
 
-//   async clearAll() {
-//     localStorage.removeItem(this.STORAGE_KEY);
-//   }
-// }

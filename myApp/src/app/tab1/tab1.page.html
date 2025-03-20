@@ -4,13 +4,13 @@
       
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
     </div>
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-button (click)="deleteDatas()" fill="outline" color="light">
         Verileri Sil
-      </ion-button>
-    </ion-buttons>
+      </ion-button> 
+    </ion-buttons>-->
     <ion-buttons slot="end">
-      <ion-button (click)="submitData()" fill="outline" color="light">
+      <ion-button (click)="submit()" fill="outline" color="light">
         Gönder
       </ion-button>
     </ion-buttons>
@@ -22,7 +22,7 @@
   <h1 class="title">Hata Tespit Formu</h1>
 
   <ion-card>
-    <form (ngSubmit)="submitData()">
+    <form (ngSubmit)="submit()">
       <ion-item class="form-item">
         <ion-input [(ngModel)]="formData.code" name="kod" label="Ürün Kodu" label-placement="floating" placeholder="Kodu giriniz"></ion-input>
       </ion-item>
@@ -51,7 +51,6 @@
           <ion-col size="6" size-md="3" *ngFor="let photo of formData.photos let i = index">
             <ion-card class="photo-card" (click)="openPhoto(photo)">
               <ion-img [src]="photo" class="card-img"></ion-img>
-              <ion-button color="danger" expand="block" (click)="removePhoto(i)" class="delete-button">Sil</ion-button>
             </ion-card>
           </ion-col>
         </ion-row>
@@ -71,7 +70,7 @@
   
 </ion-content>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-  <ion-fab-button class="take-photo" (click)="takePhoto()">
+  <ion-fab-button class="take-photo" (click)="addPhoto()">
     <ion-icon name="camera"></ion-icon>
   </ion-fab-button>
 </ion-fab>
