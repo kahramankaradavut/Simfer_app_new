@@ -5,7 +5,8 @@ import { formData } from '../tab1/formData';
 import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons,
+  LoadingController, ToastController
 } from '@ionic/angular/standalone';
 
 
@@ -17,7 +18,7 @@ import {
   imports: [
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel
+    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons
   ]
 })
 
@@ -26,14 +27,38 @@ export class Tab2Page {
 selectedPhoto: string | null = null;
 
   forms: formData[] = [];
+  constructor(private formService: FormService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
-  constructor(private formService: FormService) {}
+  async ionViewWillEnter() {
 
-  ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Veriler gönderiliyor...',
+      spinner: 'crescent'
+      });
+
+  try {
     this.formService.getForms().subscribe((data) => {
       this.forms = data;
     });
+
+    const toast = await this.toastController.create({
+      message: 'Veri başarıyla getirildi!',
+      duration: 1500,
+      color: 'success'
+      });
+      toast.present();
+  } catch (error) {
+    console.error('Veriler alınamadı:', error);
+    const toast = await this.toastController.create({
+      message: 'Veri getirme hatası: ' + ((error as any).message || 'Bilinmeyen hata'),
+      duration: 3000,
+      color: 'danger'
+      });
+      toast.present();
+  } finally {
+    await loading.dismiss();
   }
+}
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
   }
@@ -41,28 +66,17 @@ selectedPhoto: string | null = null;
   closePhoto() {
     this.selectedPhoto = null;
   }
+
+  clearDatabase() {
+    this.formService.clearData().subscribe({
+      next: () => {
+        console.log('Veritabanı temizlendi');
+        // Opsiyonel: Kullanıcıya başarı mesajı gösterebilirsiniz
+      },
+      error: (err) => {
+        console.error('Veritabanı temizlenemedi:', err);
+        // Opsiyonel: Kullanıcıya hata mesajı gösterebilirsiniz
+      }
+    });
+  }
 }
-
-
-
-
-
-
-// export class Tab2Page {
-//   selectedPhoto: string | null = null;
-//   formDatas: any[] = [];
-
-//   constructor(private router: Router) {}
-
-//   async ionViewWillEnter() {
-    
-//   }
-
-
-
-//   logout() {
-//     localStorage.removeItem('isLoggedIn');
-//     this.router.navigateByUrl('/login', { replaceUrl: true });
-//   }
-  
-// }

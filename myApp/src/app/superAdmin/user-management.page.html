@@ -1,0 +1,17 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Kullanıcı Yönetimi</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-button (click)="createUser()">Yeni Kullanıcı Oluştur</ion-button>
+  
+    <ion-list>
+      <ion-item *ngFor="let user of users">
+        {{ user.username }} - Rol: {{ user.role }}
+        <ion-button fill="clear" slot="end" (click)="changeRole(user)">Rol Değiştir</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  

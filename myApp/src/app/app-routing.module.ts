@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { PhotoTestComponent } from './photo-test/photo-test.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'photo-test',
-    pathMatch: 'full'
-  },
-  {
-    path: 'photo-test',
-    component: PhotoTestComponent
+    path: 'admin',
+    canActivate: [AuthGuard],
+    loadComponent: () => import('./superAdmin/user-management.page').then(m => m.UserManagementPage)
   }
+  
 ];
 
 @NgModule({

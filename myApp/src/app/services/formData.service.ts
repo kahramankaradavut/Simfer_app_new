@@ -27,5 +27,12 @@ export class FormService {
   getForms(): Observable<formData[]> {
     return this.http.get<formData[]>(this.apiUrl);
   }
+
+  clearData(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/clear`);
+  }
+
+
 }
+
 
