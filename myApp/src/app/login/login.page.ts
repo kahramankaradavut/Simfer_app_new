@@ -29,15 +29,15 @@ export class LoginPage {
 
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
-
         this.authService.setToken(res.token, res.role);
+
         const toast = await this.toastController.create({
           message: 'Giriş başarılı',
           duration: 1500,
           color: 'success',
         });
         toast.present();
-        console.log(this.authService.getRole());
+        
         if (res.role === 'SuperAdmin') {
           this.navCtrl.navigateRoot('/superAdmin');
         } else {
@@ -45,6 +45,8 @@ export class LoginPage {
         }
       },
       error: async (res) => {
+        console.log('ASDASD');
+        console.log('RES:: ',res);
         const toast = await this.toastController.create({
           message: 'Giriş başarısız!',
           duration: 2000,

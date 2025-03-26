@@ -1,7 +1,10 @@
+/* Genel Arka Plan */
 ion-content {
-    --background: linear-gradient(to bottom, #d2e1f9, #ffffff);
-    padding-top: 20px;
+  --background: linear-gradient(to bottom, #d2e1f9, #ffffff);
+  padding-top: 20px;
 }
+
+/* Header - Toolbar */
 .custom-toolbar {
   padding-bottom: 2%;
   --background: linear-gradient(to right, #3b82f6, #6366f1);
@@ -10,6 +13,8 @@ ion-content {
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.1);
   position: relative;
 }
+
+/* Ortalanmış Logo */
 .toolbar-logo {
   position: absolute;
   left: 50%;
@@ -24,16 +29,26 @@ ion-content {
 .logo {
   width: 65px;
   height: auto;
+  border-radius: 50%;
+  box-shadow: 0 2px 9px rgba(255, 255, 255, 0.3);
 }
 
-.submit-button {
-  --background: linear-gradient(to right, #3b83f6d1, #6365f1d0);
-  --color: white;
-  margin-top: 30px;
+.title {
+  text-align: center;
+  color: #3e4b5b;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-.ion-card {
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+ion-content {
+  background-color: #f9f9f9; /* Yumuşak arka plan */
+  padding-top: 20px;
+}
+
+
+ion-card {
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
 }

@@ -1,10 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Admin Paneli</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="logout()" fill="outline" color="light">
+        Çıkış Yap
+      </ion-button> 
+    </ion-buttons>
+    <div class="toolbar-logo">
+      <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding content">
+  <h1 class="title">Admin Panel</h1>
+
   <!-- Kullanıcı Ekleme Formu -->
   <ion-card>
     <ion-card-header>
@@ -12,15 +21,16 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-input [(ngModel)]="newUser.name" placeholder="Ad Soyad"></ion-input>
+        <ion-input [(ngModel)]="newUser.username" placeholder="Kullanıcı Adı"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input [(ngModel)]="newUser.email" placeholder="E-posta"></ion-input>
+        <ion-input [(ngModel)]="newUser.password" placeholder="Şifre"></ion-input>
       </ion-item>
       <ion-item>
         <ion-select [(ngModel)]="newUser.role" placeholder="Rol Seç">
+          <ion-select-option value="SuperAdmin">SuperAdmin</ion-select-option>
           <ion-select-option value="admin">Admin</ion-select-option>
-          <ion-select-option value="user">Kullanıcı</ion-select-option>
+          <ion-select-option value="user">User</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-button expand="full" (click)="addUser()">Ekle</ion-button>
@@ -36,14 +46,43 @@
       <ion-list>
         <ion-item *ngFor="let user of users">
           <ion-label>
-            <h2>{{ user.name }}</h2>
-            <p>{{ user.email }} - {{ user.role }}</p>
+            <h2>{{ user.username }}</h2>
+            <p>{{ user.role }}</p>
           </ion-label>
-          <ion-button color="danger" (click)="deleteUser(user.id)">
-            Sil
-          </ion-button>
+          <ion-button (click)="openEditUser(user)">Düzenle</ion-button>
+          <ion-button color="danger" (click)="deleteUser(user.id)">Sil</ion-button>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <!-- Modal Düzenleme -->
+  <ion-modal [isOpen]="isEditModalOpen" (ionModalDidDismiss)="closeEditModal()">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Kullanıcıyı Düzenle</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeEditModal()">Kapat</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-item>
+        <ion-label position="floating">Kullanıcı Adı</ion-label>
+        <ion-input [(ngModel)]="selectedUser.username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Rol</ion-label>
+        <ion-select [(ngModel)]="selectedUser.role">
+          <ion-select-option value="SuperAdmin">SuperAdmin</ion-select-option>
+          <ion-select-option value="User">User</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Yeni Şifre (Opsiyonel)</ion-label>
+        <ion-input type="password" [(ngModel)]="selectedUser.password"></ion-input>
+      </ion-item>
+      <ion-button expand="full" (click)="updateUser()">Kaydet</ion-button>
+    </ion-content>
+  </ion-modal>
 </ion-content>
