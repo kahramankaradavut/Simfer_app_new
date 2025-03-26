@@ -9,6 +9,7 @@ import { formData } from './formData';
 import { PhotoService } from '../services/photo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormService } from '../services/formData.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 
 @Component({
@@ -37,7 +38,13 @@ export class Tab1Page {
   selectedPhoto: string | null = null;
 
 
-  constructor(private photoService: PhotoService, private formService: FormService, private loadingCtrl: LoadingController, private toastController: ToastController) {
+  constructor(
+    private photoService: PhotoService, 
+    private formService: FormService, 
+    private loadingCtrl: LoadingController, 
+    private toastController: ToastController,     
+    private authService: AuthService,
+  ) {
     addIcons({ add, camera, sendOutline });
   }
 
@@ -111,5 +118,9 @@ filePath: p.webviewPath ? p.webviewPath : 'default-path',
     // Fotoğrafı kapatma
     closePhoto() {
       this.selectedPhoto = null;
+    }
+
+    async logout() {
+      this.authService.logout();
     }
 }

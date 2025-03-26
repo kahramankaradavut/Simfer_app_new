@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
-  private apiUrl = 'http://localhost:5113/api/Auth';
+  private apiUrl = 'http://localhost:5113/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
 
   isLoggedIn = new BehaviorSubject<boolean>(false);
   userRole = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(credentials: { username: string; password: string }) {
-
     return this.http.post<any>(`${this.apiUrl}/login`, credentials);
   }
 
@@ -45,9 +46,11 @@ export class AuthService {
     localStorage.removeItem(this.roleKey);
     this.isLoggedIn.next(false);
     this.userRole.next(null);
+    this.router.navigate(['/login']);
   }
 
   isSuperAdmin() {
     return this.getRole() === 'SuperAdmin';
   }
+
 }

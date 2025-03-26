@@ -26,20 +26,20 @@ export class LoginPage {
   ) {}
 
   async login() {
+
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
 
         this.authService.setToken(res.token, res.role);
-
         const toast = await this.toastController.create({
           message: 'Giriş başarılı',
           duration: 1500,
           color: 'success',
         });
         toast.present();
-
+        console.log(this.authService.getRole());
         if (res.role === 'SuperAdmin') {
-          this.navCtrl.navigateRoot('/super-admin');
+          this.navCtrl.navigateRoot('/superAdmin');
         } else {
           this.navCtrl.navigateRoot('/tabs');
         }

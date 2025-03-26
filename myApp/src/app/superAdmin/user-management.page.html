@@ -1,17 +1,49 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Kullanıcı Yönetimi</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-button (click)="createUser()">Yeni Kullanıcı Oluştur</ion-button>
-  
-    <ion-list>
-      <ion-item *ngFor="let user of users">
-        {{ user.username }} - Rol: {{ user.role }}
-        <ion-button fill="clear" slot="end" (click)="changeRole(user)">Rol Değiştir</ion-button>
+  <ion-toolbar>
+    <ion-title>Admin Paneli</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Kullanıcı Ekleme Formu -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Yeni Kullanıcı Ekle</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input [(ngModel)]="newUser.name" placeholder="Ad Soyad"></ion-input>
       </ion-item>
-    </ion-list>
-  </ion-content>
-  
+      <ion-item>
+        <ion-input [(ngModel)]="newUser.email" placeholder="E-posta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select [(ngModel)]="newUser.role" placeholder="Rol Seç">
+          <ion-select-option value="admin">Admin</ion-select-option>
+          <ion-select-option value="user">Kullanıcı</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button expand="full" (click)="addUser()">Ekle</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Kullanıcı Listesi -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Kullanıcılar</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let user of users">
+          <ion-label>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.email }} - {{ user.role }}</p>
+          </ion-label>
+          <ion-button color="danger" (click)="deleteUser(user.id)">
+            Sil
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

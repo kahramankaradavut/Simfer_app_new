@@ -3,12 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
-  {
-    path: 'admin',
-    canActivate: [AuthGuard],
-    loadComponent: () => import('./superAdmin/user-management.page').then(m => m.UserManagementPage)
-  }
-  
 ];
 
 @NgModule({
