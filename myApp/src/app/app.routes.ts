@@ -18,6 +18,7 @@ export const routes: Routes = [
   },
   {
     path: 'superAdmin',
-    loadComponent: () => import('./superAdmin/user-management.page').then(m => m.UserManagementPage)
+    canActivate: [authGuard],
+    loadChildren: () => import('./superAdmin/superAdmin.routes').then(m => m.routes)
   }
 ];

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 
+
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.page.html',
@@ -14,9 +15,10 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class UserManagementPage {
   users: any[] = [];
-  newUser = { username: '', password: '', role: '' }; // Yeni kullanıcı için geçici nesne
+  newUser = { username: '', passwordHash: '', role: '' }; // Yeni kullanıcı için geçici nesne
   isEditModalOpen = false;
-  selectedUser = { id: 0, username: '', password: '', role: '' };
+  // selectedUser = { id: 0, username: '', passwordHash: '', role: '' };
+  selectedUser: any = {};
 
   constructor(
     private userService: UserService,
@@ -56,7 +58,7 @@ export class UserManagementPage {
   }
 
   async addUser() {
-    if (!this.newUser.username || !this.newUser.password || !this.newUser.role) {
+    if (!this.newUser.username || !this.newUser.passwordHash || !this.newUser.role) {
       const toast = await this.toastController.create({ message: 'Lütfen tüm alanları doldurun!', color: 'warning', duration: 2000 });
       await toast.present();
       return;
@@ -67,7 +69,7 @@ export class UserManagementPage {
 
     this.userService.addUser(this.newUser).subscribe({
       next: async () => {
-        this.newUser = { username: '', password: '', role: '' }; // Formu sıfırla
+        this.newUser = { username: '', passwordHash: '', role: '' }; // Formu sıfırla
         await this.loadUsers(); // Kullanıcı listesini güncelle
         const toast = await this.toastController.create({ message: 'Kullanıcı eklendi!', color: 'success', duration: 2000 });
         await toast.present();
@@ -115,38 +117,54 @@ export class UserManagementPage {
     await alert.present();
   }
 
-  openEditUser(user: any) {
-    console.log('Düzenleme için açılan kullanıcı:', user);
-    this.selectedUser = { ...user };
+  openEditModal(user: any) {
+    this.selectedUser = { ...user }; // Kullanıcıyı kopyalayarak seç
     this.isEditModalOpen = true;
   }
 
   closeEditModal() {
     this.isEditModalOpen = false;
   }
-
-  updateUser() {
-    this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
-      next: async () => {
-        this.loadUsers();
-        this.closeEditModal();
-        const toast = await this.toastController.create({
-          message: 'Kullanıcı başarıyla güncellendi!',
-          duration: 1500,
-          color: 'success'
-        });
-        toast.present();
-      },
-      error: async (err) => {
-        console.error('Güncelleme hatası:', err);
-        const toast = await this.toastController.create({
-          message: 'Güncelleme başarısız: ' + (err.message || 'Bilinmeyen hata'),
-          duration: 3000,
-          color: 'danger'
-        });
-        toast.present();
-      }
-    });
+  editUser(user: any) {
+    this.selectedUser = { ...user };
+    this.selectedUser.passwordHash = ''; 
+    this.isEditModalOpen = true;
+  }
+  
+  
+  async updateUser() {
+    const loading = await this.loadingCtrl.create({ message: 'Güncelleniyor...' });
+    await loading.present();
+  
+    try {
+      
+      this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
+        next: async () => {
+          this.isEditModalOpen = false;
+          await this.loadUsers();
+          const toast = await this.toastController.create({
+            message: 'Kullanıcı güncellendi!',
+            duration: 2000,
+            color: 'success'
+          });
+          await toast.present();
+        },
+        
+        complete: () => loading.dismiss()
+      });
+    } catch (error) {
+      console.error('Güncelleme hatası:', error);
+          const toast = await this.toastController.create({
+            message: 'Güncelleme başarısız: ',
+            duration: 3000,
+            color: 'danger'
+          });
+          await toast.present();
+    } finally {
+      await loading.dismiss();
+      this.closeEditModal();
+      this.ionViewWillEnter();
+    }
   }
 
   async logout() {

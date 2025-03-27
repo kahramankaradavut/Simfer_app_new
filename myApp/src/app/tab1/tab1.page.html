@@ -58,16 +58,16 @@
     </div>
   </ion-accordion>
 </ion-accordion-group>
-      <div class="photo-popup" *ngIf="selectedPhoto" (click)="closePhoto()">
-        <img [src]="selectedPhoto" class="popup-image"/>
-      </div>
+      
   
       <!-- <pre>{{ jsonData }}</pre>  -->
       <!-- Fotoğraf çekme butonu -->    
   
     </form>
   </ion-card>
-  
+  <div class="photo-popup" *ngIf="selectedPhoto" (click)="closePhoto()">
+    <img [src]="selectedPhoto" class="popup-image"/>
+  </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
   <ion-fab-button class="take-photo" (click)="addPhoto()">

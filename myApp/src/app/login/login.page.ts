@@ -45,8 +45,6 @@ export class LoginPage {
         }
       },
       error: async (res) => {
-        console.log('ASDASD');
-        console.log('RES:: ',res);
         const toast = await this.toastController.create({
           message: 'Giriş başarısız!',
           duration: 2000,
