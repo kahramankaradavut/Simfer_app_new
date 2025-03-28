@@ -4,15 +4,18 @@ import { NavController, ToastController } from '@ionic/angular';
 import { IonHeader, IonToolbar, IonContent, IonCardContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
   IonButtons, IonTitle, IonLabel} from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common'; 
+import { IonicModule } from '@ionic/angular';
 
 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+  standalone: true,
   imports: [
-    IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonCardContent, FormsModule, IonTitle, IonLabel
+  IonicModule, CommonModule, FormsModule
   ]
 })
 export class LoginPage {
