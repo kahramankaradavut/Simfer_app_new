@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-  private apiUrl = 'http://localhost:5113/api/Users';
+  private apiUrl = 'http://172.16.60.109:5113/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
 

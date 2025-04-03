@@ -31,6 +31,8 @@
 	<string>Your message to the user explaining why the app needs access to the photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSAppTransportSecurity</key>
+	<key>NSAllowsArbitraryLoads</key>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

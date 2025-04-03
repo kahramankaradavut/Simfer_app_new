@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: UserManagementPage,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'superAdmin',

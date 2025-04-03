@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: TabsPage,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     children: [
       {
         path: 'tab1',

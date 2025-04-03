@@ -6,7 +6,7 @@ import { photoData } from '../tab1/photoData';
 
 @Injectable({ providedIn: 'root' })
 export class FormService {
-  private apiUrl = 'http://localhost:5113/api/Forms'; 
+  private apiUrl = 'http://172.16.60.109:5113/api/Forms'; 
 
   constructor(private http: HttpClient) {}
 
