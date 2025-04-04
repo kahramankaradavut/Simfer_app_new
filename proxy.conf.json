@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "https://api2.sersim.com.tr",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }

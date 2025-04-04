@@ -20,7 +20,7 @@ const config: CapacitorConfig = {
   },
   server: {
     cleartext: true,
-    allowNavigation: ['http://172.16.60.109:5113/api/Users.com']
+    allowNavigation: ['https://api2.sersim.com.tr/api/Users.com']
   }
 };
 
