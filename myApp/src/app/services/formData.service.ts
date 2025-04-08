@@ -3,10 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { formData } from '../tab1/formData';
 import { photoData } from '../tab1/photoData';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Browser } from '@capacitor/browser';
+
 
 @Injectable({ providedIn: 'root' })
 export class FormService {
-  private apiUrl = 'https://localhost:5113/api/Forms'; 
+  private apiUrl = 'https://api2.sersim.com.tr/api/Forms'; 
 
   constructor(private http: HttpClient) {}
 
@@ -48,15 +51,28 @@ export class FormService {
   }  
   
   downloadExcel() {
-    this.http.get('http://localhost:5113/api/Forms/export', { responseType: 'blob' })
-      .subscribe((response: Blob) => {
-        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'FormVerileri.xlsx';
-        link.click();
-      });
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+  
+    this.http.get('https://api2.sersim.com.tr/api/Forms/export', {
+      headers,
+      responseType: 'blob'  // Dosya olarak almak için 'blob' kullanıyoruz
+    }).subscribe((res: Blob) => {
+      const url = window.URL.createObjectURL(res);  // Blob'dan URL oluştur
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'FormVerileri.xlsx';  // Dosya adı
+      link.click();  // Otomatik olarak indirilmesini sağla
+      window.URL.revokeObjectURL(url);  // URL'yi serbest bırak
+    }, (error) => {
+      console.error('Download error:', error);
+    });
   }
+  
+  
+  
 
   clearData(): Observable<any> {
     const token = localStorage.getItem('token');

@@ -12,13 +12,11 @@
   <ion-card>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Kullanıcı Adı</ion-label>
-        <ion-input [(ngModel)]="username"></ion-input>
+        <ion-input [(ngModel)]="username" label="Kullanıcı Adı" label-placement="floating"></ion-input>
       </ion-item>
     
       <ion-item>
-        <ion-label position="floating">Şifre</ion-label>
-        <ion-input [(ngModel)]="password" type="password"></ion-input>
+        <ion-input [(ngModel)]="password" type="password" label="Şifre" label-placement="floating"></ion-input>
       </ion-item>
     
       <ion-button expand="block" (click)="login()" class="login-button">Giriş Yap</ion-button>

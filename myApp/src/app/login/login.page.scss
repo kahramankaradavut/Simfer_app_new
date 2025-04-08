@@ -8,10 +8,7 @@ ion-content {
 .custom-toolbar {
   padding-bottom: 2%;
   --background: linear-gradient(to right, #3b82f6, #6366f1);
-  --ion-color-light: #ffffff;
-  color: white;
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.1);
-  position: relative;
 }
 
 /* Ortalanmış Logo */
@@ -27,7 +24,7 @@ ion-content {
 }
 
 .logo {
-  width:120px;
+  width: 40%;
   height: auto;
   // border-radius: 50%;
   // box-shadow: 0 2px 9px rgba(255, 255, 255, 0.3);

@@ -32,9 +32,10 @@ selectedPhoto: string | null = null;
   async ionViewWillEnter() {
 
     const loading = await this.loadingCtrl.create({
-      message: 'Veriler gönderiliyor...',
+      message: 'Veriler getiriliyor...',
       spinner: 'crescent'
       });
+      await loading.present();
 
   try {
     this.formService.getForms().subscribe((data) => {
@@ -67,24 +68,32 @@ selectedPhoto: string | null = null;
     this.selectedPhoto = null;
   }
 
-  downloadExcel() {
-    const loading = this.loadingCtrl.create({
-      message: 'Excel indiriliyor...',
-      spinner: 'circles'
-    });
-    loading.then(loadingInstance => {
-      loadingInstance.present();
+  async downloadExcel() {
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Veriler indiriliyor...',
+      spinner: 'crescent'
+      });
+      await loading.present();
+    try {
       this.formService.downloadExcel();
-      loadingInstance.dismiss();
-      const toast = this.toastController.create({
-        message: 'Excel başarıyla indirildi.',
+      const toast = await this.toastController.create({
+        message: 'Veriler başarıyla indirildi!',
         duration: 1500,
         color: 'success'
+        });
+        toast.present();
+    } catch (error) {
+      console.error('Veriler indirilemedi:', error);
+      const toast = await this.toastController.create({
+      message: 'Yetkiniz yok!',
+      duration: 2000,
+      color: 'danger'
       });
-      toast.then(toastInstance => {
-        toastInstance.present();
-      });
-    });
+      toast.present();
+    } finally {
+      await loading.dismiss();
+    }
   }
   
 
