@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -23,18 +22,17 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Your message to the user explaining why the app needs camera access</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>App needs access to your photo library to save photos.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to the user explaining why the app needs access to the photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>NSAppTransportSecurity</key>
-	<key>NSAllowsArbitraryLoads</key>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Bu uygulama, fotoğraf çekmek için kameranızı kullanır.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Bu uygulama, fotoğraflarınıza erişmek için izin ister.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Bu uygulama, çektiğiniz fotoğrafları kaydedebilmek için galeriye erişmek ister.</string>
+
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

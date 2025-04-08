@@ -29,6 +29,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class Tab1Page {
   formData: formData = {
+    id: 0,
     code: '',
     type: '',
     name: '',
@@ -79,6 +80,7 @@ filePath: p.webviewPath ? p.webviewPath : 'default-path',
           this.photoService.clearPhotos();
 
           this.formData = {
+            id: 0,
             code: '',
             type: '',
             name: '',

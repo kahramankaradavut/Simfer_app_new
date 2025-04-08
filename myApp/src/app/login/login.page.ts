@@ -33,13 +33,16 @@ export class LoginPage {
   async login() {
     this.isLoading = true; // Yükleme başlıyor
     this.message = 'Giriş yapılıyor, lütfen bekleyin...';
+    console.log('Giriş yapılıyor...');
 
-    const loading = await this.loadingCtrl.create({
-      message: 'Giriş yapılıyor...',
-      spinner: 'crescent', // Dönebilen spinner
-    });
+    // const loading = await this.loadingCtrl.create({
+    // message: 'Giriş yapılıyor...',
+    // spinner: 'crescent', // Dönebilen spinner
+    // });
 
-    await loading.present();
+    // await loading.present();
+    console.log('Giriş yapılıyor...');
+
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
         this.authService.setToken(res.token, res.role);
@@ -47,7 +50,9 @@ export class LoginPage {
         this.isLoading = false;
         this.message = ''; // Mesajı kaldır
         
-        await loading.dismiss();
+        // await loading.dismiss();
+        console.log('Giriş başarılı:', res);
+        console.log('Kullanıcı rolü:', res.role);
         
         if (res.role === 'SuperAdmin') {
           try {
@@ -60,14 +65,13 @@ export class LoginPage {
           console.log('Kullanıcı');
           this.navCtrl.navigateRoot('/tabs');
         }
-        
-        
+
       },
       error: async (res) => {
         console.log('Giriş hatası:', res);
         this.message = 'Giriş başarısız, lütfen tekrar deneyin.';
         this.isLoading = false;
-        await loading.dismiss();
+        // await loading.dismiss();
       },
     });
   }

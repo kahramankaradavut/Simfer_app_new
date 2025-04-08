@@ -4,8 +4,8 @@
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
     </div>
     <ion-buttons slot="start">
-      <ion-button (click)="clearDatabase()" fill="outline" color="light">
-        Verileri Sil
+      <ion-button (click)="downloadExcel()" fill="outline" color="light">
+        Verileri İndir
       </ion-button>
     </ion-buttons> 
   </ion-toolbar>
@@ -60,6 +60,9 @@
             </div>
           </ion-accordion>
         </ion-accordion-group>
+        <ion-button color="danger" fill="outline" expand="block" (click)="deleteForm(form.id)">
+          Formu Sil
+        </ion-button>        
       </ion-card-content>
     </ion-card>
   </ng-container>

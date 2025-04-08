@@ -67,15 +67,88 @@ selectedPhoto: string | null = null;
     this.selectedPhoto = null;
   }
 
-  clearDatabase() {
+  downloadExcel() {
+    const loading = this.loadingCtrl.create({
+      message: 'Excel indiriliyor...',
+      spinner: 'circles'
+    });
+    loading.then(loadingInstance => {
+      loadingInstance.present();
+      this.formService.downloadExcel();
+      loadingInstance.dismiss();
+      const toast = this.toastController.create({
+        message: 'Excel başarıyla indirildi.',
+        duration: 1500,
+        color: 'success'
+      });
+      toast.then(toastInstance => {
+        toastInstance.present();
+      });
+    });
+  }
+  
+
+  async deleteForm(id: number) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Siliniyor...',
+      spinner: 'circles'
+    });
+    await loading.present();
+  
+    this.formService.deleteForm(id).subscribe({
+      next: async () => {
+        this.forms = this.forms.filter(f => f.id !== id); // UI'dan da kaldır
+        await loading.dismiss();
+  
+        const toast = await this.toastController.create({
+          message: 'Form başarıyla silindi.',
+          duration: 1500,
+          color: 'success'
+        });
+        toast.present();
+      },
+      error: async (err) => {
+        await loading.dismiss();
+  
+        const toast = await this.toastController.create({
+          message: 'Yetkiniz yok!',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
+      }
+    });
+  }
+  
+
+  async clearDatabase() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Siliniyor...',
+      spinner: 'circles'
+    });
+    await loading.present();
+
     this.formService.clearData().subscribe({
-      next: () => {
-        console.log('Veritabanı temizlendi');
+      next: async () => {
+        await loading.dismiss();
+        const toast = await this.toastController.create({
+          message: 'Form başarıyla silindi.',
+          duration: 1500,
+          color: 'success'
+        });
+        toast.present();
         // Opsiyonel: Kullanıcıya başarı mesajı gösterebilirsiniz
       },
-      error: (err) => {
+      error: async (err) => {
         console.error('Veritabanı temizlenemedi:', err);
-        // Opsiyonel: Kullanıcıya hata mesajı gösterebilirsiniz
+        await loading.dismiss();
+  
+        const toast = await this.toastController.create({
+          message: 'Yetkiniz yok!',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
       }
     });
   }

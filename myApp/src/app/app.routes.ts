@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './auth.guard';
+import { AuthGuard } from './auth/auth.guard';
 import { UserManagementPage } from './superAdmin/user-management.page';
 
 export const routes: Routes = [
@@ -10,12 +10,12 @@ export const routes: Routes = [
   },
   {
     path: 'tabs',
-    // canActivate: [authGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./tabs/tabs.routes').then(m => m.routes)
   },
   {
     path: 'superAdmin',
-    // canActivate: [authGuard],
+    canActivate: [AuthGuard],
      loadChildren: () => import('./superAdmin/superAdmin.routes').then(m => m.routes)
    // loadComponent: () => import('./superAdmin/user-management.page').then(m => m.UserManagementPage),
 

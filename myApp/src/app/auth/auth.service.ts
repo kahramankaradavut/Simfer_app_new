@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-  private apiUrl = 'https://api2.sersim.com.tr/api/Users';
+  private apiUrl = 'https://localhost:5113/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
 
@@ -18,7 +18,13 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(credentials: { username: string; password: string }) {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials);
+    try {
+      return this.http.post<any>(`${this.apiUrl}/login`, credentials);
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error; // Hata fırlat
+      
+    }
   }
 
   isAuthenticated(): boolean {
