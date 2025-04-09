@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { formData } from '../tab1/formData';
 import { photoData } from '../tab1/photoData';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
-import { Browser } from '@capacitor/browser';
 
 
 @Injectable({ providedIn: 'root' })
@@ -58,18 +56,25 @@ export class FormService {
   
     this.http.get('https://api2.sersim.com.tr/api/Forms/export', {
       headers,
-      responseType: 'blob'  // Dosya olarak almak için 'blob' kullanıyoruz
-    }).subscribe((res: Blob) => {
-      const url = window.URL.createObjectURL(res);  // Blob'dan URL oluştur
+      observe: 'response',
+      responseType: 'blob' as 'json'
+    }).subscribe(response => {
+      // Header'dan filename al
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
+  
+      // Dosya indir
+      const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
       const link = document.createElement('a');
-      link.href = url;
-      link.download = 'FormVerileri.xlsx';  // Dosya adı
-      link.click();  // Otomatik olarak indirilmesini sağla
-      window.URL.revokeObjectURL(url);  // URL'yi serbest bırak
-    }, (error) => {
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+    }, error => {
       console.error('Download error:', error);
     });
   }
+  
   
   
   

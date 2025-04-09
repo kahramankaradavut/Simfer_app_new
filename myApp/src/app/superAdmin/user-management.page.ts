@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
-import { IonSelect } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
-
-
 
 
 @Component({
@@ -15,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-management.page.html',
   styleUrls: ['./user-management.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, IonSelect]
+  imports: [CommonModule, FormsModule, IonicModule]
 })
 export class UserManagementPage {
   users: any[] = [];
@@ -27,35 +24,41 @@ export class UserManagementPage {
   constructor(
     private userService: UserService,
     private alertCtrl: AlertController,
-    //private loadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private authService: AuthService,
     private router: Router
   ) {}
 
   async ionViewWillEnter() {
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Kullanıcılar yükleniyor...',
-    //   spinner: 'crescent'
-    //   });    
-    //   await loading.present();
-    try {
-      this.loadUsers();
-      //const toast = await this.toastController.create({ message: 'Kullanıcılar başarıyla yüklendi!', duration: 1500, color: 'success' });
-      //await toast.present();
-    } catch (error) {
-      console.error('Kullanıcıları getirme hatası:', error);
-      //const toast = await this.toastController.create({ message: 'Kullanıcıları yüklerken hata oluştu!', color: 'danger', duration: 2000 });
-      //await toast.present();
-    } finally {
-      // await loading.dismiss();
-    }
-  }
 
-  loadUsers() {
-    this.userService.getUsers().subscribe((data) => {
-      this.users = data;
-    });
+    const loading = await this.loadingCtrl.create({
+      message: 'Veriler getiriliyor...',
+      spinner: 'crescent'
+      });
+      await loading.present();
+    try {
+      this.userService.getUsers().subscribe((data) => {
+        this.users = data;
+      });
+ 
+      const toast = await this.toastController.create({
+        message: 'Veri başarıyla getirildi!',
+        duration: 1500,
+        color: 'success'
+        });
+        toast.present();
+    } catch (error) {
+      console.error('Veriler alınamadı:', error);
+      const toast = await this.toastController.create({
+        message: 'Veri getirme hatası: ' + ((error as any).message || 'Bilinmeyen hata'),
+        duration: 3000,
+        color: 'danger'
+        });
+        toast.present();   
+      } finally {
+        await loading.dismiss();
+    }
   }
 
 
@@ -65,34 +68,27 @@ export class UserManagementPage {
       await toast.present();
       return;
     }
+    const loading = await this.loadingCtrl.create({ 
+      message: 'Kullanıcı ekleniyor...',
+      spinner: 'crescent'
+     });
+    await loading.present();
 
-    try {
-      // const loading = await this.loadingCtrl.create({ 
-      //   message: 'Kullanıcı ekleniyor...',
-      //   spinner: 'crescent'
-      //  });
-      // await loading.present();
-      this.userService.addUser(this.newUser).subscribe({
-        next: async () => {
-          this.newUser = { username: '', passwordHash: '', role: '' }; // Formu sıfırla
-          const toast = await this.toastController.create({ message: 'Kullanıcı eklendi!', color: 'success', duration: 2000 });
-          this.loadUsers(); // Kullanıcıları yenile
-          await toast.present();
-        },
-        error: async () => {
-          
-        },
-        // complete: () => loading.dismiss()
-      });
-
-    } catch (error) {
-      console.error('Kullanıcı ekleme hatası:', error);
-      const toast = await this.toastController.create({ message: 'Kullanıcı eklenirken hata oluştu!', color: 'danger', duration: 2000 });
-      await toast.present();
-    } finally {
-      // await loading.dismiss();
-    }
-
+    this.userService.addUser(this.newUser).subscribe({
+      next: async () => {
+        this.newUser = { username: '', passwordHash: '', role: '' }; // Formu sıfırla
+        const toast = await this.toastController.create({ message: 'Kullanıcı eklendi!', color: 'success', duration: 2000 });
+        toast.present();
+        loading.dismiss();
+        this.ionViewWillEnter(); // Kullanıcı listesini güncelle
+      },
+      error: async (error) => {
+        await loading.dismiss();
+        console.error('Kullanıcı ekleme hatası:', error);
+        const toast = await this.toastController.create({ message: 'Kullanıcı eklenirken hata oluştu!', color: 'danger', duration: 2000 });
+        toast.present();
+      },
+    });
   }
 
   async deleteUser(userId: number) {
@@ -104,34 +100,38 @@ export class UserManagementPage {
         {
           text: 'Sil',
           handler: async () => {
-            // const loading = await this.loadingCtrl.create({ 
-            //   message: 'Kullanıcı siliniyor...',
-            //   spinner: 'crescent'
-            //  });
-            // await loading.present();
-
-            try {
-              this.userService.deleteUser(userId).subscribe({
-                next: async () => {
-                  const toast = await this.toastController.create({ message: 'Kullanıcı silindi!', color: 'success', duration: 2000 });
-                  this.loadUsers(); // Kullanıcıları yenile
-                  await toast.present();
-                },
-              });
-            } catch (error) {
-                const toast = await this.toastController.create({ message: 'Kullanıcı silinirken hata oluştu!', color: 'danger', duration: 2000 });
+            const loading = await this.loadingCtrl.create({ 
+              message: 'Kullanıcı siliniyor...',
+              spinner: 'crescent'
+            });
+            await loading.present();
+  
+            this.userService.deleteUser(userId).subscribe({
+              next: async () => {
+                await loading.dismiss();
+                const toast = await this.toastController.create({
+                  message: 'Kullanıcı silindi!',
+                  color: 'success',
+                  duration: 2000
+                });
                 await toast.present();
-            } finally {
-              // await loading.dismiss();
-            }
+              },
+              error: async (err) => {
+                await loading.dismiss();
+                this.ionViewWillEnter(); // Listeyi güncelle
 
+                console.error('Delete error:', err);
+              }
+            });
           }
         }
       ]
     });
-
+  
     await alert.present();
+
   }
+  
 
   openEditModal(user: any) {
     this.selectedUser = { ...user }; // Kullanıcıyı kopyalayarak seç
@@ -149,40 +149,26 @@ export class UserManagementPage {
   
   
   async updateUser() {
-    // const loading = await this.loadingCtrl.create({ 
-    //   message: 'Güncelleniyor...',
-    //   spinner: 'crescent'
-    //  });
-    // await loading.present();
-  
-    try {
+    const loading = await this.loadingCtrl.create({ 
+      message: 'Güncelleniyor...',
+      spinner: 'crescent'
+     });
+    await loading.present();
       
       this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
         next: async () => {
           this.isEditModalOpen = false;
-          const toast = await this.toastController.create({
-            message: 'Kullanıcı güncellendi!',
-            duration: 2000,
-            color: 'success'
-          });
-          this.loadUsers(); // Kullanıcıları yenile
-          await toast.present();
+          const toast = await this.toastController.create({message: 'Kullanıcı güncellendi!',duration: 2000,color: 'success'});
+          toast.present();
+          loading.dismiss();
         },
-        
-        // complete: () => loading.dismiss()
+        error: async (error) => {
+          await loading.dismiss();
+          this.ionViewWillEnter(); // Kullanıcı listesini güncelle
+          console.error('Kullanıcı güncelleme hatası:', error);
+        }
       });
-    } catch (error) {
-      console.error('Güncelleme hatası:', error);
-          const toast = await this.toastController.create({
-            message: 'Güncelleme başarısız: ',
-            duration: 3000,
-            color: 'danger'
-          });
-          await toast.present();
-    } finally {
-      // await loading.dismiss();
       this.closeEditModal();
-    }
   }
 
   async logout() {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormService } from '../services/formData.service';
 import { formData } from '../tab1/formData';
+import { lastValueFrom } from 'rxjs';
 import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
@@ -104,29 +105,28 @@ selectedPhoto: string | null = null;
     });
     await loading.present();
   
-    this.formService.deleteForm(id).subscribe({
-      next: async () => {
-        this.forms = this.forms.filter(f => f.id !== id); // UI'dan da kaldır
-        await loading.dismiss();
+    try {
+      await lastValueFrom(this.formService.deleteForm(id));
+      this.forms = this.forms.filter(f => f.id !== id); // UI'dan kaldır
+      await loading.dismiss();
   
-        const toast = await this.toastController.create({
-          message: 'Form başarıyla silindi.',
-          duration: 1500,
-          color: 'success'
-        });
-        toast.present();
-      },
-      error: async (err) => {
-        await loading.dismiss();
+      const toast = await this.toastController.create({
+        message: 'Form başarıyla silindi.',
+        duration: 1500,
+        color: 'success'
+      });
+      toast.present();
   
-        const toast = await this.toastController.create({
-          message: 'Yetkiniz yok!',
-          duration: 2000,
-          color: 'danger'
-        });
-        toast.present();
-      }
-    });
+    } catch (err) {
+      await loading.dismiss();
+      console.error('Form silinemedi:', err);
+      const toast = await this.toastController.create({
+        message: 'Yetkiniz yok!',
+        duration: 2000,
+        color: 'danger'
+      });
+      toast.present();
+    }
   }
   
 
