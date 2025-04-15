@@ -111,7 +111,6 @@ filePath: p.webviewPath ? p.webviewPath : 'default-path',
 
   }
   
-
     // Fotoğrafı büyütme
     openPhoto(photo: string) {
       this.selectedPhoto = photo;

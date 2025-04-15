@@ -1,6 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-import { AuthGuard } from '../auth/auth.guard';
 import { NgModule } from '@angular/core';
 
 export const routes: Routes = [

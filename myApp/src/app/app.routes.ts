@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { UserManagementPage } from './superAdmin/user-management.page';
 
 export const routes: Routes = [
   
