@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { IonSelect } from '@ionic/angular/standalone';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './user-management.page.html',
   styleUrls: ['./user-management.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, IonSelect]
 })
 export class UserManagementPage {
   users: any[] = [];

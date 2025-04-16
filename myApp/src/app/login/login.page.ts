@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-login',
