@@ -24,6 +24,9 @@
     <form (ngSubmit)="submit()">
       <ion-item class="form-item">
         <ion-input [(ngModel)]="formData.code" name="kod" label="Ürün Kodu" label-placement="floating" placeholder="Kodu giriniz"></ion-input>
+        <ion-button slot="end" (click)="scanBarcode()">
+          <ion-icon name="camera-outline"></ion-icon>
+        </ion-button>
       </ion-item>
   
       <ion-item class="form-item">

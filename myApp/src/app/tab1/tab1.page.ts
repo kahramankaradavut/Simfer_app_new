@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
-import { add, camera, sendOutline } from 'ionicons/icons';
+import { add, camera, sendOutline, cameraOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
   IonButtons, IonFab, IonFabButton, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController } from '@ionic/angular/standalone';
@@ -10,6 +10,9 @@ import { PhotoService } from '../services/photo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormService } from '../services/formData.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
+import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
+
 
 
 @Component({
@@ -46,8 +49,47 @@ export class Tab1Page {
     private toastController: ToastController,     
     private authService: AuthService,
   ) {
-    addIcons({ add, camera, sendOutline });
+    addIcons({ add, camera, sendOutline, cameraOutline });
   }
+
+  async scanBarcode() {
+    try {
+      const scanOptions = {
+        hint: CapacitorBarcodeScannerTypeHint.ALL,
+        scanInstructions: 'Lütfen barkodu kameraya getirin',
+        scanButton: true,
+        scanText: 'Barkod Tara',
+      };
+  
+      const result = await CapacitorBarcodeScanner.scanBarcode(scanOptions);
+  
+      if (result && result.ScanResult) {
+        this.formData.code = result.ScanResult;
+        const toast = await this.toastController.create({
+          message: 'Barkod başarıyla tarandı!',
+          duration: 1500,
+          color: 'success',
+        });
+        toast.present();
+      } else {
+        const toast = await this.toastController.create({
+          message: 'Barkod taranamadı!',
+          duration: 2000,
+          color: 'warning',
+        });
+        toast.present();
+      }
+    } catch (error) {
+      console.error("Barkod tarama hatası:", error);
+      const toast = await this.toastController.create({
+        message: 'Barkod tarama hatası: ' + ((error as any).message || 'Bilinmeyen hata'),
+        duration: 3000,
+        color: 'danger',
+      });
+      toast.present();
+    }
+  }
+  
 
 
   async addPhoto() {
