@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
-import { add, camera, sendOutline, scanCircleOutline } from 'ionicons/icons';
+import { add, camera, sendOutline, logOutOutline, scanCircleOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
   IonButtons, IonFab, IonFabButton, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController } from '@ionic/angular/standalone';
@@ -49,7 +49,7 @@ export class Tab1Page {
     private toastController: ToastController,     
     private authService: AuthService,
   ) {
-    addIcons({ add, camera, sendOutline, scanCircleOutline });
+    addIcons({ add, camera, logOutOutline, sendOutline, scanCircleOutline });
   }
 
   async scanBarcode() {

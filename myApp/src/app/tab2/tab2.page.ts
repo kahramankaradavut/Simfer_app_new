@@ -7,9 +7,10 @@ import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
   IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons,
-  LoadingController, ToastController
+  LoadingController, ToastController, IonIcon
 } from '@ionic/angular/standalone';
-
+import { downloadOutline } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-tab2',
@@ -19,7 +20,7 @@ import {
   imports: [
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons
+    CommonModule, IonImg, IonIcon, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons
   ]
 })
 
@@ -28,7 +29,10 @@ export class Tab2Page {
 selectedPhoto: string | null = null;
 
   forms: formData[] = [];
-  constructor(private formService: FormService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
+  constructor(private formService: FormService, private loadingCtrl: LoadingController, private toastController: ToastController) {
+    addIcons({ downloadOutline });
+
+  }
 
   async ionViewWillEnter() {
 

@@ -4,12 +4,14 @@
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
     </div>
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" fill="outline" color="light">
-        Çıkış Yap
-      </ion-button> 
+      <ion-button (click)="logout()" fill="outline">
+        <ion-icon name="log-out-outline"></ion-icon>
+        Çıkış
+      </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="submit()" fill="outline" color="light">
+      <ion-button (click)="submit()" fill="outline">
+        <ion-icon slot="end" name="send-outline"></ion-icon>
         Gönder
       </ion-button>
     </ion-buttons>
@@ -18,7 +20,7 @@
 </ion-header>
 
 <ion-content class="ion-padding content">
-  <h1 class="title">Hata Tespit Formu</h1>
+  <h1 class="title" color="warning">Hata Tespit Formu</h1>
 
   <ion-card>
     <form (ngSubmit)="submit()">
