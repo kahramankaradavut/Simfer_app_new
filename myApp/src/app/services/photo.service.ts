@@ -12,8 +12,8 @@ export class PhotoService {
 
   async takePhoto() {
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Camera,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Prompt,
       allowEditing: false,
       quality: 80
     });

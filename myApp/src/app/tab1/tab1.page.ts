@@ -96,7 +96,7 @@ export class Tab1Page {
     await this.photoService.takePhoto();
     const photos = this.photoService.getPhotos();
     this.formData.photos = photos.map(p => ({
-filePath: p.webviewPath ? p.webviewPath : 'default-path',
+    filePath: p.webviewPath ? p.webviewPath : 'default-path',
       fileName: p.webviewPath!.split('/').pop() || 'unknown'
     }));
   }
