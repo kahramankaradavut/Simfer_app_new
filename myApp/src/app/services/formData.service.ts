@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { formData } from '../tab1/formData';
 import { photoData } from '../tab1/photoData';
 
@@ -48,35 +49,32 @@ export class FormService {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }  
   
-  downloadExcel() {
+  downloadExcel(): Observable<Blob> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
   
-    this.http.get('https://api2.sersim.com.tr/api/Forms/export', {
+    return this.http.get('https://api2.sersim.com.tr/api/Forms/export', {
       headers,
       observe: 'response',
       responseType: 'blob' as 'json'
-    }).subscribe(response => {
-      // Header'dan filename al
-      const contentDisposition = response.headers.get('Content-Disposition');
-      const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
+    }).pipe(
+      // response'tan sadece blob kısmını alıyoruz
+      // ama response'la birlikte filename'e de ihtiyacın varsa,
+      // daha kapsamlı bir model döndürmek de mümkün
+      map(response => {
+        const contentDisposition = response.headers.get('Content-Disposition');
+        const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
   
-      // Dosya indir
-      const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.download = filename;
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-    }, error => {
-      console.error('Download error:', error);
-    });
+        const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
+  
+        // Optional: filename'i de birlikte döndürmek istersen şöyle dönebilirsin:
+        // return { blob, filename };
+        return blob;
+      })
+    );
   }
-  
-  
-  
   
 
   clearData(): Observable<any> {

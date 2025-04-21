@@ -74,32 +74,44 @@ selectedPhoto: string | null = null;
   }
 
   async downloadExcel() {
-
     const loading = await this.loadingCtrl.create({
       message: 'Veriler indiriliyor...',
       spinner: 'crescent'
-      });
-      await loading.present();
-    try {
-      this.formService.downloadExcel();
-      const toast = await this.toastController.create({
-        message: 'Veriler başarıyla indirildi!',
-        duration: 1500,
-        color: 'success'
+    });
+    await loading.present();
+  
+    this.formService.downloadExcel().subscribe({
+      next: async (blob) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'FormVerileri.xlsx';
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+  
+        const toast = await this.toastController.create({
+          message: 'Veriler başarıyla indirildi!',
+          duration: 1500,
+          color: 'success'
         });
         toast.present();
-    } catch (error) {
-      console.error('Veriler indirilemedi:', error);
-      const toast = await this.toastController.create({
-      message: 'Yetkiniz yok!',
-      duration: 2000,
-      color: 'danger'
-      });
-      toast.present();
-    } finally {
-      await loading.dismiss();
-    }
+      },
+      error: async (error) => {
+        console.error('Veriler indirilemedi:', error);
+        const toast = await this.toastController.create({
+          message: 'Yetkiniz yok!',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
+        await loading.dismiss(); 
+
+      },
+      complete: async () => {
+        await loading.dismiss();
+      }
+    });
   }
+  
   
 
   async deleteForm(id: number) {

@@ -3,7 +3,7 @@ import { addIcons } from 'ionicons';
 import { add, camera, sendOutline, logOutOutline, scanCircleOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController } from '@ionic/angular/standalone';
+  IonButtons, IonFab, IonFabButton, IonText, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController } from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { PhotoService } from '../services/photo.service';
@@ -12,7 +12,7 @@ import { FormService } from '../services/formData.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
 import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
-
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -24,11 +24,9 @@ import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
     FormsModule,
     HttpClientModule,
     IonHeader, IonToolbar, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor, IonAccordionGroup, IonAccordion, IonLabel
+    NgIf, NgFor, IonAccordionGroup, IonText, IonAccordion, IonLabel
   ],
-  // providers: [
-  //   PhotoService
-  // ]
+
 })
 export class Tab1Page {
   formData: formData = {
@@ -39,6 +37,19 @@ export class Tab1Page {
     productError: '',
     photos: []
   }
+  submitted = false;
+  isIOS = false;
+  isAndroid = false;
+
+
+  ionViewWillEnter() {
+    const username = this.authService.getUsername();
+    if (!username) {
+      this.authService.logout(); // Belki burada yönlendirme de yapılabilir
+    } else {
+      this.formData.name = username;
+    }
+  }
   selectedPhoto: string | null = null;
 
 
@@ -48,8 +59,11 @@ export class Tab1Page {
     private loadingCtrl: LoadingController, 
     private toastController: ToastController,     
     private authService: AuthService,
+    private platform: Platform
   ) {
     addIcons({ add, camera, logOutOutline, sendOutline, scanCircleOutline });
+    this.isIOS = platform.is('ios');
+    this.isAndroid = platform.is('android');
   }
 
   async scanBarcode() {
@@ -90,8 +104,6 @@ export class Tab1Page {
     }
   }
   
-
-
   async addPhoto() {
     await this.photoService.takePhoto();
     const photos = this.photoService.getPhotos();
@@ -102,6 +114,27 @@ export class Tab1Page {
   }
 
   async submit() {
+    this.submitted = true;
+
+    if (
+      !this.formData.code ||
+      !this.formData.type
+    ) {
+      return;
+    }
+
+    if (this.formData.photos.length === 0) {
+      const toast = await this.toastController.create({
+        message: 'Lütfen fotoğraf yükleyin!',
+        duration: 2000,
+        color: 'warning',
+      });
+      await toast.present();
+      return;
+    }
+    
+
+
     const loading = await this.loadingCtrl.create({
     message: 'Veriler gönderiliyor...',
     spinner: 'crescent'
@@ -129,6 +162,7 @@ export class Tab1Page {
             productError: '',
             photos: []
           };
+          this.submitted = false;
         },
       });
 

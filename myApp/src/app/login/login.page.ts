@@ -44,7 +44,7 @@ export class LoginPage {
 
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
-        this.authService.setToken(res.token, res.role);
+        this.authService.setToken(res.token, res.role, this.username);
 
         this.isLoading = false;
         this.message = ''; // Mesajı kaldır
@@ -62,8 +62,9 @@ export class LoginPage {
           }
         } else {
           console.log('Kullanıcı');
-          this.navCtrl.navigateRoot('/tabs');
-        }
+          this.router.navigateByUrl('/', { replaceUrl: true }).then(() => {
+            this.router.navigateByUrl('/tabs/tab1');
+          });        }
 
       },
       error: async (res) => {

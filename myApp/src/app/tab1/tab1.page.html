@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<ion-header mode="md" [translucent]="true">
   <ion-toolbar class="custom-toolbar">
     <div class="toolbar-logo">
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
@@ -25,29 +25,63 @@
   <ion-card>
     <form (ngSubmit)="submit()">
       <ion-item class="form-item">
-        <ion-input [(ngModel)]="formData.code" name="kod" label="Ürün Kodu" label-placement="floating" placeholder="Kodu giriniz"></ion-input>
+        <ion-input 
+        [(ngModel)]="formData.code" 
+        name="kod" 
+        #tur="ngModel"
+        required
+        label="Ürün Kodu *" 
+        label-placement="floating" 
+        placeholder="Kodu giriniz">
+      </ion-input>
+      <ion-text color="danger" *ngIf="submitted && tur.invalid">Ürün Kodu boş bırakılamaz.</ion-text>
         <ion-button slot="end" (click)="scanBarcode()">
           <ion-icon name="scan-circle-outline"></ion-icon>
         </ion-button>
       </ion-item>
   
       <ion-item class="form-item">
-        <ion-input [(ngModel)]="formData.type" name="tur" label="Ürün Türü" label-placement="floating" placeholder="Ürün türü giriniz"></ion-input>
+        <ion-input
+        [(ngModel)]="formData.type"
+        name="tur"
+        required
+        #tur="ngModel"
+        label='Ürün Türü'
+        label-placement="floating"
+        placeholder="Ürün türü giriniz">
+      </ion-input>
+      <ion-text color="danger" *ngIf="submitted && tur.invalid">Ürün Türü boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item class="form-item">
-        <ion-input [(ngModel)]="formData.name" name="name" label="Çalışan İsmi" label-placement="floating" placeholder="İsim giriniz"></ion-input>
+        <ion-input 
+        [(ngModel)]="formData.name"
+        name="name"
+        required
+        #tur="ngModel"
+        label="Çalışan İsmi *" 
+        label-placement="floating" 
+        placeholder="İsim giriniz"
+        readonly>
+      </ion-input>
+      <ion-text color="danger" *ngIf="submitted && tur.invalid">Çalışan İsmi boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item class="form-item">
-        <ion-textarea [(ngModel)]="formData.productError" name="productError" label="Hata Bilgisi" label-placement="floating" placeholder="Metin giriniz"></ion-textarea>
+        <ion-textarea 
+        [(ngModel)]="formData.productError" 
+        name="productError" 
+        label="Hata Bilgisi" 
+        label-placement="floating" 
+        placeholder="Metin giriniz">
+      </ion-textarea>
       </ion-item>
   
       <!-- Fotoları listele -->
 <ion-accordion-group>
   <ion-accordion value="photos">
     <ion-item slot="header">
-      <ion-label>Fotoğraflar:</ion-label>
+      <ion-label>Fotoğraflar: *</ion-label>
     </ion-item>
     <div class="ion-padding" slot="content">
       <ion-grid [fixed]="true" class="photo-grid">

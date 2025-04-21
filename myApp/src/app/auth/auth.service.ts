@@ -11,9 +11,12 @@ export class AuthService {
   private apiUrl = 'https://api2.sersim.com.tr/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
+  private usernameKey = 'username';
+  
 
   isLoggedIn = new BehaviorSubject<boolean>(false);
   userRole = new BehaviorSubject<string | null>(null);
+  userName = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -22,7 +25,7 @@ export class AuthService {
       return this.http.post<any>(`${this.apiUrl}/login`, credentials);
     } catch (error) {
       console.error('Login error:', error);
-      throw error; // Hata fırlat
+      throw error; 
       
     }
   }
@@ -32,11 +35,18 @@ export class AuthService {
     return !!token;
   }
 
-  setToken(token: string, role: string) {
+  setToken(token: string, role: string, username: string) {
     localStorage.setItem(this.tokenKey, token);
     localStorage.setItem(this.roleKey, role);
+    localStorage.setItem(this.usernameKey, username); 
     this.isLoggedIn.next(true);
     this.userRole.next(role);
+    this.userName.next(username);
+
+  }
+
+  getUsername(): string | null {
+    return localStorage.getItem(this.usernameKey);
   }
 
   getToken() {
@@ -50,8 +60,10 @@ export class AuthService {
   logout() {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.roleKey);
+    localStorage.removeItem(this.usernameKey);
     this.isLoggedIn.next(false);
     this.userRole.next(null);
+    this.userName.next(null);
     this.router.navigate(['/login']);
   }
 
