@@ -76,6 +76,32 @@
         placeholder="Metin giriniz">
       </ion-textarea>
       </ion-item>
+
+      <ion-item class="form-item">
+        <ion-input
+        [(ngModel)]="formData.band"
+        name="band"
+        required
+        #band="ngModel"
+        label='Bant Kodu'
+        label-placement="floating"
+        placeholder="Bant kodu giriniz">
+      </ion-input>
+      <ion-text color="danger" *ngIf="submitted && band.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+      </ion-item>
+
+      <ion-item class="form-item">
+        <ion-input
+        [(ngModel)]="formData.errorQuantity"
+        name="errorQuantity"
+        required
+        #errorQuantity="ngModel"
+        label='Hasar Miktarı'
+        label-placement="floating"
+        placeholder="Hasar miktarını giriniz">
+      </ion-input>
+      <ion-text color="danger" *ngIf="submitted && errorQuantity.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+      </ion-item>
   
       <!-- Fotoları listele -->
 <ion-accordion-group>

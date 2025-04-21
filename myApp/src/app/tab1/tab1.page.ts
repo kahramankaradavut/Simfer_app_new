@@ -35,6 +35,8 @@ export class Tab1Page {
     type: '',
     name: '',
     productError: '',
+    band: '',
+    errorQuantity: 0,
     photos: []
   }
   submitted = false;
@@ -160,6 +162,8 @@ export class Tab1Page {
             type: '',
             name: '',
             productError: '',
+            band: '',
+            errorQuantity: 0,
             photos: []
           };
           this.submitted = false;
