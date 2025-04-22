@@ -60,6 +60,9 @@ export class Tab1Page {
     } else {
       this.formData.name = username;
     }
+
+    this.errorCodeSelected();
+
   }
   selectedPhoto: string | null = null;
 
@@ -80,9 +83,6 @@ export class Tab1Page {
 
   async scanBarcode() {
     try {
-      this.errorCodeService.getErrorCodes().subscribe((data) => {
-        this.errorCodes = data;
-      });
       console.log('Error codes:', this.errorCodes);
       const scanOptions = {
         hint: CapacitorBarcodeScannerTypeHint.ALL,
@@ -148,9 +148,6 @@ export class Tab1Page {
       await toast.present();
       return;
     }
-    
-
-
     const loading = await this.loadingCtrl.create({
     message: 'Veriler gönderiliyor...',
     spinner: 'crescent'
@@ -167,21 +164,7 @@ export class Tab1Page {
       this.formService.submitForm(this.formData, photos).subscribe({
         next: () => {
           console.log('Form gönderildi');
-  
-          this.photoService.clearPhotos();
-
-          this.formData = {
-            id: 0,
-            code: '',
-            type: '',
-            name: '',
-            productError: '',
-            band: '',
-            quantity: 0,
-            errorCode: { id: 0, code: '', description: '' },
-            photos: []
-          };
-          this.submitted = false;
+          this.ionViewWillEnter();
         },
       });
 
@@ -226,6 +209,29 @@ export class Tab1Page {
         this.formData.errorCode.id = selected.id;
         this.formData.errorCode.description = selected.description;
       }
+    }
+
+    errorCodeSelected() {
+      this.errorCodeService.getErrorCodes().subscribe((data) => {
+        this.errorCodes = data;
+      });
+    }
+
+    clearPage() {
+      this.photoService.clearPhotos();
+
+          this.formData = {
+            id: 0,
+            code: '',
+            type: '',
+            name: '',
+            productError: '',
+            band: '',
+            quantity: 0,
+            errorCode: { id: 0, code: '', description: '' },
+            photos: []
+          };
+          this.submitted = false;
     }
     
 }

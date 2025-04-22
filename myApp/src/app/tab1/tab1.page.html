@@ -92,15 +92,15 @@
 
       <ion-item class="form-item">
         <ion-input
-        [(ngModel)]="formData.errorQuantity"
-        name="errorQuantity"
+        [(ngModel)]="formData.quantity"
+        name="quantity"
         required
-        #errorQuantity="ngModel"
+        #quantity="ngModel"
         label='Hasar Miktarı'
         label-placement="floating"
         placeholder="Hasar miktarını giriniz">
       </ion-input>
-      <ion-text color="danger" *ngIf="submitted && errorQuantity.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+      <ion-text color="danger" *ngIf="submitted && quantity.invalid">Ürün Türü boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item>
