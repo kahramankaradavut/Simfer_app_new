@@ -34,13 +34,30 @@
             <ion-label slot="end">{{ form.type }}</ion-label>
           </ion-item>
           <ion-item>
-            <ion-label>Çalışan İsmi:</ion-label>
-            <ion-label slot="end">{{ form.name }}</ion-label>
+            <ion-label>Hata Kodu:</ion-label>
+            <ion-label slot="end">{{ form.errorCode.code }}</ion-label>
           </ion-item>
           <ion-item>
-            <ion-label>Hata Bilgisi:</ion-label>
+            <ion-label>Hata Açıklaması:</ion-label>
+            <ion-label slot="end">{{ form.errorCode.description }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Detaylı Hata Bilgisi:</ion-label>
             <ion-label slot="end">{{ form.productError }}</ion-label>
           </ion-item>
+          <ion-item>
+            <ion-label>Hata Miktarı:</ion-label>
+            <ion-label slot="end">{{ form.quantity }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Üretim Hattı:</ion-label>
+            <ion-label slot="end">{{ form.band }}</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Tespit Eden Kişi:</ion-label>
+            <ion-label slot="end">{{ form.name }}</ion-label>
+          </ion-item>
+          
         </ion-list>
 
         <ion-accordion-group>

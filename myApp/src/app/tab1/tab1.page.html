@@ -103,6 +103,20 @@
       <ion-text color="danger" *ngIf="submitted && errorQuantity.invalid">Ürün Türü boş bırakılamaz.</ion-text>
       </ion-item>
   
+      <ion-item>
+        <ion-label>Hata Kodu</ion-label>
+        <ion-select [(ngModel)]="formData.errorCode" name="errorCode" interface="popover">
+          <ion-select-option *ngFor="let error of errorCodes" [value]="error">
+            {{ error.code }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Açıklama</ion-label>
+        <ion-textarea [readonly]="true" [value]="formData.errorCode?.description || ''"></ion-textarea>
+      </ion-item>
+      
       <!-- Fotoları listele -->
 <ion-accordion-group>
   <ion-accordion value="photos">

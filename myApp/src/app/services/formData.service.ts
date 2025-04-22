@@ -13,13 +13,17 @@ export class FormService {
   constructor(private http: HttpClient) {}
 
   submitForm(form: formData, photos: photoData[]): Observable<any> {
+    console.log('Form data:', form);
     const formDataPayload = new FormData();
     formDataPayload.append('code', form.code);
     formDataPayload.append('type', form.type);
     formDataPayload.append('name', form.name);
     formDataPayload.append('productError', form.productError);
     formDataPayload.append('band', form.band);
-    formDataPayload.append('errorQuantity', form.errorQuantity.toString());
+    formDataPayload.append('quantity', form.quantity.toString());
+    formDataPayload.append('errorCodeId', form.errorCode.id.toString());
+    formDataPayload.append('errorCode', form.errorCode.code);
+    formDataPayload.append('errorCodeDescription', form.errorCode.description);
   
     photos.forEach((photo, index) => {
       formDataPayload.append('photos', photo.file!, photo.file!.name);

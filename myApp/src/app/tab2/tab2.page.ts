@@ -35,7 +35,6 @@ selectedPhoto: string | null = null;
   }
 
   async ionViewWillEnter() {
-
     const loading = await this.loadingCtrl.create({
       message: 'Veriler getiriliyor...',
       spinner: 'crescent'
@@ -67,6 +66,9 @@ selectedPhoto: string | null = null;
 }
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
+    console.log('FORMDATA: ',this.forms)
+    console.log('quantity: ',this.forms[0].quantity)
+
   }
   
   closePhoto() {

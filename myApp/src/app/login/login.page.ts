@@ -61,7 +61,6 @@ export class LoginPage {
             console.error('Hata:', error);
           }
         } else {
-          console.log('Kullanıcı');
           this.router.navigateByUrl('/', { replaceUrl: true }).then(() => {
             this.router.navigateByUrl('/tabs/tab1');
           });        }

@@ -3,16 +3,19 @@ import { addIcons } from 'ionicons';
 import { add, camera, sendOutline, logOutOutline, scanCircleOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
 import { IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton, IonText, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController } from '@ionic/angular/standalone';
+  IonButtons, IonFab, IonFabButton, IonText, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController, IonSelectOption, IonSelect } from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { PhotoService } from '../services/photo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormService } from '../services/formData.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ErrorCodeService } from '../services/errorCode.service';
 import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
 import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 import { Platform } from '@ionic/angular';
+import { ErrorCode } from '../tab1/errorCode';
+
 
 
 @Component({
@@ -24,7 +27,7 @@ import { Platform } from '@ionic/angular';
     FormsModule,
     HttpClientModule,
     IonHeader, IonToolbar, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor, IonAccordionGroup, IonText, IonAccordion, IonLabel
+    NgIf, NgFor, IonAccordionGroup, IonText, IonAccordion, IonLabel, IonSelectOption, IonSelect
   ],
 
 })
@@ -36,13 +39,19 @@ export class Tab1Page {
     name: '',
     productError: '',
     band: '',
-    errorQuantity: 0,
-    photos: []
+    quantity: 0,
+    errorCode: { id: 0, code: '', description: '' },  
+    photos: [],
+      
+
+
+
   }
   submitted = false;
   isIOS = false;
   isAndroid = false;
 
+  errorCodes: ErrorCode[] = [];
 
   ionViewWillEnter() {
     const username = this.authService.getUsername();
@@ -61,6 +70,7 @@ export class Tab1Page {
     private loadingCtrl: LoadingController, 
     private toastController: ToastController,     
     private authService: AuthService,
+    private errorCodeService: ErrorCodeService,
     private platform: Platform
   ) {
     addIcons({ add, camera, logOutOutline, sendOutline, scanCircleOutline });
@@ -70,6 +80,10 @@ export class Tab1Page {
 
   async scanBarcode() {
     try {
+      this.errorCodeService.getErrorCodes().subscribe((data) => {
+        this.errorCodes = data;
+      });
+      console.log('Error codes:', this.errorCodes);
       const scanOptions = {
         hint: CapacitorBarcodeScannerTypeHint.ALL,
         scanInstructions: 'Lütfen barkodu kameraya getirin',
@@ -163,7 +177,8 @@ export class Tab1Page {
             name: '',
             productError: '',
             band: '',
-            errorQuantity: 0,
+            quantity: 0,
+            errorCode: { id: 0, code: '', description: '' },
             photos: []
           };
           this.submitted = false;
@@ -204,4 +219,13 @@ export class Tab1Page {
     async logout() {
       this.authService.logout();
     }
+
+    onErrorCodeChange() {
+      const selected = this.errorCodes.find(ec => ec.code === this.formData.errorCode.code);
+      if (selected) {
+        this.formData.errorCode.id = selected.id;
+        this.formData.errorCode.description = selected.description;
+      }
+    }
+    
 }
