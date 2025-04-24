@@ -6,7 +6,7 @@ import { ErrorCode } from '../tab1/errorCode';
 
 @Injectable({ providedIn: 'root' })
 export class ErrorCodeService {
-  private apiUrl = 'http://localhost:5113/api/ErrorCodes';
+  private apiUrl = 'https://api2.sersim.com.tr/api/ErrorCodes';
 
   constructor(private http: HttpClient) {}
 

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NavController, ToastController, LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { IonInputPasswordToggle, IonHeader, IonToolbar, IonContent, IonCard, IonCardContent, IonItem, IonButton, IonInput } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common'; 
-import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-  IonicModule, CommonModule, FormsModule
+  CommonModule, FormsModule, IonInputPasswordToggle, IonHeader, IonToolbar, IonContent, IonCard, IonCardContent, IonItem, IonButton, IonInput
   ]
 })
 export class LoginPage {

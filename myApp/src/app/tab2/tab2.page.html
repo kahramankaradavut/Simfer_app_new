@@ -85,6 +85,13 @@
     </ion-card>
   </ng-container>
 
+  <ion-button expand="block" color="primary" (click)="getExportLink()">Excel Linkini Al</ion-button>
+
+<ion-text *ngIf="excelExportLink">
+  <a [href]="excelExportLink" target="_blank" download>📥 Excel Dosyasını İndir</a>
+</ion-text>
+
+
   <!-- Veri yoksa gösterilecek içerik -->
   <ng-template #noData>
     <ion-card>

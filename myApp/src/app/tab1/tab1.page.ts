@@ -55,8 +55,21 @@ export class Tab1Page {
 
   ionViewWillEnter() {
     const username = this.authService.getUsername();
+    this.formData = {
+      id: 0,
+      code: '',
+      type: '',
+      name: '',
+      productError: '',
+      band: 2,
+      quantity: 1,
+      errorCode: { id: 0, code: '', description: '' },
+      photos: []
+    };
+    this.submitted = false;
+
     if (!username) {
-      this.authService.logout(); // Belki burada yönlendirme de yapılabilir
+      this.authService.logout(); 
     } else {
       this.formData.name = username;
     }

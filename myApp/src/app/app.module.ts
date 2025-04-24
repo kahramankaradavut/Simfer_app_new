@@ -16,9 +16,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot({
-      mode: 'md'
-    }),
+    IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule
