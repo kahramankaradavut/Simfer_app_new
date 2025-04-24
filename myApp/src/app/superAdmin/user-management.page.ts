@@ -27,6 +27,8 @@ import {
 
 import { UserService } from '../services/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { ErrorCodeService } from '../services/errorCode.service';
+import { ErrorCode } from '../tab1/errorCode';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { camera, logOutOutline, sendOutline, scanCircleOutline } from 'ionicons/icons';
@@ -64,6 +66,8 @@ export class UserManagementPage {
   newUser = { username: '', passwordHash: '', role: '' };
   isEditModalOpen = false;
   selectedUser: any = {};
+  errorCodes: ErrorCode[] = []; // Listeleme için
+  newErrorCode: Partial<ErrorCode> = { code: '', description: '' };
 
   constructor(
     private userService: UserService,
@@ -71,6 +75,7 @@ export class UserManagementPage {
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private authService: AuthService,
+    private errorCodeService: ErrorCodeService,
     private router: Router
   ) {
     addIcons({ camera, logOutOutline, sendOutline, scanCircleOutline });
@@ -88,6 +93,7 @@ export class UserManagementPage {
       this.userService.getUsers().subscribe((data) => {
         this.users = data;
       });
+      this.loadErrorCodes();
 
       const toast = await this.toastController.create({
         message: 'Veri başarıyla getirildi!',
@@ -106,6 +112,74 @@ export class UserManagementPage {
     } finally {
       await loading.dismiss();
     }
+  }
+
+  async loadErrorCodes() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Hata kodları yükleniyor...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.errorCodeService.getErrorCodes().subscribe({
+      next: async (data) => {
+        this.errorCodes = data;
+        await loading.dismiss();
+      },
+      error: async (err) => {
+        await loading.dismiss();
+        console.error('Hata kodları alınamadı:', err);
+        const toast = await this.toastController.create({
+          message: 'Hata kodları yüklenemedi!',
+          color: 'danger',
+          duration: 2000
+        });
+        await toast.present();
+      }
+    });
+  }
+
+  async addErrorCode() {
+    const { code, description } = this.newErrorCode;
+
+    if (!code?.trim() || !description?.trim()) {
+      const toast = await this.toastController.create({
+        message: 'Tüm alanları doldurun!',
+        color: 'warning',
+        duration: 2000
+      });
+      return toast.present();
+    }
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Hata kodu ekleniyor...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.errorCodeService.createErrorCode({ code, description } as ErrorCode).subscribe({
+      next: async () => {
+        await loading.dismiss();
+        const toast = await this.toastController.create({
+          message: 'Hata kodu başarıyla eklendi!',
+          color: 'success',
+          duration: 2000
+        });
+        await toast.present();
+        this.newErrorCode = { code: '', description: '' };
+        this.loadErrorCodes(); // Yeni kayıt sonrası listeyi güncelle
+      },
+      error: async (error) => {
+        await loading.dismiss();
+        console.error('Hata kodu eklenemedi:', error);
+        const toast = await this.toastController.create({
+          message: 'Hata kodu eklenirken sorun oluştu!',
+          color: 'danger',
+          duration: 2000
+        });
+        await toast.present();
+      }
+    });
   }
 
   async addUser() {

@@ -6,12 +6,12 @@ export class formData {
     type: string;
     name: string;
     productError: string;
-    band: string;
+    band: number;
     quantity: number;
     errorCode: ErrorCode;
     photos: {filePath: string, fileName: string} [];
   
-    constructor(id: number, code: string, type: string, name: string, productError: string, band: string, quantity: number, errorCode: ErrorCode | null = null, photos: string[]) {
+    constructor(id: number, code: string, type: string, name: string, productError: string, band: number, quantity: number, errorCode: ErrorCode | null = null, photos: string[]) {
       this.id = id;
       this.code = code;
       this.type = type;

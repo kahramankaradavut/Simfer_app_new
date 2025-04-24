@@ -19,7 +19,7 @@ export class FormService {
     formDataPayload.append('type', form.type);
     formDataPayload.append('name', form.name);
     formDataPayload.append('productError', form.productError);
-    formDataPayload.append('band', form.band);
+    formDataPayload.append('band', form.band.toString());
     formDataPayload.append('quantity', form.quantity.toString());
     formDataPayload.append('errorCodeId', form.errorCode.id.toString());
     formDataPayload.append('errorCode', form.errorCode.code);

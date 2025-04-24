@@ -57,6 +57,41 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Hata Kodu Ekleme -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Yeni Hata Kodu Ekle</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-input [(ngModel)]="newErrorCode.code" placeholder="Hata Kodu"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="newErrorCode.description" placeholder="Açıklama"></ion-input>
+    </ion-item>
+    <ion-button expand="full" (click)="addErrorCode()">Ekle</ion-button>
+  </ion-card-content>
+</ion-card>
+
+<!-- Hata Kodları Listesi -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Hata Kodları</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let error of errorCodes">
+        <ion-label>
+          <h2>{{ error.code }}</h2>
+          <p>{{ error.description }}</p>
+        </ion-label>
+        <!-- <ion-button color="warning" (click)="editError(error)">Düzenle</ion-button> -->
+        <!-- <ion-button color="danger" (click)="deleteError(error.id)">Sil</ion-button> -->
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+
   <!-- Kullanıcı Düzenleme Modalı -->
   <ion-modal [isOpen]="isEditModalOpen" (ionModalDidDismiss)="closeEditModal()">
     <ng-template>

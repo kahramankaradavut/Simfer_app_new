@@ -38,8 +38,8 @@ export class Tab1Page {
     type: '',
     name: '',
     productError: '',
-    band: '',
-    quantity: 0,
+    band: 2,
+    quantity: 1,
     errorCode: { id: 0, code: '', description: '' },  
     photos: [],
       
@@ -226,8 +226,8 @@ export class Tab1Page {
             type: '',
             name: '',
             productError: '',
-            band: '',
-            quantity: 0,
+            band: 2,
+            quantity: 1,
             errorCode: { id: 0, code: '', description: '' },
             photos: []
           };

@@ -83,11 +83,14 @@
         name="band"
         required
         #band="ngModel"
-        label='Bant Kodu'
+        label='Bant Numarası'
+        type="number"
+        max="3"
+        min="2"
         label-placement="floating"
-        placeholder="Bant kodu giriniz">
+        placeholder="Bant numarası giriniz">
       </ion-input>
-      <ion-text color="danger" *ngIf="submitted && band.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+      <ion-text color="danger" *ngIf="submitted && band.invalid">Bant numarası boş bırakılamaz.</ion-text>
       </ion-item>
 
       <ion-item class="form-item">
@@ -96,11 +99,14 @@
         name="quantity"
         required
         #quantity="ngModel"
-        label='Hasar Miktarı'
+        label='Hasar Sayısı'
+        type="number"
+        max="50"
+        min="1"
         label-placement="floating"
-        placeholder="Hasar miktarını giriniz">
+        placeholder="Hasar sayısı giriniz">
       </ion-input>
-      <ion-text color="danger" *ngIf="submitted && quantity.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+      <ion-text color="danger" *ngIf="submitted && quantity.invalid">Hata sayısı boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item>

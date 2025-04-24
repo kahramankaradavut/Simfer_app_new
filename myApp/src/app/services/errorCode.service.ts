@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ErrorCode } from '../tab1/errorCode';
-import { formData } from '../tab1/formData';
 
 
 @Injectable({ providedIn: 'root' })
@@ -17,5 +16,13 @@ export class ErrorCodeService {
       Authorization: `Bearer ${token}`
     });
     return this.http.get<ErrorCode[]>(this.apiUrl, { headers });
+  }
+
+  createErrorCode(errorCode: ErrorCode): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.post(this.apiUrl, errorCode, { headers });
   }
 }
