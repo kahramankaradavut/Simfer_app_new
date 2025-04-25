@@ -97,7 +97,7 @@
           <h2>{{ error.code }}</h2>
           <p>{{ error.description }}</p>
         </ion-label>
-<ion-button color="warning" (click)="openErrorCodeEditModal(error)">Düzenle</ion-button>
+<ion-button color="warning" (click)="openEditErrorModal(error)">Düzenle</ion-button>
         <ion-button color="danger" (click)="deleteErrorCode(error.id)">Sil</ion-button>
         <!-- <ion-button color="warning" (click)="editError(error)">Düzenle</ion-button> -->
         <!-- <ion-button color="danger" (click)="deleteError(error.id)">Sil</ion-button> -->
@@ -106,25 +106,27 @@
   </ion-card-content>
   </ion-card>
 
-  <ion-modal [isOpen]="isEditErrorModalOpen" (didDismiss)="closeErrorCodeEditModal()">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Hata Kodu Düzenle</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeErrorCodeEditModal()">Kapat</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-  
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input [(ngModel)]="selectedError.code" placeholder="Hata Kodu"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input [(ngModel)]="selectedError.description" placeholder="Açıklama"></ion-input>
-      </ion-item>
-      <ion-button expand="full" (click)="editErrorCode(selectedError)">Güncelle</ion-button>
-    </ion-content>
+  <ion-modal [isOpen]="isEditErrorModalOpen" (didDismiss)="closedErrorModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Hata Kodu Düzenle</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closedErrorModal()">Kapat</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input [(ngModel)]="selectedError.code" placeholder="Hata Kodu"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input [(ngModel)]="selectedError.description" placeholder="Açıklama"></ion-input>
+        </ion-item>
+        <ion-button expand="full" (click)="updateErrorCode()">Güncelle</ion-button>
+      </ion-content>
+    </ng-template>
   </ion-modal>
   
 

@@ -40,7 +40,7 @@ import { camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOut
   selector: 'app-user-management',
   templateUrl: './user-management.page.html',
   styleUrls: ['./user-management.page.scss'],
-  standalone: true,
+
   imports: [
     CommonModule,
     FormsModule,
@@ -81,7 +81,7 @@ export class UserManagementPage {
   
   errorCodes: any[] = [];
   
-  selectedError: ErrorCode = { id: 0, code: '', description: '' };
+  selectedError: any = {};
   isEditErrorModalOpen = false;
   
 
@@ -92,7 +92,6 @@ export class UserManagementPage {
     private toastController: ToastController,
     private authService: AuthService,
     private errorCodeService: ErrorCodeService,
-    private router: Router
   ) {
     addIcons({ camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOutline });
 
@@ -111,20 +110,12 @@ export class UserManagementPage {
       });
       this.loadErrorCodes();
 
-      const toast = await this.toastController.create({
-        message: 'Veri başarıyla getirildi!',
-        duration: 1500,
-        color: 'success'
-      });
-      toast.present();
+      this.presentToast('Veriler Başarıyla getirildi!', 'success');
+
     } catch (error) {
       console.error('Veriler alınamadı:', error);
-      const toast = await this.toastController.create({
-        message: 'Veri getirme hatası: ' + ((error as any).message || 'Bilinmeyen hata'),
-        duration: 3000,
-        color: 'danger'
-      });
-      toast.present();
+      this.presentToast('Veri getirme hatası!', 'danger');
+
     } finally {
       await loading.dismiss();
     }
@@ -145,12 +136,7 @@ export class UserManagementPage {
       error: async (err) => {
         await loading.dismiss();
         console.error('Hata kodları alınamadı:', err);
-        const toast = await this.toastController.create({
-          message: 'Hata kodları yüklenemedi!',
-          color: 'danger',
-          duration: 2000
-        });
-        await toast.present();
+        this.presentToast('Hata kodları yüklenemedi!', 'danger');
       }
     });
   }
@@ -159,14 +145,8 @@ export class UserManagementPage {
     const { code, description } = this.newErrorCode;
 
     if (!code?.trim() || !description?.trim()) {
-      const toast = await this.toastController.create({
-        message: 'Tüm alanları doldurun!',
-        color: 'warning',
-        duration: 2000
-      });
-      return toast.present();
+      this.presentToast('Tüm alanları doldurun!', 'warning');
     }
-
     const loading = await this.loadingCtrl.create({
       message: 'Hata kodu ekleniyor...',
       spinner: 'crescent'
@@ -176,24 +156,15 @@ export class UserManagementPage {
     this.errorCodeService.createErrorCode({ code, description } as ErrorCode).subscribe({
       next: async () => {
         await loading.dismiss();
-        const toast = await this.toastController.create({
-          message: 'Hata kodu başarıyla eklendi!',
-          color: 'success',
-          duration: 2000
-        });
-        await toast.present();
+        this.presentToast('Hata kodu başarıyla eklendi!', 'success');
+
         this.newErrorCode = { code: '', description: '' };
         this.loadErrorCodes(); // Yeni kayıt sonrası listeyi güncelle
       },
       error: async (error) => {
         await loading.dismiss();
-        console.error('Hata kodu eklenemedi:', error);
-        const toast = await this.toastController.create({
-          message: 'Hata kodu eklenirken sorun oluştu!',
-          color: 'danger',
-          duration: 2000
-        });
-        await toast.present();
+        this.presentToast('Hata kodu eklenirken sorun oluştu!', 'danger');
+        console.error('Hata kodu ekleme hatası:', error);
       }
     });
   }
@@ -215,23 +186,13 @@ export class UserManagementPage {
             this.errorCodeService.deleteErrorCode(id).subscribe({
               next: async () => {
                 await loading.dismiss();
-                const toast = await this.toastController.create({
-                  message: 'Hata kodu silindi!',
-                  color: 'success',
-                  duration: 2000
-                });
-                await toast.present();
+                this.presentToast('Hata kodu silindi!', 'success');
                 this.loadErrorCodes(); // Silme sonrası listeyi güncelle
               },
               error: async (error) => {
                 await loading.dismiss();
                 console.error('Hata kodu silme hatası:', error);
-                const toast = await this.toastController.create({
-                  message: 'Hata kodu silinirken sorun oluştu!',
-                  color: 'danger',
-                  duration: 2000
-                });
-                await toast.present();
+                this.presentToast('Hata kodu silinirken hata oluştu!', 'danger');
               }
             });
           }
@@ -240,48 +201,46 @@ export class UserManagementPage {
     });
     await alert.present();
   }
-  async editErrorCode(errorCode: ErrorCode) {
+
+  async openErrorModal(errorCode: any) {
+    this.selectedError = { ...errorCode }
+    this.isEditErrorModalOpen = true;
+  }
+
+  closedErrorModal() {
+    this.isEditErrorModalOpen = false;
+  }
+  async openEditErrorModal(errorCode: any) {
     console.log('Edit Error Code:', errorCode);
+    this.selectedError = { ...errorCode };
+    this.isEditErrorModalOpen = true;
+  }
+
+  async updateErrorCode() {
     const loading = await this.loadingCtrl.create({
       message: 'Güncelleniyor...',
       spinner: 'crescent'
     });
     await loading.present();
-
-    this.errorCodeService.updateErrorCode(errorCode).subscribe({
+    this.errorCodeService.updateErrorCode(this.selectedError).subscribe({
       next: async () => {
         this.isEditErrorModalOpen = false;
-        const toast = await this.toastController.create({message: 'Hata kodu güncellendi!', color: 'success', duration: 2000});
-        toast.present();
+        this.presentToast('Hata kodu güncellendi!', 'success');
         loading.dismiss();
         this.loadErrorCodes(); // Güncelleme sonrası listeyi güncelle
       },
       error: async (error) => {
         await loading.dismiss();
         console.error('Hata kodu güncelleme hatası:', error);
-        const toast = await this.toastController.create({
-          message: 'Hata kodu güncellenirken sorun oluştu!',
-          color: 'danger',
-          duration: 2000
-        });
-        await toast.present();
+        this.presentToast('Hata kodu güncellenirken sorun oluştu!', 'danger');
       }
     });
-    this.closeErrorCodeEditModal();
-  }
-  async openErrorCodeEditModal(errorCode: ErrorCode) {
-    this.newErrorCode = { ...errorCode };
-    this.isEditErrorModalOpen = true;
-  }
-  closeErrorCodeEditModal() {
-    this.isEditErrorModalOpen = false;
-    this.newErrorCode = { code: '', description: '' }; // Modal kapandığında formu sıfırla
+    this.closedErrorModal();
   }
 
   async addUser() {
     if (!this.newUser.username || !this.newUser.passwordHash || !this.newUser.role) {
-      const toast = await this.toastController.create({ message: 'Lütfen tüm alanları doldurun!', color: 'warning', duration: 2000 });
-      await toast.present();
+      this.presentToast('Lütfen tüm alanları doldurun!', 'warning');
       return;
     }
 
@@ -294,16 +253,14 @@ export class UserManagementPage {
     this.userService.addUser(this.newUser).subscribe({
       next: async () => {
         this.newUser = { username: '', passwordHash: '', role: '' };
-        const toast = await this.toastController.create({ message: 'Kullanıcı eklendi!', color: 'success', duration: 2000 });
-        toast.present();
+        this.presentToast('Kullanıcı eklendi!', 'success');
         loading.dismiss();
         this.ionViewWillEnter();
       },
       error: async (error) => {
         await loading.dismiss();
         console.error('Kullanıcı ekleme hatası:', error);
-        const toast = await this.toastController.create({ message: 'Kullanıcı eklenirken hata oluştu!', color: 'danger', duration: 2000 });
-        toast.present();
+        this.presentToast('Kullanıcı eklenirken hata oluştu!', 'danger');
       }
     });
   }
@@ -326,12 +283,7 @@ export class UserManagementPage {
             this.userService.deleteUser(userId).subscribe({
               next: async () => {
                 await loading.dismiss();
-                const toast = await this.toastController.create({
-                  message: 'Kullanıcı silindi!',
-                  color: 'success',
-                  duration: 2000
-                });
-                await toast.present();
+                this.presentToast('Kullanıcı silindi!', 'success');
                 this.ionViewWillEnter();
               },
               error: async (err) => {
@@ -372,8 +324,7 @@ export class UserManagementPage {
     this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
       next: async () => {
         this.isEditModalOpen = false;
-        const toast = await this.toastController.create({ message: 'Kullanıcı güncellendi!', duration: 2000, color: 'success' });
-        toast.present();
+        this.presentToast('Kullanıcı güncellendi!', 'success');
         loading.dismiss();
         this.ionViewWillEnter();
       },
@@ -388,5 +339,10 @@ export class UserManagementPage {
 
   async logout() {
     this.authService.logout();
+  }
+
+  private async presentToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const toast = await this.toastController.create({ message, duration: 2000, color });
+    await toast.present();
   }
 }

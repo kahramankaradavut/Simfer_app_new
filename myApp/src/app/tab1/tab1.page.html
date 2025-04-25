@@ -23,94 +23,95 @@
   <h1 class="title" color="warning">Hata Tespit Formu</h1>
 
   <ion-card>
+    <ion-card-header>
+      <ion-card-title>Form Bilgileri</ion-card-title>
+    </ion-card-header>
     <form (ngSubmit)="submit()">
       <ion-item class="form-item">
+        <ion-label position="stacked" style="color: #ff861cd1;">Ürün Kodu *</ion-label>
         <ion-input 
-        [(ngModel)]="formData.code" 
-        name="kod" 
-        #tur="ngModel"
-        required
-        label="Ürün Kodu *" 
-        label-placement="floating" 
-        placeholder="Kodu giriniz">
-      </ion-input>
-      <ion-text color="danger" *ngIf="submitted && tur.invalid">Ürün Kodu boş bırakılamaz.</ion-text>
+          [(ngModel)]="formData.code" 
+          name="kod" 
+          #tur="ngModel"
+          required>
+        </ion-input>
+        
+        <ion-text color="danger" *ngIf="submitted && tur.invalid">
+          Ürün Kodu boş bırakılamaz.
+        </ion-text>
+      
         <ion-button slot="end" (click)="scanBarcode()">
           <ion-icon name="scan-circle-outline"></ion-icon>
         </ion-button>
       </ion-item>
+      
   
       <ion-item class="form-item">
+        <ion-label position="stacked" style="color: #ff861cd1;">Ürün Türü *</ion-label>
         <ion-input
-        [(ngModel)]="formData.type"
-        name="tur"
-        required
-        #tur="ngModel"
-        label='Ürün Türü'
-        label-placement="floating"
-        placeholder="Ürün türü giriniz">
-      </ion-input>
-      <ion-text color="danger" *ngIf="submitted && tur.invalid">Ürün Türü boş bırakılamaz.</ion-text>
+          [(ngModel)]="formData.type"
+          name="tur"
+          required
+          #tur="ngModel">
+        </ion-input>
+        <ion-text color="danger" *ngIf="submitted && tur.invalid">
+          Ürün Türü boş bırakılamaz.
+        </ion-text>
       </ion-item>
+      
   
       <ion-item class="form-item">
+        <ion-label position="stacked" style="color: #ff861cd1;">Çalışan İsmi *</ion-label>
         <ion-input 
         [(ngModel)]="formData.name"
         name="name"
         required
         #tur="ngModel"
-        label="Çalışan İsmi *" 
-        label-placement="floating" 
-        placeholder="İsim giriniz"
         readonly>
       </ion-input>
       <ion-text color="danger" *ngIf="submitted && tur.invalid">Çalışan İsmi boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item class="form-item">
+        <ion-label position="stacked" style="color: #ff861cd1;">Hata Bilgisi *</ion-label>
         <ion-textarea 
-        [(ngModel)]="formData.productError" 
-        name="productError" 
-        label="Hata Bilgisi" 
-        label-placement="floating" 
-        placeholder="Metin giriniz">
-      </ion-textarea>
+          [(ngModel)]="formData.productError" 
+          name="productError">
+        </ion-textarea>
       </ion-item>
+      
 
-      <ion-item class="form-item">
-        <ion-input
+      <ion-item>
+        <ion-label style="color: #ff861cd1;">Üretim Hattı *</ion-label>
+        <ion-select
         [(ngModel)]="formData.band"
         name="band"
         required
-        #band="ngModel"
-        label='Bant Numarası'
-        type="number"
-        max="3"
-        min="2"
-        label-placement="floating"
-        placeholder="Bant numarası giriniz">
-      </ion-input>
+        #band="ngModel">
+        <ion-select-option [value]="1">Bant 1</ion-select-option>
+        <ion-select-option [value]="2">Bant 2</ion-select-option>
+        <ion-select-option [value]="3">Bant 3</ion-select-option>
+        <ion-select-option [value]="4">Bant 4</ion-select-option>
+      </ion-select>
       <ion-text color="danger" *ngIf="submitted && band.invalid">Bant numarası boş bırakılamaz.</ion-text>
       </ion-item>
 
+      
       <ion-item class="form-item">
-        <ion-input
-        [(ngModel)]="formData.quantity"
-        name="quantity"
-        required
-        #quantity="ngModel"
-        label='Hasar Sayısı'
-        type="number"
-        max="50"
-        min="1"
-        label-placement="floating"
-        placeholder="Hasar sayısı giriniz">
-      </ion-input>
+        <ion-label style="color: #ff861cd1;">Hasar Adedi *</ion-label> 
+          <ion-select
+            [(ngModel)]="formData.quantity"
+            interface="popover"
+            name="quantity"
+            required
+            #quantity="ngModel">
+            <ion-select-option *ngFor="let qty of quantityOptions" [value]="qty">{{ qty }}</ion-select-option>
+          </ion-select>
       <ion-text color="danger" *ngIf="submitted && quantity.invalid">Hata sayısı boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item>
-        <ion-label>Hata Kodu</ion-label>
+        <ion-label style="color: #ff861cd1;">Hata Kodu *</ion-label>
         <ion-select [(ngModel)]="formData.errorCode" name="errorCode" interface="popover">
           <ion-select-option *ngFor="let error of errorCodes" [value]="error">
             {{ error.code }}
@@ -119,15 +120,19 @@
       </ion-item>
       
       <ion-item>
-        <ion-label position="stacked">Açıklama</ion-label>
-        <ion-textarea [readonly]="true" [value]="formData.errorCode?.description || ''"></ion-textarea>
+        <ion-label position="stacked" style="color: #ff861cd1;">Açıklama *</ion-label>
+        <ion-textarea 
+          [readonly]="true" 
+          [value]="formData.errorCode.description || ''" >
+        </ion-textarea>
       </ion-item>
+      
       
       <!-- Fotoları listele -->
 <ion-accordion-group>
   <ion-accordion value="photos">
     <ion-item slot="header">
-      <ion-label>Fotoğraflar: *</ion-label>
+      <ion-label style="color: #ff861cd1;">Fotoğraflar: *</ion-label>
     </ion-item>
     <div class="ion-padding" slot="content">
       <ion-grid [fixed]="true" class="photo-grid">

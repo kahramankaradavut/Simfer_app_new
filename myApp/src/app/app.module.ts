@@ -12,7 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 @NgModule({
   declarations: [
-    AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -26,6 +26,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     provideAnimationsAsync(),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy ,  }
   ],
-  bootstrap: [AppComponent],
+  // Removed bootstrap array as AppComponent is a standalone component
 })
 export class AppModule {}
