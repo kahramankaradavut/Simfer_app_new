@@ -8,7 +8,8 @@ import { photoData } from '../tab1/photoData';
 
 @Injectable({ providedIn: 'root' })
 export class FormService {
-  private apiUrl = 'https://api2.sersim.com.tr/api/Forms'; 
+  private apiUrl = 'http://localhost:5113/api/Forms';
+  // private apiUrl = 'https://api2.sersim.com.tr/api/Forms'; 
 
   constructor(private http: HttpClient) {}
 
@@ -61,7 +62,7 @@ export class FormService {
       Authorization: `Bearer ${token}`
     });
   
-    return this.http.get('https://api2.sersim.com.tr/api/Forms/export', {
+    return this.http.get(`${this.apiUrl}/export`, {
       headers,
       observe: 'response',
       responseType: 'blob' as 'json'
@@ -89,7 +90,7 @@ export class FormService {
       Authorization: `Bearer ${token}`
     });
   
-    return this.http.get<{ fileUrl: string }>('https://api2.sersim.com.tr/api/Forms/export-link', {
+    return this.http.get<{ fileUrl: string }>(`${this.apiUrl}/export-link`, {
       headers
     });
   }

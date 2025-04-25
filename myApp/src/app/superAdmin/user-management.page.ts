@@ -17,6 +17,9 @@ import {
   IonSelect,
   IonSelectOption,
   IonList,
+  IonItemOption,
+  IonItemOptions,
+  IonItemSliding,
   IonLabel,
   IonModal,
   IonTitle,
@@ -31,7 +34,7 @@ import { ErrorCodeService } from '../services/errorCode.service';
 import { ErrorCode } from '../tab1/errorCode';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { camera, logOutOutline, sendOutline, scanCircleOutline } from 'ionicons/icons';
+import { camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-user-management',
@@ -56,6 +59,9 @@ import { camera, logOutOutline, sendOutline, scanCircleOutline } from 'ionicons/
     IonSelect,
     IonSelectOption,
     IonList,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
     IonLabel,
     IonModal,
     IonTitle
@@ -66,8 +72,18 @@ export class UserManagementPage {
   newUser = { username: '', passwordHash: '', role: '' };
   isEditModalOpen = false;
   selectedUser: any = {};
-  errorCodes: ErrorCode[] = []; // Listeleme için
   newErrorCode: Partial<ErrorCode> = { code: '', description: '' };
+
+  newError = {
+    code: '',
+    description: ''
+  };
+  
+  errorCodes: any[] = [];
+  
+  selectedError: ErrorCode = { id: 0, code: '', description: '' };
+  isEditErrorModalOpen = false;
+  
 
   constructor(
     private userService: UserService,
@@ -78,7 +94,7 @@ export class UserManagementPage {
     private errorCodeService: ErrorCodeService,
     private router: Router
   ) {
-    addIcons({ camera, logOutOutline, sendOutline, scanCircleOutline });
+    addIcons({ camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOutline });
 
   }
 
@@ -180,6 +196,86 @@ export class UserManagementPage {
         await toast.present();
       }
     });
+  }
+
+  async deleteErrorCode(id: number) {
+    const alert = await this.alertCtrl.create({
+      header: 'Silme Onayı',
+      message: 'Bu hata kodunu silmek istediğinize emin misiniz?',
+      buttons: [
+        { text: 'İptal', role: 'cancel' },
+        {
+          text: 'Sil',
+          handler: async () => {
+            const loading = await this.loadingCtrl.create({
+              message: 'Hata kodu siliniyor...',
+              spinner: 'crescent'
+            });
+            await loading.present();
+            this.errorCodeService.deleteErrorCode(id).subscribe({
+              next: async () => {
+                await loading.dismiss();
+                const toast = await this.toastController.create({
+                  message: 'Hata kodu silindi!',
+                  color: 'success',
+                  duration: 2000
+                });
+                await toast.present();
+                this.loadErrorCodes(); // Silme sonrası listeyi güncelle
+              },
+              error: async (error) => {
+                await loading.dismiss();
+                console.error('Hata kodu silme hatası:', error);
+                const toast = await this.toastController.create({
+                  message: 'Hata kodu silinirken sorun oluştu!',
+                  color: 'danger',
+                  duration: 2000
+                });
+                await toast.present();
+              }
+            });
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+  async editErrorCode(errorCode: ErrorCode) {
+    console.log('Edit Error Code:', errorCode);
+    const loading = await this.loadingCtrl.create({
+      message: 'Güncelleniyor...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.errorCodeService.updateErrorCode(errorCode).subscribe({
+      next: async () => {
+        this.isEditErrorModalOpen = false;
+        const toast = await this.toastController.create({message: 'Hata kodu güncellendi!', color: 'success', duration: 2000});
+        toast.present();
+        loading.dismiss();
+        this.loadErrorCodes(); // Güncelleme sonrası listeyi güncelle
+      },
+      error: async (error) => {
+        await loading.dismiss();
+        console.error('Hata kodu güncelleme hatası:', error);
+        const toast = await this.toastController.create({
+          message: 'Hata kodu güncellenirken sorun oluştu!',
+          color: 'danger',
+          duration: 2000
+        });
+        await toast.present();
+      }
+    });
+    this.closeErrorCodeEditModal();
+  }
+  async openErrorCodeEditModal(errorCode: ErrorCode) {
+    this.newErrorCode = { ...errorCode };
+    this.isEditErrorModalOpen = true;
+  }
+  closeErrorCodeEditModal() {
+    this.isEditErrorModalOpen = false;
+    this.newErrorCode = { code: '', description: '' }; // Modal kapandığında formu sıfırla
   }
 
   async addUser() {

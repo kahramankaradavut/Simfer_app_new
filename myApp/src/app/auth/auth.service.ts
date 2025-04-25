@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-  private apiUrl = 'https://api2.sersim.com.tr/api/Users';
+  private apiUrl = 'http://localhost:5113/api/Users';
+  // private apiUrl = 'https://api2.sersim.com.tr/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
   private usernameKey = 'username';

@@ -44,21 +44,33 @@
       <ion-card-title>Kullanıcılar</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let user of users">
-          <ion-label>
-            <h2>{{ user.username }}</h2>
-            <p>{{ user.role }}</p>
-          </ion-label>
-          <ion-button color="warning" (click)="editUser(user)">Düzenle</ion-button>
-          <ion-button color="danger" (click)="deleteUser(user.id)">Sil</ion-button>
-        </ion-item>
+      <ion-list [inset]="true">
+        <ion-item-sliding *ngFor="let user of users">
+          <ion-item >
+            <ion-label>
+              <h2>{{ user.username }}</h2>
+              <p>{{ user.role }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options slot="end">
+            <ion-item-option color="warning">
+              <ion-button color="warning" (click)="editUser(user)">
+                <ion-icon name="create-outline"></ion-icon>
+              </ion-button>
+            </ion-item-option>
+            <ion-item-option color="danger">
+              <ion-button color="danger" (click)="deleteUser(user.id)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
   <!-- Hata Kodu Ekleme -->
-<ion-card>
+  <ion-card>
   <ion-card-header>
     <ion-card-title>Yeni Hata Kodu Ekle</ion-card-title>
   </ion-card-header>
@@ -71,26 +83,50 @@
     </ion-item>
     <ion-button expand="full" (click)="addErrorCode()">Ekle</ion-button>
   </ion-card-content>
-</ion-card>
+  </ion-card>
 
-<!-- Hata Kodları Listesi -->
-<ion-card>
+  <!-- Hata Kodları Listesi -->
+  <ion-card>
   <ion-card-header>
     <ion-card-title>Hata Kodları</ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <ion-list>
+    <ion-list [inset]="true">
       <ion-item *ngFor="let error of errorCodes">
         <ion-label>
           <h2>{{ error.code }}</h2>
           <p>{{ error.description }}</p>
         </ion-label>
+<ion-button color="warning" (click)="openErrorCodeEditModal(error)">Düzenle</ion-button>
+        <ion-button color="danger" (click)="deleteErrorCode(error.id)">Sil</ion-button>
         <!-- <ion-button color="warning" (click)="editError(error)">Düzenle</ion-button> -->
         <!-- <ion-button color="danger" (click)="deleteError(error.id)">Sil</ion-button> -->
       </ion-item>
     </ion-list>
   </ion-card-content>
-</ion-card>
+  </ion-card>
+
+  <ion-modal [isOpen]="isEditErrorModalOpen" (didDismiss)="closeErrorCodeEditModal()">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Hata Kodu Düzenle</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeErrorCodeEditModal()">Kapat</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+  
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-input [(ngModel)]="selectedError.code" placeholder="Hata Kodu"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input [(ngModel)]="selectedError.description" placeholder="Açıklama"></ion-input>
+      </ion-item>
+      <ion-button expand="full" (click)="editErrorCode(selectedError)">Güncelle</ion-button>
+    </ion-content>
+  </ion-modal>
+  
 
   <!-- Kullanıcı Düzenleme Modalı -->
   <ion-modal [isOpen]="isEditModalOpen" (ionModalDidDismiss)="closeEditModal()">
