@@ -33,9 +33,5 @@ export class UserService {
   updateUser(userId: number, userData: any) {
     return this.http.put(`${this.apiUrl}/${userId}`, userData, { headers: this.getAuthHeaders() });
   }
-  
 
-  // updateUser(userId: number, user: any) {
-  //   return this.http.put(`${this.apiUrl}/${userId}`, user);
-  // }
 }

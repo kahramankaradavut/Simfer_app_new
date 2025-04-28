@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -32,7 +32,6 @@ import { UserService } from '../services/user.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ErrorCodeService } from '../services/errorCode.service';
 import { ErrorCode } from '../tab1/errorCode';
-import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOutline } from 'ionicons/icons';
 
@@ -40,7 +39,6 @@ import { camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOut
   selector: 'app-user-management',
   templateUrl: './user-management.page.html',
   styleUrls: ['./user-management.page.scss'],
-
   imports: [
     CommonModule,
     FormsModule,
@@ -73,17 +71,16 @@ export class UserManagementPage {
   isEditModalOpen = false;
   selectedUser: any = {};
   newErrorCode: Partial<ErrorCode> = { code: '', description: '' };
-
   newError = {
     code: '',
     description: ''
   };
-  
   errorCodes: any[] = [];
-  
   selectedError: any = {};
   isEditErrorModalOpen = false;
-  
+
+  // Eklenen kısım: Sliding itemlara erişmek için
+  @ViewChildren(IonItemSliding) slidingItems!: QueryList<IonItemSliding>;
 
   constructor(
     private userService: UserService,
@@ -94,36 +91,53 @@ export class UserManagementPage {
     private errorCodeService: ErrorCodeService,
   ) {
     addIcons({ camera, logOutOutline, sendOutline, scanCircleOutline, trash, createOutline });
-
   }
 
   async ionViewWillEnter() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Veriler getiriliyor...',
-      spinner: 'crescent'
-    });
-    await loading.present();
-
     try {
-      this.userService.getUsers().subscribe((data) => {
-        this.users = data;
-      });
-      this.loadErrorCodes();
-
+      await this.loadUsers();
+      await this.loadErrorCodes();
+      
       this.presentToast('Veriler Başarıyla getirildi!', 'success');
 
+      // Veriler yüklendikten sonra sliding gösterimi
+      setTimeout(() => {
+        const firstSlidingItem = this.slidingItems.first;
+        if (firstSlidingItem) {
+          firstSlidingItem.open('end'); // sağdan aç
+          setTimeout(() => {
+            firstSlidingItem.close();
+          }, 1500); // 1.5 saniye açık kalsın
+        }
+      }, 500); // veriler geldikten 0.5 saniye sonra
     } catch (error) {
       console.error('Veriler alınamadı:', error);
       this.presentToast('Veri getirme hatası!', 'danger');
-
-    } finally {
-      await loading.dismiss();
     }
+  }
+
+  async loadUsers() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Yükleniyor...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+    this.userService.getUsers().subscribe({
+      next: async (data) => {
+        this.users = data;
+        await loading.dismiss();
+      },
+      error: async (err) => {
+        await loading.dismiss();
+        console.error('Kullanıcılar alınamadı:', err);
+        this.presentToast('Kullanıcılar yüklenemedi!', 'danger');
+      }
+    });
   }
 
   async loadErrorCodes() {
     const loading = await this.loadingCtrl.create({
-      message: 'Hata kodları yükleniyor...',
+      message: 'Yükleniyor...',
       spinner: 'crescent'
     });
     await loading.present();
@@ -282,22 +296,25 @@ export class UserManagementPage {
 
             this.userService.deleteUser(userId).subscribe({
               next: async () => {
+                console.log('Kullanıcı silindi:', userId);
                 await loading.dismiss();
                 this.presentToast('Kullanıcı silindi!', 'success');
-                this.ionViewWillEnter();
+                await this.loadUsers(); 
               },
               error: async (err) => {
                 await loading.dismiss();
                 console.error('Delete error:', err);
+                this.presentToast('Kullanıcı silinirken hata oluştu!', 'danger');
               }
             });
           }
         }
       ]
     });
-
+  
     await alert.present();
   }
+  
 
   openEditModal(user: any) {
     this.selectedUser = { ...user };
