@@ -2,7 +2,17 @@ import { Component } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { NavController, ToastController, LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { IonInputPasswordToggle, IonHeader, IonToolbar, IonContent, IonCard, IonCardContent, IonItem, IonButton, IonInput } from '@ionic/angular/standalone';
+import { 
+  IonInputPasswordToggle, 
+  IonHeader, 
+  IonToolbar, 
+  IonContent, 
+  IonCard, 
+  IonCardContent, 
+  IonItem, 
+  IonButton, 
+  IonInput 
+} from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common'; 
 import { Router } from '@angular/router';
 
@@ -12,12 +22,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [
-  CommonModule, FormsModule, IonInputPasswordToggle, IonHeader, IonToolbar, IonContent, IonCard, IonCardContent, IonItem, IonButton, IonInput
+  CommonModule, 
+  FormsModule, 
+  IonInputPasswordToggle, 
+  IonHeader, 
+  IonToolbar, 
+  IonContent, 
+  IonCard, 
+  IonCardContent, 
+  IonItem, 
+  IonButton, 
+  IonInput
   ]
 })
 export class LoginPage {
-  isLoading = false; // Yükleme durumu
-  message = ''; // Kullanıcıya gösterilecek mesaj
+  isLoading = false;
+  message = ''; 
   username = '';
   password = '';
 

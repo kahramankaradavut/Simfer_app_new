@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 })
 
 export class AuthService {
-  private apiUrl = 'http://localhost:5113/api/Users';
-  // private apiUrl = 'https://api2.sersim.com.tr/api/Users';
+  // private apiUrl = 'http://localhost:5113/api/Users';
+  private apiUrl = 'https://api2.sersim.com.tr/api/Users';
   private tokenKey = 'token';
   private roleKey = 'role';
   private usernameKey = 'username';
@@ -65,7 +65,9 @@ export class AuthService {
     this.isLoggedIn.next(false);
     this.userRole.next(null);
     this.userName.next(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 
   isSuperAdmin() {

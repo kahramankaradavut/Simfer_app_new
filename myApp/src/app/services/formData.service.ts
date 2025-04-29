@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 import { formData } from '../tab1/formData';
 import { photoData } from '../tab1/photoData';
 
 
 @Injectable({ providedIn: 'root' })
 export class FormService {
-  private apiUrl = 'http://localhost:5113/api/Forms';
-  // private apiUrl = 'https://api2.sersim.com.tr/api/Forms'; 
+  // private apiUrl = 'http://localhost:5113/api/Forms';
+  private apiUrl = 'https://api2.sersim.com.tr/api/Forms'; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  private getAuthHeaders() {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
   submitForm(form: formData, photos: photoData[]): Observable<any> {
     console.log('Form data:', form);
@@ -29,92 +36,35 @@ export class FormService {
     photos.forEach((photo, index) => {
       formDataPayload.append('photos', photo.file!, photo.file!.name);
     });
-  
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  
-    return this.http.post(this.apiUrl, formDataPayload, { headers });
+    
+    return this.http.post(this.apiUrl, formDataPayload, { headers: this.getAuthHeaders() });
   }
 
   getForms(): Observable<formData[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  
-    return this.http.get<formData[]>(this.apiUrl, { headers });
+    return this.http.get<formData[]>(this.apiUrl, { headers: this.getAuthHeaders() });
   }
 
   deleteForm(id: number): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  
-    return this.http.delete(`${this.apiUrl}/${id}`, { headers });
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getAuthHeaders() });
   }  
   
-  // downloadExcel(): Observable<Blob> {
-  //   const token = localStorage.getItem('token');
-  //   const headers = new HttpHeaders({
-  //     Authorization: `Bearer ${token}`
-  //   });
-  
-  //   return this.http.get(`${this.apiUrl}/export`, {
-  //     headers,
-  //     observe: 'response',
-  //     responseType: 'blob' as 'json'
-  //   }).pipe(
-  //     // response'tan sadece blob kısmını alıyoruz
-  //     // ama response'la birlikte filename'e de ihtiyacın varsa,
-  //     // daha kapsamlı bir model döndürmek de mümkün
-  //     map(response => {
-  //       const contentDisposition = response.headers.get('Content-Disposition');
-  //       const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
-  
-  //       const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
-  
-  //       // Optional: filename'i de birlikte döndürmek istersen şöyle dönebilirsin:
-  //       // return { blob, filename };
-  //       return blob;
-  //     })
-  //   );
-  // }
-  
   getExcelExportLink(): Observable<{ fileUrl: string }> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-  
-    return this.http.get<{ fileUrl: string }>(`${this.apiUrl}/export-link`, {
-      headers
-    });
+    return this.http.get<{ fileUrl: string }>(`${this.apiUrl}/export-link`, { headers: this.getAuthHeaders() });
   }
 
   updateFormStatus(id: number, status: string): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'   // önemli!
+      'Content-Type': 'application/json'
     });
     console.log('Updating form status:', status);
     return this.http.put(`${this.apiUrl}/${id}/status`, JSON.stringify(status), { headers });
   }
   
-  
-
   clearData(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-    return this.http.delete(`${this.apiUrl}/clear`, { headers });
+    return this.http.delete(`${this.apiUrl}/clear`, { headers: this.getAuthHeaders() });
   }
-
-
 }
 
 

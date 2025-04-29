@@ -173,7 +173,7 @@ export class UserManagementPage {
         this.presentToast('Hata kodu başarıyla eklendi!', 'success');
 
         this.newErrorCode = { code: '', description: '' };
-        this.loadErrorCodes(); // Yeni kayıt sonrası listeyi güncelle
+        this.loadErrorCodes(); 
       },
       error: async (error) => {
         await loading.dismiss();
@@ -201,7 +201,7 @@ export class UserManagementPage {
               next: async () => {
                 await loading.dismiss();
                 this.presentToast('Hata kodu silindi!', 'success');
-                this.loadErrorCodes(); // Silme sonrası listeyi güncelle
+                this.loadErrorCodes(); 
               },
               error: async (error) => {
                 await loading.dismiss();

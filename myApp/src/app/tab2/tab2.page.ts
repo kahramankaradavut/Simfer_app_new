@@ -22,130 +22,99 @@ import { addIcons } from 'ionicons';
     FormsModule,
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonText
-    , IonSelectOption, IonSelect
+    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonText,
+    IonSelectOption, IonSelect
   ]
 })
-
-
 export class Tab2Page {
-selectedPhoto: string | null = null;
-excelExportLink: string | null = null;
-
-
+  selectedPhoto: string | null = null;
+  excelExportLink: string | null = null;
   forms: formData[] = [];
-  constructor(private formService: FormService, private loadingCtrl: LoadingController, private toastController: ToastController) {
-    addIcons({ downloadOutline });
 
+  constructor(
+    private formService: FormService,
+    private loadingCtrl: LoadingController,
+    private toastController: ToastController
+  ) {
+    addIcons({ downloadOutline });
+  }
+
+  private async presentToast(message: string, color: 'success' | 'danger' | 'warning' = 'success') {
+    const toast = await this.toastController.create({ message, duration: 2000, color });
+    await toast.present();
   }
 
   async ionViewWillEnter() {
     const loading = await this.loadingCtrl.create({
       message: 'Veriler getiriliyor...',
       spinner: 'crescent'
-      });
-      await loading.present();
-
-  try {
-    this.formService.getForms().subscribe((data) => {
-      this.forms = data;
     });
+    await loading.present();
 
-    const toast = await this.toastController.create({
-      message: 'Veri başarıyla getirildi!',
-      duration: 1500,
-      color: 'success'
+    try {
+      this.formService.getForms().subscribe(data => {
+        this.forms = data;
       });
-      toast.present();
-  } catch (error) {
-    console.error('Veriler alınamadı:', error);
-    const toast = await this.toastController.create({
-      message: 'Veri getirme hatası: ' + ((error as any).message || 'Bilinmeyen hata'),
-      duration: 3000,
-      color: 'danger'
-      });
-      toast.present();
-  } finally {
-    await loading.dismiss();
+      this.presentToast('Veri başarıyla getirildi!', 'success');
+    } catch (error) {
+      console.error('Veriler alınamadı:', error);
+      this.presentToast('Veri getirme hatası: ' + ((error as any).message || 'Bilinmeyen hata'), 'danger');
+    } finally {
+      await loading.dismiss();
+    }
   }
-}
+
   openPhoto(photo: string) {
     this.selectedPhoto = photo;
-    console.log('FORMDATA: ',this.forms)
-    console.log('quantity: ',this.forms[0].quantity)
+    console.log('FORMDATA:', this.forms);
+    console.log('quantity:', this.forms[0].quantity);
   }
-  
+
   closePhoto() {
     this.selectedPhoto = null;
   }
 
-  updateFormStatus(form: formData) {
-    const loading = this.loadingCtrl.create({
+  async updateFormStatus(form: formData) {
+    const loading = await this.loadingCtrl.create({
       message: 'Durum güncelleniyor...',
       spinner: 'crescent'
     });
-    loading.then(loading => {
-      loading.present();
-      this.formService.updateFormStatus(form.id, form.status).subscribe({
-        next: async () => {
-          await loading.dismiss();
-          const toast = await this.toastController.create({
-            message: 'Durum başarıyla güncellendi.',
-            duration: 1500,
-            color: 'success'
-          });
-          toast.present();
-        },
-        error: async (error) => {
-          console.error('Durum güncellenemedi:', error);
-          await loading.dismiss();  
-          const toast = await this.toastController.create({
-            message: 'Yetkiniz yok!',
-            duration: 2000,
-            color: 'danger'
-          });
-          toast.present();
-        }
-      });
+    await loading.present();
+
+    this.formService.updateFormStatus(form.id, form.status).subscribe({
+      next: async () => {
+        await loading.dismiss();
+        this.presentToast('Durum başarıyla güncellendi.', 'success');
+      },
+      error: async (error) => {
+        console.error('Durum güncellenemedi:', error);
+        await loading.dismiss();
+        this.presentToast('Yetkiniz yok!', 'danger');
+      }
     });
   }
 
   async getExportLink() {
     this.excelExportLink = null;
-  
     const loading = await this.loadingCtrl.create({
       message: 'Link alınıyor...',
       spinner: 'crescent'
     });
-  
     await loading.present();
-  
+
     this.formService.getExcelExportLink().subscribe({
       next: async (res) => {
         await loading.dismiss();
         this.excelExportLink = res.fileUrl;
-        const toast = await this.toastController.create({
-          message: 'Link başarıyla alındı!',
-          duration: 1500,
-          color: 'success'
-        });
-        toast.present();
+        this.presentToast('Link başarıyla alındı!', 'success');
       },
       error: async (err) => {
-        await loading.dismiss();
         console.error('Link alınamadı', err);
-        const toast = await this.toastController.create({
-          message: 'Link alınamadı!',
-          duration: 2000,
-          color: 'danger'
-        });
-        toast.present();
+        await loading.dismiss();
+        this.presentToast('Link alınamadı!', 'danger');
       }
     });
   }
-  
-  
-  
 
   async deleteForm(id: number) {
     const loading = await this.loadingCtrl.create({
@@ -153,31 +122,18 @@ excelExportLink: string | null = null;
       spinner: 'circles'
     });
     await loading.present();
-  
+
     try {
       await lastValueFrom(this.formService.deleteForm(id));
-      this.forms = this.forms.filter(f => f.id !== id); // UI'dan kaldır
+      this.forms = this.forms.filter(f => f.id !== id);
       await loading.dismiss();
-  
-      const toast = await this.toastController.create({
-        message: 'Form başarıyla silindi.',
-        duration: 1500,
-        color: 'success'
-      });
-      toast.present();
-  
+      this.presentToast('Form başarıyla silindi.', 'success');
     } catch (err) {
-      await loading.dismiss();
       console.error('Form silinemedi:', err);
-      const toast = await this.toastController.create({
-        message: 'Yetkiniz yok!',
-        duration: 2000,
-        color: 'danger'
-      });
-      toast.present();
+      await loading.dismiss();
+      this.presentToast('Yetkiniz yok!', 'danger');
     }
   }
-  
 
   async clearDatabase() {
     const loading = await this.loadingCtrl.create({
@@ -189,24 +145,12 @@ excelExportLink: string | null = null;
     this.formService.clearData().subscribe({
       next: async () => {
         await loading.dismiss();
-        const toast = await this.toastController.create({
-          message: 'Form başarıyla silindi.',
-          duration: 1500,
-          color: 'success'
-        });
-        toast.present();
-        // Opsiyonel: Kullanıcıya başarı mesajı gösterebilirsiniz
+        this.presentToast('Form başarıyla silindi.', 'success');
       },
       error: async (err) => {
         console.error('Veritabanı temizlenemedi:', err);
         await loading.dismiss();
-  
-        const toast = await this.toastController.create({
-          message: 'Yetkiniz yok!',
-          duration: 2000,
-          color: 'danger'
-        });
-        toast.present();
+        this.presentToast('Yetkiniz yok!', 'danger');
       }
     });
   }
