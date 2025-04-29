@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormService } from '../services/formData.service';
+import { FormsModule } from '@angular/forms';
 import { formData } from '../tab1/formData';
 import { lastValueFrom } from 'rxjs';
 import {
   IonHeader, IonList, IonToolbar, IonContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons,
-  LoadingController, ToastController, IonIcon, IonText
+  IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton,
+  LoadingController, ToastController, IonText, IonSelectOption, IonSelect
 } from '@ionic/angular/standalone';
 import { downloadOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -18,9 +19,11 @@ import { addIcons } from 'ionicons';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   imports: [
+    FormsModule,
     IonHeader, IonList, IonToolbar, IonContent,
     IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol,
-    CommonModule, IonImg, IonIcon, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonButtons, IonText
+    CommonModule, IonImg, IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonButton, IonText
+    , IonSelectOption, IonSelect
   ]
 })
 
@@ -70,63 +73,77 @@ excelExportLink: string | null = null;
     this.selectedPhoto = photo;
     console.log('FORMDATA: ',this.forms)
     console.log('quantity: ',this.forms[0].quantity)
-
   }
   
   closePhoto() {
     this.selectedPhoto = null;
   }
 
-  async downloadExcel() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Veriler indiriliyor...',
+  updateFormStatus(form: formData) {
+    const loading = this.loadingCtrl.create({
+      message: 'Durum güncelleniyor...',
       spinner: 'crescent'
     });
+    loading.then(loading => {
+      loading.present();
+      this.formService.updateFormStatus(form.id, form.status).subscribe({
+        next: async () => {
+          await loading.dismiss();
+          const toast = await this.toastController.create({
+            message: 'Durum başarıyla güncellendi.',
+            duration: 1500,
+            color: 'success'
+          });
+          toast.present();
+        },
+        error: async (error) => {
+          console.error('Durum güncellenemedi:', error);
+          await loading.dismiss();  
+          const toast = await this.toastController.create({
+            message: 'Yetkiniz yok!',
+            duration: 2000,
+            color: 'danger'
+          });
+          toast.present();
+        }
+      });
+    });
+  }
+
+  async getExportLink() {
+    this.excelExportLink = null;
+  
+    const loading = await this.loadingCtrl.create({
+      message: 'Link alınıyor...',
+      spinner: 'crescent'
+    });
+  
     await loading.present();
   
-    this.formService.downloadExcel().subscribe({
-      next: async (blob) => {
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = 'FormVerileri.xlsx';
-        link.click();
-        window.URL.revokeObjectURL(link.href);
-  
+    this.formService.getExcelExportLink().subscribe({
+      next: async (res) => {
+        await loading.dismiss();
+        this.excelExportLink = res.fileUrl;
         const toast = await this.toastController.create({
-          message: 'Veriler başarıyla indirildi!',
+          message: 'Link başarıyla alındı!',
           duration: 1500,
           color: 'success'
         });
         toast.present();
       },
-      error: async (error) => {
-        console.error('Veriler indirilemedi:', error);
+      error: async (err) => {
+        await loading.dismiss();
+        console.error('Link alınamadı', err);
         const toast = await this.toastController.create({
-          message: 'Yetkiniz yok!',
+          message: 'Link alınamadı!',
           duration: 2000,
           color: 'danger'
         });
         toast.present();
-        await loading.dismiss(); 
-
-      },
-      complete: async () => {
-        await loading.dismiss();
       }
     });
   }
-
-
-  getExportLink() {
-    this.formService.getExcelExportLink().subscribe({
-      next: (res) => {
-        this.excelExportLink = res.fileUrl;
-      },
-      error: (err) => {
-        console.error('Link alınamadı', err);
-      }
-    });
-  }
+  
   
   
 

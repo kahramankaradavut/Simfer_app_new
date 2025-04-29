@@ -28,15 +28,15 @@
     </ion-card-header>
     <form (ngSubmit)="submit()">
       <ion-item class="form-item">
-        <ion-label position="stacked" style="color: #ff861cd1;">Ürün Kodu *</ion-label>
+        <ion-label position="stacked" style="color: #4664f8d1;">Ürün Kodu *</ion-label>
         <ion-input 
           [(ngModel)]="formData.code" 
           name="kod" 
-          #tur="ngModel"
+          #code="ngModel"
           required>
         </ion-input>
         
-        <ion-text color="danger" *ngIf="submitted && tur.invalid">
+        <ion-text color="danger" *ngIf="submitted && code.invalid">
           Ürün Kodu boş bırakılamaz.
         </ion-text>
       
@@ -47,7 +47,7 @@
       
   
       <ion-item class="form-item">
-        <ion-label position="stacked" style="color: #ff861cd1;">Ürün Türü *</ion-label>
+        <ion-label position="stacked" style="color: #4664f8d1;">Ürün Türü *</ion-label>
         <ion-input
           [(ngModel)]="formData.type"
           name="tur"
@@ -61,19 +61,19 @@
       
   
       <ion-item class="form-item">
-        <ion-label position="stacked" style="color: #ff861cd1;">Çalışan İsmi *</ion-label>
+        <ion-label position="stacked" style="color: #4664f8d1;">Çalışan İsmi *</ion-label>
         <ion-input 
         [(ngModel)]="formData.name"
         name="name"
         required
-        #tur="ngModel"
+        #name="ngModel"
         readonly>
       </ion-input>
-      <ion-text color="danger" *ngIf="submitted && tur.invalid">Çalışan İsmi boş bırakılamaz.</ion-text>
+      <ion-text color="danger" *ngIf="submitted && name.invalid">Çalışan İsmi boş bırakılamaz.</ion-text>
       </ion-item>
   
       <ion-item class="form-item">
-        <ion-label position="stacked" style="color: #ff861cd1;">Hata Bilgisi *</ion-label>
+        <ion-label position="stacked" style="color: #4664f8d1;">Hata Bilgisi *</ion-label>
         <ion-textarea 
           [(ngModel)]="formData.productError" 
           name="productError">
@@ -82,7 +82,7 @@
       
 
       <ion-item>
-        <ion-label style="color: #ff861cd1;">Üretim Hattı *</ion-label>
+        <ion-label style="color: #4664f8d1;">Üretim Hattı *</ion-label>
         <ion-select
         [(ngModel)]="formData.band"
         name="band"
@@ -98,7 +98,7 @@
 
       
       <ion-item class="form-item">
-        <ion-label style="color: #ff861cd1;">Hasar Adedi *</ion-label> 
+        <ion-label style="color: #4664f8d1;">Hasar Adedi *</ion-label> 
           <ion-select
             [(ngModel)]="formData.quantity"
             interface="popover"
@@ -111,7 +111,7 @@
       </ion-item>
   
       <ion-item>
-        <ion-label style="color: #ff861cd1;">Hata Kodu *</ion-label>
+        <ion-label style="color: #4664f8d1;">Hata Kodu *</ion-label>
         <ion-select [(ngModel)]="formData.errorCode" name="errorCode" interface="popover">
           <ion-select-option *ngFor="let error of errorCodes" [value]="error">
             {{ error.code }}
@@ -120,7 +120,7 @@
       </ion-item>
       
       <ion-item>
-        <ion-label position="stacked" style="color: #ff861cd1;">Açıklama *</ion-label>
+        <ion-label position="stacked" style="color: #4664f8d1;">Açıklama *</ion-label>
         <ion-textarea 
           [readonly]="true" 
           [value]="formData.errorCode.description || ''" >
@@ -132,7 +132,7 @@
 <ion-accordion-group>
   <ion-accordion value="photos">
     <ion-item slot="header">
-      <ion-label style="color: #ff861cd1;">Fotoğraflar: *</ion-label>
+      <ion-label style="color: #4664f8d1;">Fotoğraflar: *</ion-label>
     </ion-item>
     <div class="ion-padding" slot="content">
       <ion-grid [fixed]="true" class="photo-grid">

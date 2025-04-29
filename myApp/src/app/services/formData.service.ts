@@ -56,34 +56,33 @@ export class FormService {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }  
   
-  downloadExcel(): Observable<Blob> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+  // downloadExcel(): Observable<Blob> {
+  //   const token = localStorage.getItem('token');
+  //   const headers = new HttpHeaders({
+  //     Authorization: `Bearer ${token}`
+  //   });
   
-    return this.http.get(`${this.apiUrl}/export`, {
-      headers,
-      observe: 'response',
-      responseType: 'blob' as 'json'
-    }).pipe(
-      // response'tan sadece blob kısmını alıyoruz
-      // ama response'la birlikte filename'e de ihtiyacın varsa,
-      // daha kapsamlı bir model döndürmek de mümkün
-      map(response => {
-        const contentDisposition = response.headers.get('Content-Disposition');
-        const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
+  //   return this.http.get(`${this.apiUrl}/export`, {
+  //     headers,
+  //     observe: 'response',
+  //     responseType: 'blob' as 'json'
+  //   }).pipe(
+  //     // response'tan sadece blob kısmını alıyoruz
+  //     // ama response'la birlikte filename'e de ihtiyacın varsa,
+  //     // daha kapsamlı bir model döndürmek de mümkün
+  //     map(response => {
+  //       const contentDisposition = response.headers.get('Content-Disposition');
+  //       const filename = contentDisposition?.split('filename=')[1]?.replace(/"/g, '') || 'FormVerileri.xlsx';
   
-        const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
+  //       const blob = new Blob([response.body! as Blob], { type: (response.body! as Blob).type });
   
-        // Optional: filename'i de birlikte döndürmek istersen şöyle dönebilirsin:
-        // return { blob, filename };
-        return blob;
-      })
-    );
-  }
+  //       // Optional: filename'i de birlikte döndürmek istersen şöyle dönebilirsin:
+  //       // return { blob, filename };
+  //       return blob;
+  //     })
+  //   );
+  // }
   
-
   getExcelExportLink(): Observable<{ fileUrl: string }> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -94,6 +93,17 @@ export class FormService {
       headers
     });
   }
+
+  updateFormStatus(id: number, status: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'   // önemli!
+    });
+    console.log('Updating form status:', status);
+    return this.http.put(`${this.apiUrl}/${id}/status`, JSON.stringify(status), { headers });
+  }
+  
   
 
   clearData(): Observable<any> {

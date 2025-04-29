@@ -42,6 +42,7 @@ export class Tab1Page {
     quantity: 1,
     errorCode: { id: 0, code: '', description: '' },  
     photos: [],
+    status: 'Pending'
   }
   submitted = false;
   isIOS = false;
@@ -181,7 +182,8 @@ export class Tab1Page {
         band: 2,
         quantity: 1,
         errorCode: { id: 0, code: '', description: '' },
-        photos: []
+        photos: [],
+        status: 'Pending'
       };
     }
   

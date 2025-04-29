@@ -10,8 +10,9 @@ export class formData {
     quantity: number;
     errorCode: ErrorCode;
     photos: {filePath: string, fileName: string} [];
+    status!: string;
   
-    constructor(id: number, code: string, type: string, name: string, productError: string, band: number, quantity: number, errorCode: ErrorCode | null = null, photos: string[]) {
+    constructor(id: number, code: string, type: string, name: string, productError: string, band: number, quantity: number, errorCode: ErrorCode | null = null, photos: string[], status = 'Pending') {
       this.id = id;
       this.code = code;
       this.type = type;
@@ -24,6 +25,7 @@ export class formData {
         filePath: photo, 
         fileName: photo.split('/').pop() || '' 
     }));
+      this.status = status;
     }
     
     
