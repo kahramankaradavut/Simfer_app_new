@@ -19,16 +19,13 @@ export class AuthService {
   userRole = new BehaviorSubject<string | null>(null);
   userName = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient, 
+    private router: Router
+  ) {}
 
   login(credentials: { username: string; password: string }) {
-    try {
-      return this.http.post<any>(`${this.apiUrl}/login`, credentials);
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error; 
-      
-    }
+    return this.http.post<{ token: string; role: string }>(`${this.apiUrl}/login`, credentials);
   }
 
   isAuthenticated(): boolean {

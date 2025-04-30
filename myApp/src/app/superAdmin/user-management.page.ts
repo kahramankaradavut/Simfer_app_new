@@ -95,8 +95,10 @@ export class UserManagementPage {
 
   async ionViewWillEnter() {
     try {
-      await this.loadUsers();
-      await this.loadErrorCodes();
+      await Promise.all([
+        this.loadUsers(),
+        this.loadErrorCodes()
+      ]);
       
       this.presentToast('Veriler Başarıyla getirildi!', 'success');
 
@@ -160,6 +162,7 @@ export class UserManagementPage {
 
     if (!code?.trim() || !description?.trim()) {
       this.presentToast('Tüm alanları doldurun!', 'warning');
+      return;
     }
     const loading = await this.loadingCtrl.create({
       message: 'Hata kodu ekleniyor...',

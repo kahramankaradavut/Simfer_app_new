@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { NavController, ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common'; 
+import { Router } from '@angular/router';
 import { 
   IonInputPasswordToggle, 
   IonHeader, 
@@ -13,8 +15,6 @@ import {
   IonButton, 
   IonInput 
 } from '@ionic/angular/standalone';
-import { CommonModule } from '@angular/common'; 
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -36,62 +36,50 @@ import { Router } from '@angular/router';
   ]
 })
 export class LoginPage {
-  isLoading = false;
-  message = ''; 
   username = '';
   password = '';
 
   constructor(
     private authService: AuthService,
-    private navCtrl: NavController,
     private toastController: ToastController,
     private router: Router,  
     private loadingCtrl: LoadingController,
   ) {}
 
   async login() {
-    this.isLoading = true; // Yükleme başlıyor
-    this.message = 'Giriş yapılıyor, lütfen bekleyin...';
-    console.log('Giriş yapılıyor...');
-
     // const loading = await this.loadingCtrl.create({
-    // message: 'Giriş yapılıyor...',
-    // spinner: 'crescent', // Dönebilen spinner
+    //   message: 'Giriş yapılıyor...',
+    //   spinner: 'crescent',
+    //   duration: 5000 
     // });
-
     // await loading.present();
-    console.log('Giriş yapılıyor...');
-
+  
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
+        // await loading.dismiss(); 
         this.authService.setToken(res.token, res.role, this.username);
-
-        this.isLoading = false;
-        this.message = ''; // Mesajı kaldır
-        
-        // await loading.dismiss();
         console.log('Giriş başarılı:', res);
         console.log('Kullanıcı rolü:', res.role);
-        
+  
         if (res.role === 'SuperAdmin') {
-          try {
-            console.log('SuperAdmin');
           this.router.navigate(['/superAdmin']);
-          } catch (error) {
-            console.error('Hata:', error);
-          }
         } else {
           this.router.navigateByUrl('/', { replaceUrl: true }).then(() => {
             this.router.navigateByUrl('/tabs/tab1');
-          });        }
-
+          });
+        }
       },
-      error: async (res) => {
-        console.log('Giriş hatası:', res);
-        this.message = 'Giriş başarısız, lütfen tekrar deneyin.';
-        this.isLoading = false;
-        // await loading.dismiss();
-      },
+      error: async (err) => {
+        // await loading.dismiss(); 
+        // const toast = await this.toastController.create({
+        //   message: 'Kullanıcı adı veya şifre hatalı.',
+        //   duration: 3000,
+        //   color: 'danger',
+        //   position: 'bottom'
+        // });
+        // await toast.present();
+        console.error('Giriş hatası:', err);
+      }
     });
-  }
+  }  
 }

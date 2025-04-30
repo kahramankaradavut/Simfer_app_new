@@ -4,13 +4,13 @@
       <img src="../../assets/icon/sersim-yeni@300x.png" class="logo" />
     </div>
     <ion-buttons slot="start">
-      <ion-button (click)="logout()" fill="outline">
+      <ion-button class="logout-button" (click)="logout()" fill="outline">
         <ion-icon name="log-out-outline"></ion-icon>
         Çıkış
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="submit()" fill="outline">
+      <ion-button class="submit-button" (click)="submit()" fill="outline">
         <ion-icon slot="end" name="send-outline"></ion-icon>
         Gönder
       </ion-button>
@@ -19,15 +19,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding content">
+<ion-content>
   <h1 class="title" color="warning">Hata Tespit Formu</h1>
 
-  <ion-card>
-    <ion-card-header>
+  <ion-card >
+    <ion-card-header class="form-content">
       <ion-card-title>Form Bilgileri</ion-card-title>
     </ion-card-header>
     <form (ngSubmit)="submit()">
-      <ion-item class="form-item">
+      <ion-item class="form-code-input">
         <ion-label position="stacked" style="color: #4664f8d1;">Ürün Kodu *</ion-label>
         <ion-input 
           [(ngModel)]="formData.code" 
@@ -46,7 +46,7 @@
       </ion-item>
       
   
-      <ion-item class="form-item">
+      <ion-item class="form-type-input">
         <ion-label position="stacked" style="color: #4664f8d1;">Ürün Türü *</ion-label>
         <ion-input
           [(ngModel)]="formData.type"
@@ -60,7 +60,7 @@
       </ion-item>
       
   
-      <ion-item class="form-item">
+      <ion-item class="form-name-input">
         <ion-label position="stacked" style="color: #4664f8d1;">Çalışan İsmi *</ion-label>
         <ion-input 
         [(ngModel)]="formData.name"
@@ -72,7 +72,7 @@
       <ion-text color="danger" *ngIf="submitted && name.invalid">Çalışan İsmi boş bırakılamaz.</ion-text>
       </ion-item>
   
-      <ion-item class="form-item">
+      <ion-item class="form-error-input">
         <ion-label position="stacked" style="color: #4664f8d1;">Hata Bilgisi *</ion-label>
         <ion-textarea 
           [(ngModel)]="formData.productError" 
@@ -81,7 +81,7 @@
       </ion-item>
       
 
-      <ion-item>
+      <ion-item class="form-band-input">
         <ion-label style="color: #4664f8d1;">Üretim Hattı *</ion-label>
         <ion-select
         [(ngModel)]="formData.band"
@@ -97,7 +97,7 @@
       </ion-item>
 
       
-      <ion-item class="form-item">
+      <ion-item class="form-quantity-input">
         <ion-label style="color: #4664f8d1;">Hasar Adedi *</ion-label> 
           <ion-select
             [(ngModel)]="formData.quantity"
@@ -110,7 +110,7 @@
       <ion-text color="danger" *ngIf="submitted && quantity.invalid">Hata sayısı boş bırakılamaz.</ion-text>
       </ion-item>
   
-      <ion-item>
+      <ion-item class="form-errorCode-input">
         <ion-label style="color: #4664f8d1;">Hata Kodu *</ion-label>
         <ion-select [(ngModel)]="formData.errorCode" name="errorCode" interface="popover">
           <ion-select-option *ngFor="let error of errorCodes" [value]="error">
@@ -119,8 +119,8 @@
         </ion-select>
       </ion-item>
       
-      <ion-item>
-        <ion-label position="stacked" style="color: #4664f8d1;">Açıklama *</ion-label>
+      <ion-item class="form-desc-input">
+        <ion-label style="color: #4664f8d1;">Açıklama *</ion-label>
         <ion-textarea 
           [readonly]="true" 
           [value]="formData.errorCode.description || ''" >
@@ -131,7 +131,7 @@
       <!-- Fotoları listele -->
 <ion-accordion-group>
   <ion-accordion value="photos">
-    <ion-item slot="header">
+    <ion-item slot="header" class="photo-accordion">
       <ion-label style="color: #4664f8d1;">Fotoğraflar: *</ion-label>
     </ion-item>
     <div class="ion-padding" slot="content">
@@ -163,3 +163,5 @@
     <ion-icon name="camera"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+
