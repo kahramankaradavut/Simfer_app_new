@@ -12,44 +12,44 @@
   <!-- Formlar Listeleniyor -->
   <ng-container *ngIf="forms && forms.length > 0; else noData">
     <ion-card class="info-card" *ngFor="let form of forms">
-      <ion-card-header>
+      <ion-card-header class="form-list">
         <ion-card-title>Form Bilgileri</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          <ion-item>
+          <ion-item class="code-tab2">
             <ion-label>Ürün Kodu:</ion-label>
             <ion-label slot="end">{{ form.code }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="type-tab2">
             <ion-label>Ürün Türü:</ion-label>
             <ion-label slot="end">{{ form.type }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="error-tab2">
             <ion-label>Hata Kodu:</ion-label>
             <ion-label slot="end">{{ form.errorCode.code }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="desc-tab2">
             <ion-label>Hata Açıklaması:</ion-label>
             <ion-label slot="end">{{ form.errorCode.description }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="detail-tab2">
             <ion-label>Detaylı Hata Bilgisi:</ion-label>
             <ion-label slot="end">{{ form.productError }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="quantity-tab2">
             <ion-label>Hata Miktarı:</ion-label>
             <ion-label slot="end">{{ form.quantity }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="band-tab2">
             <ion-label>Üretim Hattı:</ion-label>
             <ion-label slot="end">{{ form.band }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="person-tab2">
             <ion-label>Tespit Eden Kişi:</ion-label>
             <ion-label slot="end">{{ form.name }}</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item class="status-tab2">
             <ion-label>Durum:</ion-label>
             <ion-select [(ngModel)]="form.status">
               <ion-select-option value="işlem yapılmadı">İşlem Yapılmadı</ion-select-option>
@@ -64,7 +64,7 @@
 
         <ion-accordion-group>
           <ion-accordion value="photos">
-            <ion-item slot="header">
+            <ion-item slot="header" class="photo-tab2">
               <ion-label>Fotoğraflar:</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
@@ -80,14 +80,14 @@
             </div>
           </ion-accordion>
         </ion-accordion-group>
-        <ion-button color="danger" fill="outline" expand="block" (click)="deleteForm(form.id)">
+        <ion-button class="delete-tab2" color="danger" fill="outline" expand="block" (click)="deleteForm(form.id)">
           Formu Sil
         </ion-button>        
       </ion-card-content>
     </ion-card>
   </ng-container>
 
-  <ion-button expand="block" color="primary" (click)="getExportLink()">Excel Linkini Al</ion-button>
+  <ion-button class="excel-tab2" expand="block" color="primary" (click)="getExportLink()">Excel Linkini Al</ion-button>
 
 <ion-text *ngIf="excelExportLink">
   <a [href]="excelExportLink" target="_blank" download>📥 Excel Dosyasını İndir</a>

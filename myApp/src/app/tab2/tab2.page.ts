@@ -12,6 +12,8 @@ import {
 } from '@ionic/angular/standalone';
 import { downloadOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { TourService } from '../services/tour.service';
+
 
 @Component({
   selector: 'app-tab2',
@@ -34,7 +36,8 @@ export class Tab2Page {
   constructor(
     private formService: FormService,
     private loadingCtrl: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private tourService: TourService
   ) {
     addIcons({ downloadOutline });
   }
@@ -62,9 +65,33 @@ export class Tab2Page {
     } finally {
       await loading.dismiss();
     }
+
+    const userId = localStorage.getItem('username'); // 'currentUserId' değil, 'username' olacak
+    if (userId) {
+      const tourKey = `formTourShown2_${userId}`;
+      console.log('Tour Key:', tourKey);
+      const hasSeenTour = localStorage.getItem(tourKey);
+
+      if (!hasSeenTour) {
+        setTimeout(() => {
+          this.tourService.startTourFormList();
+          localStorage.setItem(tourKey, 'true');
+        }, 500);
+      }
+    }
   }
 
   openPhoto(photo: string) {
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('formTourShown2_')) {
+        localStorage.removeItem(key);
+        i--; 
+      }
+    }
+
+
     this.selectedPhoto = photo;
     console.log('FORMDATA:', this.forms);
     console.log('quantity:', this.forms[0].quantity);

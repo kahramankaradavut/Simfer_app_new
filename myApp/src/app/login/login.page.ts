@@ -67,7 +67,7 @@ export class LoginPage {
           message: 'Giriş başarılı!',
           duration: 2000,
           color: 'success',
-          position: 'top'
+          position: 'bottom'
         });
         await toast.present();
   
@@ -87,7 +87,7 @@ export class LoginPage {
           message: 'Kullanıcı adı veya şifre hatalı!',
           duration: 2500,
           color: 'danger',
-          position: 'top'
+          position: 'bottom'
         });
         await toast.present();
       }

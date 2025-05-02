@@ -108,10 +108,10 @@ export class Tab1Page {
 
     const userId = localStorage.getItem('username'); // 'currentUserId' değil, 'username' olacak
     if (userId) {
-      const tourKey = `formTourShown_${userId}`;
+      const tourKey = `formTourShown1_${userId}`;
       console.log('Tour Key:', tourKey);
       const hasSeenTour = localStorage.getItem(tourKey);
-
+      
       if (!hasSeenTour) {
         setTimeout(() => {
           this.tourService.startTourSendForm();
@@ -187,7 +187,7 @@ export class Tab1Page {
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key && key.startsWith('formTourShown_')) {
+      if (key && key.startsWith('formTourShown1_')) {
         localStorage.removeItem(key);
         i--; 
       }
