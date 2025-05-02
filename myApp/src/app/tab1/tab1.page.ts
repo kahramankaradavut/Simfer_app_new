@@ -2,10 +2,6 @@ import { Component } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { add, camera, sendOutline, logOutOutline, scanCircleOutline } from 'ionicons/icons';
 import { FormsModule } from '@angular/forms';
-import {
-  IonHeader, IonToolbar, IonContent, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonButton,
-  IonButtons, IonFab, IonFabButton, IonText, IonAccordionGroup, IonAccordion, IonLabel, LoadingController, ToastController, IonSelectOption, IonSelect, IonCardHeader, IonCardTitle, IonCardContent
-} from '@ionic/angular/standalone';
 import { NgIf, NgFor } from '@angular/common';
 import { formData } from './formData';
 import { PhotoService } from '../services/photo.service';
@@ -15,9 +11,36 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { ErrorCodeService } from '../services/errorCode.service';
 import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
 import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
-import { Platform } from '@ionic/angular';
 import { ErrorCode } from '../tab1/errorCode';
 import { TourService } from '../services/tour.service';
+import {
+  IonHeader, 
+  IonToolbar, 
+  IonContent, 
+  IonIcon, 
+  IonInput, 
+  IonTextarea,
+  IonItem, 
+  IonGrid, 
+  IonRow, 
+  IonCol, 
+  IonCard, 
+  IonImg, 
+  IonButton,
+  IonButtons, 
+  IonFab, 
+  IonFabButton, 
+  IonText, 
+  IonAccordionGroup, 
+  IonAccordion, 
+  IonLabel, 
+  LoadingController,
+  ToastController, 
+  IonSelectOption, 
+  IonSelect, 
+  IonCardHeader, 
+  IonCardTitle
+} from '@ionic/angular/standalone';
 
 
 @Component({
@@ -25,11 +48,35 @@ import { TourService } from '../services/tour.service';
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonCardTitle, IonCardHeader,
+  imports: [
+    IonCardTitle, 
+    IonCardHeader,
     FormsModule,
     HttpClientModule,
-    IonHeader, IonToolbar, IonContent, IonButton, IonButtons, IonIcon, IonInput, IonTextarea, IonItem, IonGrid, IonRow, IonCol, IonCard, IonImg, IonFab, IonFabButton,
-    NgIf, NgFor, IonAccordionGroup, IonText, IonAccordion, IonLabel, IonSelectOption, IonSelect
+    IonHeader, 
+    IonToolbar, 
+    IonContent, 
+    IonButton, 
+    IonButtons, 
+    IonIcon, 
+    IonInput, 
+    IonTextarea, 
+    IonItem, 
+    IonGrid, 
+    IonRow, 
+    IonCol, 
+    IonCard, 
+    IonImg, 
+    IonFab, 
+    IonFabButton,
+    NgIf, 
+    NgFor, 
+    IonAccordionGroup, 
+    IonText, 
+    IonAccordion, 
+    IonLabel, 
+    IonSelectOption, 
+    IonSelect
   ],
 
 })
@@ -59,13 +106,19 @@ export class Tab1Page {
     this.submitted = false;
     this.fetchErrorCodes();
 
-    this.tourService.startTourSendForm()
+    const userId = localStorage.getItem('username'); // 'currentUserId' değil, 'username' olacak
+    if (userId) {
+      const tourKey = `formTourShown_${userId}`;
+      console.log('Tour Key:', tourKey);
+      const hasSeenTour = localStorage.getItem(tourKey);
 
-    // const hasSeenTour = localStorage.getItem('formTourShown');
-    // if (!hasSeenTour) {
-    //   setTimeout(() => this.tourService.startTourSendForm(), 500);
-    //   localStorage.setItem('formTourShown', 'true');
-    // }
+      if (!hasSeenTour) {
+        setTimeout(() => {
+          this.tourService.startTourSendForm();
+          localStorage.setItem(tourKey, 'true');
+        }, 500);
+      }
+    }
   }
   selectedPhoto: string | null = null;
 
@@ -131,6 +184,17 @@ export class Tab1Page {
 
   // Fotoğrafı büyütme
   openPhoto(photo: string) {
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('formTourShown_')) {
+        localStorage.removeItem(key);
+        i--; 
+      }
+    }
+    
+
+
     this.selectedPhoto = photo;
   }
 

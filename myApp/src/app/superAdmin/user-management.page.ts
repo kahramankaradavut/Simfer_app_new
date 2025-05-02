@@ -225,6 +225,7 @@ export class UserManagementPage {
   }
 
   closedErrorModal() {
+
     this.isEditErrorModalOpen = false;
   }
   async openEditErrorModal(errorCode: any) {
@@ -241,6 +242,7 @@ export class UserManagementPage {
     await loading.present();
     this.errorCodeService.updateErrorCode(this.selectedError).subscribe({
       next: async () => {
+
         this.isEditErrorModalOpen = false;
         this.presentToast('Hata kodu güncellendi!', 'success');
         loading.dismiss();

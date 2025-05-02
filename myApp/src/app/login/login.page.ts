@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ToastController, LoadingController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
 import { Router } from '@angular/router';
@@ -47,19 +47,29 @@ export class LoginPage {
   ) {}
 
   async login() {
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Giriş yapılıyor...',
-    //   spinner: 'crescent',
-    //   duration: 5000 
-    // });
-    // await loading.present();
+    const loading = await this.loadingCtrl.create({
+      message: 'Giriş yapılıyor...',
+      spinner: 'circles'
+    });
+    await loading.present();
   
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: async (res) => {
-        // await loading.dismiss(); 
+        await loading.dismiss();
+  
         this.authService.setToken(res.token, res.role, this.username);
+        localStorage.setItem('username', this.username);
+
         console.log('Giriş başarılı:', res);
         console.log('Kullanıcı rolü:', res.role);
+  
+        const toast = await this.toastController.create({
+          message: 'Giriş başarılı!',
+          duration: 2000,
+          color: 'success',
+          position: 'top'
+        });
+        await toast.present();
   
         if (res.role === 'SuperAdmin') {
           this.router.navigate(['/superAdmin']);
@@ -70,16 +80,18 @@ export class LoginPage {
         }
       },
       error: async (err) => {
-        // await loading.dismiss(); 
-        // const toast = await this.toastController.create({
-        //   message: 'Kullanıcı adı veya şifre hatalı.',
-        //   duration: 3000,
-        //   color: 'danger',
-        //   position: 'bottom'
-        // });
-        // await toast.present();
+        await loading.dismiss();
         console.error('Giriş hatası:', err);
+  
+        const toast = await this.toastController.create({
+          message: 'Kullanıcı adı veya şifre hatalı!',
+          duration: 2500,
+          color: 'danger',
+          position: 'top'
+        });
+        await toast.present();
       }
     });
-  }  
+  }
+  
 }
