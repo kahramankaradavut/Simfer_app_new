@@ -1,0 +1,36 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "myApp",
+	"webDir": "www",
+	"plugins": {
+		"CapacitorPreferences": {
+			"group": "CapacitorStorage"
+		},
+		"Keyboard": {
+			"resize": "body"
+		},
+		"SplashScreen": {
+			"launchAutoHide": true
+		},
+		"Browser": {
+			"enabled": true
+		}
+	},
+	"server": {
+		"cleartext": true,
+		"allowNavigation": [
+			"https://api2.sersim.com.tr/api/Users.com"
+		]
+	},
+	"packageClassList": [
+		"AppPlugin",
+		"CapacitorBarcodeScannerPlugin",
+		"CAPBrowserPlugin",
+		"CAPCameraPlugin",
+		"FilesystemPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"SharePlugin",
+		"StatusBarPlugin"
+	]
+}

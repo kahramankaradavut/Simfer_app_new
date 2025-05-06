@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Products/Debug-iphoneos/CapacitorApp/CapacitorApp.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Products/Debug-iphoneos/CapacitorApp/CapacitorApp.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "CapacitorApp-Swift.h",
+      'external-contents': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/unextended-interface-header.h",
+    }]
+    }]
+}

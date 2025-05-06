@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/CapacitorApp-master.dia",
+    "emit-module-dependencies" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/CapacitorApp-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/CapacitorApp-master-emit-module.dia",
+    "swift-dependencies" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/CapacitorApp-master.swiftdeps"
+  },
+  "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/node_modules/@capacitor/app/ios/Sources/AppPlugin/AppPlugin.swift" : {
+    "const-values" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.swiftconstvalues",
+    "dependencies" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.d",
+    "diagnostics" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.o",
+    "llvm-bc" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.bc",
+    "object" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.o",
+    "swift-dependencies" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin.swiftdeps",
+    "swiftmodule" : "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorApp.build/Objects-normal/arm64/AppPlugin~partial.swiftmodule"
+  }
+}

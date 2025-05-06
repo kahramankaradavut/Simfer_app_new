@@ -1,0 +1,6 @@
+framework module CapacitorBarcodeScanner {
+  umbrella header "CapacitorBarcodeScanner-umbrella.h"
+
+  export *
+  module * { export * }
+}

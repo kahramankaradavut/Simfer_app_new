@@ -1,0 +1,23 @@
+{
+  'version': 0,
+  'use-external-names': 'false',
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Products/Debug-iphoneos/CapacitorCamera/CapacitorCamera.framework/Modules"
+    'contents': [{
+      'type': 'file',
+      'name': "module.modulemap",
+      'external-contents': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorCamera.build/unextended-module.modulemap",
+    }]
+    },
+    {
+    'type': 'directory',
+    'name': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Products/Debug-iphoneos/CapacitorCamera/CapacitorCamera.framework/Headers"
+    'contents': [{
+      'type': 'file',
+      'name': "CapacitorCamera-Swift.h",
+      'external-contents': "/Users/kahramankaradavut/Documents/GitHub/sersim/Simfer_app_new/ios/DerivedData/00008120-001C11810A0B401E/Build/Intermediates.noindex/Pods.build/Debug-iphoneos/CapacitorCamera.build/unextended-interface-header.h",
+    }]
+    }]
+}
