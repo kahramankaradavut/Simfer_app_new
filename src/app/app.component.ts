@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
 import { Platform } from '@ionic/angular';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { isPlatform } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-root',
@@ -22,15 +22,12 @@ export class AppComponent {
   }
 
   async configureStatusBar() {
-    await StatusBar.setOverlaysWebView({ overlay: false }); // EN ÖNEMLİ SATIR
+    await StatusBar.setOverlaysWebView({ overlay: false }); 
 
-    // Status bar stilini ayarla (Light: koyu yazı / Dark: açık yazı)
     await StatusBar.setStyle({ style: Style.Light });
 
-    // Arka plan rengini ayarla
     await StatusBar.setBackgroundColor({ color: '#ffffff' });
 
-    // Status bar'ı göster
     await StatusBar.show();
   }
 }
