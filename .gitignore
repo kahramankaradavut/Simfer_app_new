@@ -1,3 +1,11 @@
 node_modules
 # Angular cache dosyaları
 .angular/cache/
+# www klasöründeki chunk dosyalarını dışla
+www/chunk-*.js
+www/*.js
+www/*.css
+www/*.map
+
+# www/assets klasörünü dahil et
+!www/assets/
