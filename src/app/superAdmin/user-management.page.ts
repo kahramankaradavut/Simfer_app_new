@@ -1,6 +1,8 @@
 import { Component, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
+import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 import {
   IonHeader,
   IonToolbar,
@@ -115,6 +117,26 @@ export class UserManagementPage {
     } catch (error) {
       console.error('Veriler alınamadı:', error);
       this.presentToast('Veri getirme hatası!', 'danger');
+    }
+  }
+
+    async scanBarcode() {
+    try {
+      const result = await CapacitorBarcodeScanner.scanBarcode({
+        hint: CapacitorBarcodeScannerTypeHint.ALL,
+        scanInstructions: 'Lütfen barkodu kameraya getirin',
+        scanButton: true,
+        scanText: 'Barkod Tara',
+      });
+
+      if (result?.ScanResult) {
+        // this.formData.code = result.ScanResult;
+        this.presentToast('Barkod başarıyla tarandı!', 'success');
+      } else {
+        this.presentToast('Barkod taranamadı!', 'warning');
+      }
+    } catch (error) {
+      this.presentToast('Barkod tarama hatası: ' + ((error as any)?.message || 'Bilinmeyen hata'), 'danger');
     }
   }
 
