@@ -120,26 +120,6 @@ export class UserManagementPage {
     }
   }
 
-    async scanBarcode() {
-    try {
-      const result = await CapacitorBarcodeScanner.scanBarcode({
-        hint: CapacitorBarcodeScannerTypeHint.ALL,
-        scanInstructions: 'Lütfen barkodu kameraya getirin',
-        scanButton: true,
-        scanText: 'Barkod Tara',
-      });
-
-      if (result?.ScanResult) {
-        // this.formData.code = result.ScanResult;
-        this.presentToast('Barkod başarıyla tarandı!', 'success');
-      } else {
-        this.presentToast('Barkod taranamadı!', 'warning');
-      }
-    } catch (error) {
-      this.presentToast('Barkod tarama hatası: ' + ((error as any)?.message || 'Bilinmeyen hata'), 'danger');
-    }
-  }
-
   async loadUsers() {
     const loading = await this.loadingCtrl.create({
       message: 'Yükleniyor...',

@@ -22,11 +22,11 @@ export class AppComponent {
   }
 
   async configureStatusBar() {
-    await StatusBar.setOverlaysWebView({ overlay: false }); 
+    await StatusBar.setOverlaysWebView({ overlay: true }); 
 
-    await StatusBar.setStyle({ style: Style.Light });
+    await StatusBar.setStyle({ style: Style.Default });
 
-    await StatusBar.setBackgroundColor({ color: '#ffffff' });
+    // await StatusBar.setBackgroundColor({ color: '#ffffff00' });
 
     await StatusBar.show();
   }
