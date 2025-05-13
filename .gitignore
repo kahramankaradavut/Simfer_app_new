@@ -9,3 +9,4 @@ www/*.map
 
 # www/assets klasörünü dahil et
 !www/assets/
+ios/App/Pods/Pods.xcodeproj/xcuserdata/kahramankaradavut.xcuserdatad/xcschemes/xcschememanagement.plist
