@@ -1,8 +1,6 @@
 import { Component, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CapacitorBarcodeScanner } from '@capacitor/barcode-scanner';
-import { CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 import {
   IonHeader,
   IonToolbar,

@@ -106,7 +106,7 @@ export class Tab1Page {
     this.submitted = false;
     this.fetchErrorCodes();
 
-    const userId = localStorage.getItem('username'); // 'currentUserId' değil, 'username' olacak
+    const userId = localStorage.getItem('username');
     if (userId) {
       const tourKey = `formTourShown1_${userId}`;
       console.log('Tour Key:', tourKey);
